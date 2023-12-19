@@ -8,17 +8,49 @@ import { GithubIcon } from "@/components/icons";
 
 export default function Home() {
 	return (
-		<section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
+		<section className="flex flex-col items-start justify-center gap-4 py-8 md:py-10">
 			<div className="inline-block max-w-lg text-center justify-center">
-				<h1 className={title()}>Make&nbsp;</h1>
-				<h1 className={title({ color: "violet" })}>beautiful&nbsp;</h1>
+				<h1 className={title({ color: "violet" })}
+					style={{fontSize: "2.5rem", position: "relative", zIndex: 1 }}>K-POP</h1>
+				<h1 className={title()}
+					style={{fontSize: "2.5rem", position: "relative", zIndex: 1 }}>과&nbsp;</h1>
+				<h1 className={title({ color: "violet" })}
+					style={{fontSize: "2.5rem", position: "relative", zIndex: 1 }}>K-CONTENTS</h1>
+				<h1 className={title()}
+					style={{fontSize: "2.5rem", position: "relative", zIndex: 1 }}>를&nbsp;</h1>
 				<br />
-				<h1 className={title()}>
-					websites regardless of your design experience.
-				</h1>
-				<h2 className={subtitle({ class: "mt-4" })}>
-					Beautiful, fast and modern korean.
+				<h1 className={title()}
+					style={{fontSize: "2.5rem", position: "relative", zIndex: 1 }}>따라하고&nbsp;</h1>
+				<br />
+				<h1 className={title()}
+					style={{fontSize: "2.5rem", position: "relative", zIndex: 1 }}>나만의&nbsp;</h1>
+				<h1 className={title({ color: "violet" })}
+					style={{fontSize: "2.5rem", position: "relative", zIndex: 1 }}>SHORTS</h1>
+				<h1 className={title()}
+					style={{fontSize: "2.5rem", position: "relative", zIndex: 1 }}>를&nbsp;</h1>
+				<br />
+				<h1 className={title()}
+					style={{fontSize: "2.5rem", position: "relative", zIndex: 1 }}>제작해보세요.&nbsp;</h1>
+				<h2 className={subtitle({ class: "mt-4"})}
+					style={{fontSize: "0.7rem"}}>
+					로맨스, 사극, 판타지 등 다양한 테마별로 30,000개 이상의 K-콘텐츠 명대사를 연습해보세요.<br />
+					방탄소년단, 블랙핑크, 뉴진스 등 좋아하는 가수의 노래 가사를 연습해보세요.
 				</h2>
+			</div>
+
+			<div className="flex justify-between mt-8 w-full">
+			<div className="text-center p-4">
+				<h3>발음 교정 서비스</h3>
+				<p>한국 일상 대화를 배우고 자주 틀리는 한국어 발음을 교정해보세요.</p>
+			</div>
+			<div className="text-center p-4">
+				<h3>명대사 연습</h3>
+				<p>로맨스, 사극, 판타지 등 다양한 장르의 명대사와 좋아하는 가수의 가사를 연습하며 한국어를 배워보세요.</p>
+			</div>
+			<div className="text-center p-4">
+				<h3>숏폼 생성</h3>
+				<p>연습한 가사와 명대사를 숏폼으로 제작하고 친구와 공유해보세요.</p>
+			</div>
 			</div>
 
 			<div className="mt-8">
