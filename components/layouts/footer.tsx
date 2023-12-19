@@ -2,7 +2,7 @@ import {Link} from "@nextui-org/link";
 import {Chip} from "@nextui-org/react";
 import TermsModal from "../modals/terms";
 
-export default function FooterLayout() {
+export default function Footer() {
   return (
       <footer className="w-full flex items-center justify-around py-3">
         <TermsModal/>
