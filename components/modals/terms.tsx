@@ -1,9 +1,8 @@
 import React from "react";
-// @ts-ignore
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, RadioGroup, Radio} from "@nextui-org/react";
 
 export default function TermsModal() {
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure();
 
   return (
       <>

@@ -3,13 +3,10 @@ import {Chip, useDisclosure} from "@nextui-org/react";
 import TermsModal from "@/components/modals/terms";
 
 export default function FooterLayout() {
-
   return (
       <footer className="w-full flex items-center justify-around py-3">
-        <div>
-          <Chip>이용약관</Chip>
-
-        </div>
+        TermsModal();
+        <Chip>개인정보처리방침</Chip>
         <Link
             isExternal
             className="flex items-center gap-1 text-current"
