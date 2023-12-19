@@ -5,23 +5,23 @@ export const siteConfig = {
 	description: "Make beautiful websites regardless of your design experience.",
 	navItems: [
 		{
-			label: "Home",
+			label: "홈",
 			href: "/",
 		},
     {
-      label: "Docs",
-      href: "/docs",
+      label: "한국어 학습",
+      href: "/learn",
     },
     {
-      label: "Pricing",
-      href: "/pricing",
+      label: "K-콘텐츠",
+      href: "/culture",
     },
     {
-      label: "Blog",
-      href: "/blog",
+      label: "쇼츠",
+      href: "/shorts",
     },
     {
-      label: "About",
+      label: "서비스 소개",
       href: "/about",
     }
 	],
@@ -60,10 +60,5 @@ export const siteConfig = {
 		},
 	],
 	links: {
-		github: "https://github.com/nextui-org/nextui",
-		twitter: "https://twitter.com/getnextui",
-		docs: "https://nextui.org",
-		discord: "https://discord.gg/9b6yyZKmH4",
-    sponsor: "https://patreon.com/jrgarciadev"
 	},
 };
