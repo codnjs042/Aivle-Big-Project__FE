@@ -1,12 +1,12 @@
 import {Link} from "@nextui-org/link";
-import {Chip, useDisclosure} from "@nextui-org/react";
-import TermsModal from "@/components/modals/terms";
+import {Chip} from "@nextui-org/react";
+import TermsModal from "../modals/terms";
 
 export default function FooterLayout() {
   return (
       <footer className="w-full flex items-center justify-around py-3">
-        TermsModal();
-        <Chip>개인정보처리방침</Chip>
+        <TermsModal/>
+        <Chip>@ AivleSchool 4기 21조.    All rights reserved.</Chip>
         <Link
             isExternal
             className="flex items-center gap-1 text-current"
@@ -16,7 +16,6 @@ export default function FooterLayout() {
           <span className="text-default-600">Powered by</span>
           <p className="text-primary">NextUI</p>
         </Link>
-        <Chip>@ 에이블스쿨 4기 21조. All rights reserved.</Chip>
       </footer>
   );
 }
