@@ -21,6 +21,7 @@ import {
 } from "@/components/icons";
 
 import { Logo } from "@/components/icons";
+import {Spacer} from "@nextui-org/react";
 
 export const Navbar = () => {
 	const searchInput = (
@@ -72,15 +73,15 @@ export const Navbar = () => {
 			</NavbarContent>
 
 			<NavbarContent
-				className="hidden sm:flex basis-1/5 sm:basis-full"
+				className="sm:flex basis-1/5 sm:basis-full p-10"
 				justify="end"
 			>
 				<ThemeSwitch />
 				<Link href="/login">
-					<Button>로그인</Button>
+					<Button className="h-8">로그인</Button>
 				</Link>
 				<Link href="/register">
-					<Button>회원가입</Button>
+					<Button className="h-8">회원가입</Button>
 				</Link>
 			</NavbarContent>
 		</NextUINavbar>
