@@ -28,7 +28,7 @@ export default function SignupPage() {
   const [number, setNumber] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  const [selectedArtist, setSelectedArtist] = useState<string[]>([]);
+  const [selectedArtist, setSelectedArtist] = useState(new Set(["start1"]));
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -41,7 +41,6 @@ export default function SignupPage() {
       selectedGenres,
     });
   };
-
   return (
     <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg">
       <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
@@ -126,7 +125,7 @@ export default function SignupPage() {
           label="선호하는 장르"
           orientation="horizontal"
           value={selectedGenres}
-          onChange={(values) => setSelectedGenres(values)}
+          onValueChange={setSelectedGenres}
         >
           <Checkbox value="action">액션</Checkbox>
           <Checkbox value="drama">드라마</Checkbox>
@@ -144,7 +143,7 @@ export default function SignupPage() {
           disallowEmptySelection
           selectionMode="multiple"
           selectedKeys={selectedArtist}
-          onChange={(values) => setSelectedArtist(values)}
+          onSelectionChange={(keys) => setSelectedArtist(keys as Set<string>)}
         >
           <ListboxItem key="start1">BTS</ListboxItem>
           <ListboxItem key="start2">BLACKPINK</ListboxItem>
