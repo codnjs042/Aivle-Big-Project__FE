@@ -31,25 +31,16 @@ export default function Home() {
 				방탄소년단, 블랙핑크, 뉴진스 등 좋아하는 가수의 노래 가사를 연습해보세요.
 			</h2>
 		</div>
-
-		<div style={{ position: "absolute", right: 300, top: 60 }}>
-			<img
-			src="/index.png"
-			alt="Index Image"
-			style={{ width: "350px", height: "350px" }} // 이미지 크기 조절 필요
-			/>
-		</div>
-
 		<div
         className="absolute inset-0 bg-gradient-to-b from-purple-500 via-purple-700 to-purple-900"
         style={{ clipPath: 'polygon(100% 0, 0 100%, 100% 100%)' }}
 		/>
 
-		<div style={{ position: "absolute", right: 300, top: 60 }}>
+		<div style={{ position: "absolute", right: 280, top: 60 }}>
 			<img
 			src="/index.png"
 			alt="Index Image"
-			style={{ width: "350px", height: "350px" }}
+			style={{ width: "380px", height: "380px" }}
 			/>
 		</div>
 
