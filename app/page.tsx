@@ -40,7 +40,7 @@ export default function Home() {
 			<img
 			src="/index.png"
 			alt="Index Image"
-			style={{ width: "380px", height: "380px" }}
+			style={{ width: "480px", height: "320px", marginTop:"30px" }}
 			/>
 		</div>
 
