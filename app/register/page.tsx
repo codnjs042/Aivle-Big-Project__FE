@@ -126,14 +126,13 @@ export default function SignupPage() {
           label="선호하는 장르"
           orientation="horizontal"
           value={selectedGenres}
-          onChange={(values) => setSelectedGenres}
+          onChange={(values) => setSelectedGenres(values)}
         >
           <Checkbox value="action">액션</Checkbox>
           <Checkbox value="drama">드라마</Checkbox>
           <Checkbox value="comedy">코미디</Checkbox>
           <Checkbox value="romance">로맨스</Checkbox>
           <Checkbox value="history">사극</Checkbox>
-          {/* Add more genres as needed */}
         </CheckboxGroup>
       </div>
       <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
@@ -145,7 +144,7 @@ export default function SignupPage() {
           disallowEmptySelection
           selectionMode="multiple"
           selectedKeys={selectedArtist}
-          onChange={(values) => setSelectedArtist}
+          onChange={(values) => setSelectedArtist(values)}
         >
           <ListboxItem key="start1">BTS</ListboxItem>
           <ListboxItem key="start2">BLACKPINK</ListboxItem>
