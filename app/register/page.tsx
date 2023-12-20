@@ -1,15 +1,15 @@
 "use client";
 
-import {ReactNode, useState} from "react";
+import {useState} from "react";
 import {
-  Input,
   Button,
-  Spacer,
   Checkbox,
   CheckboxGroup,
   Divider,
+  Input,
   Listbox,
-  ListboxItem
+  ListboxItem,
+  Spacer
 } from "@nextui-org/react";
 import {
   LockFilledIcon,
@@ -25,8 +25,8 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const [selectedGenres, setSelectedGenres] = useState([]);
-  const [selectedArtist, setSelectedArtist] = useState([]);
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+  const [selectedArtist, setSelectedArtist] = useState<string[]>([]);
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
