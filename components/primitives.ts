@@ -51,3 +51,29 @@ export const subtitle = tv({
     fullWidth: true
   }
 });
+
+export const card = tv({
+	base: "py-4",
+  });
+  
+  export const cardHeader = tv({
+	base: "pb-0 pt-2 px-4 flex-col items-start",
+  });
+  
+  export const cardBody = tv({
+	base: "overflow-visible py-2",
+  });
+  
+  export const cardImage = tv({
+	base: "object-cover rounded-xl",
+	variants: {
+		size: {
+		  small: "w-32 h-32",
+		  medium: "w-48 h-48",
+		  large: "w-64 h-64",
+		},
+	  },
+	  defaultVariants: {
+		size: "small",
+	  },
+  });

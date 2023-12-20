@@ -1,4 +1,4 @@
-import {subtitle, title} from "@/components/primitives";
+import {subtitle, title, card, cardHeader, cardBody, cardImage} from "@/components/primitives";
 
 export default function Home() {
 	return (
@@ -43,19 +43,22 @@ export default function Home() {
 		
 
 			<div className="flex justify-between mt-12 w-full">
-			<div className="text-center p-4">
-				<h3 style={{ fontWeight: "bold" }}>발음 교정 서비스</h3>
-				<p>한국 일상 대화를 배우고 자주 틀리는 한국어 발음을 교정해보세요.</p>
-			</div>
-			<div className="text-center p-4">
-				<h3 style={{ fontWeight: "bold" }}>명대사 연습</h3>
-				<p>로맨스, 사극, 판타지 등 다양한 장르의 명대사와 좋아하는 가수의 가사를 연습하며 한국어를 배워보세요.</p>
-			</div>
-			<div className="text-center p-4">
-				<h3 style={{ fontWeight: "bold" }}>숏폼 생성</h3>
-				<p>연습한 가사와 명대사를 숏폼으로 제작하고 친구와 공유해보세요.</p>
-			</div>
-			</div>
-		</section>
+			<div className={card()} style={{ borderRadius: '10px', border: '2px solid #FFFFFF', marginLeft:'10px', marginRight:'10px' }}>
+          		<h3 className={cardHeader()}style={{ fontWeight: "bold" }}>발음 교정 서비스</h3>
+          		<p className={cardBody()}>한국 일상 대화를 배우고 자주 틀리는 한국어 발음을 교정해보세요.</p>
+				<img className={cardImage()} src="/pronoun.jpg" style={{}}></img>
+       		</div>
+        	<div className={card()} style={{ borderRadius: '10px', border: '2px solid #FFFFFF', marginLeft:'10px', marginRight:'10px' }}>
+          		<h3 className={cardHeader()}style={{ fontWeight: "bold" }}>명대사 연습</h3>
+          		<p className={cardBody()}>로맨스, 사극, 판타지 등 다양한 장르의 명대사와 좋아하는 가수의 가사를 연습하며 한국어를 배워보세요.</p>
+				<img className={cardImage()} src="/quotes.jpg"></img>
+        	</div>
+        	<div className={card()} style={{ borderRadius: '10px', border: '2px solid #FFFFFF', marginLeft:'10px', marginRight:'10px' }}>
+          		<h3 className={cardHeader()} style={{ fontWeight: "bold" }}>숏폼 생성</h3>
+          		<p className={cardBody()}>연습한 가사와 명대사를 숏폼으로 제작하고 친구와 공유해보세요.</p>
+				<img className={cardImage()} src="/film.jpg"></img>
+        	</div>
+      	</div>
+    </section>
 	);
 }
