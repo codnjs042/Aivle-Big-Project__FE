@@ -1,14 +1,14 @@
 import {card, cardBody, cardHeader, subtitle, title} from "@/components/primitives";
-import {Link} from "@nextui-org/react";
+import {Image, Link} from "@nextui-org/react";
 import Footer from "@/components/layouts/footer";
-import {Card, CardHeader, CardBody, CardFooter, Image, Button} from "@nextui-org/react";
 
 export default function Home() {
   return (
       <>
         {/* 그라데이션 적용 */}
-        <div className="absolute inset-0 bg-gradient-to-b from-purple-600 via-purple-800 to-purple-1000"
-        style={{clipPath: 'polygon(100% 0, 0 100%, 100% 100%)'}}/>
+        <div
+            className="absolute inset-0 bg-gradient-to-b from-purple-600 via-purple-800 to-purple-1000"
+            style={{clipPath: 'polygon(100% 0, 0 100%, 100% 100%)'}}/>
 
         <section className="flex flex-grow flex-col items-start justify-center">
           <div className="inline-block max-w-lg text-center justify-center">
@@ -39,18 +39,17 @@ export default function Home() {
               방탄소년단, 블랙핑크, 뉴진스 등 좋아하는 K-POP 가수의 노래 가사를 연습해보세요.
             </h2>
           </div>
-        </section>
           <div style={{position: "absolute", right: 250, top: 30}}>
-          <Image
+            <Image
                 isZoomed
                 isBlurred
                 width={500}
                 src="/asset/images/contents.png"
                 alt="Index Image"
-                style={{ width: "500px", height: "350px", marginTop: "10px"}}/>
+                style={{width: "500px", height: "350px", marginTop: "10px"}}/>
           </div>
-        {/* 수정중 */}
-        {/* <div className="max-w-[900px] gap-20 grid grid-cols-12 grid-rows-3 px-8 mt-12">
+          {/* 수정중 */}
+          {/* <div className="max-w-[900px] gap-20 grid grid-cols-12 grid-rows-3 px-8 mt-12">
           <Card className="col-span-12 sm:col-span-4 h-[250px]">
             <CardHeader className="absolute z-10 top-1 flex-col !items-center">
               <h4 className="text-white font-medium text-large">발음 교정 서비스</h4>
@@ -90,8 +89,8 @@ export default function Home() {
             />
           </Card>
           </div> */}
-        
-        <div className="flex justify-between mt-12 w-full">
+
+          <div className="flex justify-between mt-12 w-full">
             <Link isBlock showAnchorIcon href="/learn" color="foreground">
               <div className={card()}
                    style={{borderRadius: '20px', marginLeft: '10px', marginRight: '10px'}}>
@@ -115,7 +114,8 @@ export default function Home() {
               </div>
             </Link>
           </div>
-          <Footer/>
+        </section>
+        <Footer/>
       </>
   );
 }
