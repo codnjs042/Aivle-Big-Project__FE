@@ -10,11 +10,11 @@ export default function Footer() {
           <PrivacyPolicy/>
           <TermOfUse/>
         </div>
-        <Chip className="flex items-center gap-1 text-base">
+        <Chip className="flex items-center gap-1 text-base "style={{ background: 'none' }}>
           <span className="text-default-600">© 2023 AivleSchool 4기 21조. <strong>All rights
             reserved.</strong></span>
         </Chip>
-        <Chip className="flex flex-row gap-1">
+        <Chip className="flex flex-row gap-1"style={{ background: 'none' }}>
           <Link
               isExternal
               className="flex items-center gap-1 text-current"
