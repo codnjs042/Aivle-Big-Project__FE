@@ -7,7 +7,7 @@ export default function Home() {
 			<img
 				src="/contents.jpg"
 				alt="Your Alt Text"
-				className="absolute w-full h-full object-cover"
+				className="absolute w-full h-full object-cover filter blur-sm"
 			/>
 			<div className="absolute top-1/2 transform -translate-y-1/2 text-white text-center z-10">
 			<div className="inline-block max-w-lg text-center justify-center">
