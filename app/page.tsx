@@ -2,7 +2,7 @@ import {subtitle, title} from "@/components/primitives";
 
 export default function Home() {
 	return (
-			<section className="flex flex-col items-start justify-center gap-4 py-8">
+			<section className="flex flex-col items-start justify-center">
 			<div className="relative overflow-hidden w-full h-60">
 			<img
 				src="/contents.jpg"
