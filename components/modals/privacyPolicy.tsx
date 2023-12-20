@@ -9,7 +9,7 @@ export default function PrivacyPolicy() {
 
   return (
       <>
-        <Button className="h-8" onClick={onOpen}>개인정보 처리방침</Button>
+        <Button className="h-8" onClick={onOpen} style={{ background: 'none' }}>개인정보 처리방침</Button>
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
           <ModalContent>
             {(onClose) => (

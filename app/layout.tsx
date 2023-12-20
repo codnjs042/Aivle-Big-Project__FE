@@ -45,10 +45,9 @@ export default function RootLayout({children,}: {
           <Navbar/>
           <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow flex-shrink overflow-auto">
             {children}
-            <SpeedInsights />
           </main>
-          <Footer/>
         </div>
+        <SpeedInsights />
       </Providers>
       </body>
       </html>
