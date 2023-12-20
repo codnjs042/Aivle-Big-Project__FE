@@ -1,10 +1,4 @@
-import { Link } from "@nextui-org/link";
-import { Snippet } from "@nextui-org/snippet";
-import { Code } from "@nextui-org/code"
-import { button as buttonStyles } from "@nextui-org/theme";
-import { siteConfig } from "@/config/site";
-import { title, subtitle } from "@/components/primitives";
-import { GithubIcon } from "@/components/icons";
+import {subtitle, title} from "@/components/primitives";
 
 export default function Home() {
 	return (
@@ -40,7 +34,7 @@ export default function Home() {
 
 		{/* <div className="relative overflow-hidden w-full h-60">
 			<img
-				src=""
+				src="/kpop.jpg"
 				alt="Your Alt Text"
 				className="absolute w-full h-full object-cover"
 			/>

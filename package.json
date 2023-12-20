@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mdx-js/loader": "^3.0.0",
+    "@next/mdx": "^14.0.4",
     "@nextui-org/button": "2.0.26",
     "@nextui-org/code": "2.0.24",
     "@nextui-org/input": "2.1.16",

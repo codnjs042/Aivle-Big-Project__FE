@@ -2,7 +2,6 @@
 
 import {ReactNode, useState} from "react";
 import {Textarea, Input, Button, Spacer, Checkbox, Divider} from '@nextui-org/react';
-import {Row} from "@react-stately/table";
 import {LockFilledIcon, MailIcon, SunFilledIcon} from "@nextui-org/shared-icons";
 import {Link} from "@nextui-org/link";
 
