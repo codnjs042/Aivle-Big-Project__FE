@@ -16,7 +16,7 @@ export default function NavMenu() {
               <NextLink
                   className={clsx(
                       linkStyles({color: "foreground"}),
-                      pathname === item.href ? "text-primary font-medium" : "",
+                      pathname === item.href ? "font-bold text-secondary-400" : "",
                       "data-[active=true]:text-primary data-[active=true]:font-medium"
                   )}
                   color="foreground"

@@ -14,7 +14,7 @@ export default function Footer() {
           <span className="text-default-600">© 2023 AivleSchool 4기 21조. <strong>All rights
             reserved.</strong></span>
         </Chip>
-        <Chip className="flex flex-row gap-1"style={{ background: 'none' }}>
+        <Chip className="flex flex-row gap-1" style={{ background: 'none' }}>
           <Link
               isExternal
               className="flex items-center gap-1 text-current"
