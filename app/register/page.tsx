@@ -9,7 +9,7 @@ import {
   Input,
   Listbox,
   ListboxItem,
-  Spacer
+  Spacer,
 } from "@nextui-org/react";
 import {
   LockFilledIcon,
@@ -17,6 +17,7 @@ import {
   SunFilledIcon,
   AvatarIcon,
   EditIcon,
+  MonitorMobileIcon,
 } from "@nextui-org/shared-icons";
 import { Link } from "@nextui-org/link";
 
@@ -24,6 +25,7 @@ export default function SignupPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [number, setNumber] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [selectedArtist, setSelectedArtist] = useState<string[]>([]);
@@ -47,7 +49,41 @@ export default function SignupPage() {
       <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
         <Input
           type="string"
-          label="Name"
+          label="아이디"
+          labelPlacement="outside"
+          startContent={
+            <EditIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+          }
+        />
+      </div>
+      <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+        <Input
+          type="password"
+          label="비밀번호"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          labelPlacement="outside"
+          startContent={
+            <LockFilledIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+          }
+        />
+      </div>
+      <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+        <Input
+          type="password"
+          label="비밀번호 재확인"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          labelPlacement="outside"
+          startContent={
+            <LockFilledIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+          }
+        />
+      </div>
+      <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+        <Input
+          type="string"
+          label="이름"
           value={name}
           onChange={(e) => setName(e.target.value)}
           labelPlacement="outside"
@@ -58,42 +94,8 @@ export default function SignupPage() {
       </div>
       <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
         <Input
-          type="string"
-          label="ID"
-          labelPlacement="outside"
-          startContent={
-            <EditIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-          }
-        />
-      </div>
-      <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-        <Input
-          type="password"
-          label="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          labelPlacement="outside"
-          startContent={
-            <LockFilledIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-          }
-        />
-      </div>
-      <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-        <Input
-          type="password"
-          label="Confirm Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          labelPlacement="outside"
-          startContent={
-            <LockFilledIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-          }
-        />
-      </div>
-      <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-        <Input
           type="email"
-          label="E-mail"
+          label="이메일"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           labelPlacement="outside"
@@ -103,12 +105,24 @@ export default function SignupPage() {
         />
       </div>
       <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+        <Input
+          type="number"
+          label="휴대전화"
+          value={number}
+          onChange={(e) => setNumber(e.target.value)}
+          labelPlacement="outside"
+          startContent={
+            <MonitorMobileIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+          }
+        />
+      </div>
+      <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
         <Divider className="my-4" />
       </div>
       <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
         <CheckboxGroup
           className="gap-5"
-          label="Favorite Contents"
+          label="선호하는 장르"
           orientation="horizontal"
           value={selectedGenres}
           onChange={(values) => setSelectedGenres(values)}
