@@ -6,6 +6,7 @@ import {Providers} from "./providers";
 import {Navbar} from "@/components/layouts/navbar";
 import clsx from "clsx";
 import Footer from "@/components/layouts/footer";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata: Metadata = {
   title: {
@@ -44,6 +45,7 @@ export default function RootLayout({children,}: {
           <Navbar/>
           <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow flex-shrink overflow-auto">
             {children}
+            <SpeedInsights />
           </main>
           <Footer/>
         </div>
