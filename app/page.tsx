@@ -41,7 +41,7 @@ export default function Home() {
 
           <div style={{position: "absolute", right: 260, top: 60}}>
             <img
-                src="/index.png"
+                src="/asset/images/index.png"
                 alt="Index Image"
                 style={{width: "380px", height: "380px"}}
             />
