@@ -13,11 +13,11 @@ export const siteConfig = {
       href: "/learn",
     },
     {
-      label: "K-콘텐츠",
+      label: "K-culture",
       href: "/culture",
     },
     {
-      label: "쇼츠",
+      label: "shorts",
       href: "/shorts",
     },
 	],

@@ -2,7 +2,7 @@
 
 import {ReactNode, useState} from "react";
 import {Textarea, Input, Button, Spacer, Checkbox, Divider} from '@nextui-org/react';
-import {LockFilledIcon, MailIcon, SunFilledIcon} from "@nextui-org/shared-icons";
+import {LockFilledIcon, MailIcon, SunFilledIcon, EditIcon} from "@nextui-org/shared-icons";
 import {Link} from "@nextui-org/link";
 
 function Col(props: { span: number, children: ReactNode }) {
@@ -29,7 +29,7 @@ export default function LoginPage() {
               label="ID"
               labelPlacement="outside"
               startContent={
-                <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
+                <EditIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
               }
           />
         </div>
@@ -56,7 +56,7 @@ export default function LoginPage() {
         </div>
         <div
             className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
-          <Button color="primary" fullWidth={true}>
+          <Button color="secondary" fullWidth={true}>
             로그인
           </Button>
         </div>

@@ -16,6 +16,7 @@ import {
   MailIcon,
   SunFilledIcon,
   AvatarIcon,
+  EditIcon,
 } from "@nextui-org/shared-icons";
 import { Link } from "@nextui-org/link";
 
@@ -61,7 +62,7 @@ export default function SignupPage() {
           label="ID"
           labelPlacement="outside"
           startContent={
-            <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+            <EditIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
           }
         />
       </div>
@@ -141,7 +142,7 @@ export default function SignupPage() {
         <Spacer y={1} />
       </div>
       <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
-        <Button color="primary" fullWidth={true} onClick={handleSubmit}>
+        <Button color="secondary" fullWidth={true} onClick={handleSubmit}>
           회원가입
         </Button>
       </div>
