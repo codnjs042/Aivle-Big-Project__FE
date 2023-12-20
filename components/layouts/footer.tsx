@@ -16,7 +16,7 @@ export default function Footer() {
             title="nextui.org homepage"
         >
           <span className="text-default-600">Powered by</span>
-          <p className="text-primary">NextUI</p>
+          <p className="text-secondary">NextUI</p>
         </Link>
         <p>© 2023 AivleSchool 4기 21조. <strong>All rights reserved.</strong></p>
       </footer>

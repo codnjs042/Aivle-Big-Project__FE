@@ -48,8 +48,8 @@ export default function LoginPage() {
           <Divider className="my-4"/>
         </div>
         <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-          <Checkbox defaultSelected>아이디 기억하기</Checkbox>
-          <Link>비밀번호를 잊으셨나요?</Link>
+          <Checkbox defaultSelected color="secondary">아이디 기억하기</Checkbox>
+          <Link color="secondary">비밀번호를 잊으셨나요?</Link>
         </div>
         <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
           <Spacer y={1}/>
