@@ -78,10 +78,14 @@ export const Navbar = () => {
 			>
 				<ThemeSwitch />
 				<Link href="/login">
-					<Button className="h-8">로그인</Button>
+					<Button className="h-8" color="secondary" 
+					style={{ background: 'none', border: '2px solid var(--nextui-color-secondary)' }}>
+					로그인</Button>
 				</Link>
 				<Link href="/register">
-					<Button className="h-8">회원가입</Button>
+					<Button className="h-8" color="secondary"
+					style={{ background: 'none', border: '2px solid var(--nextui-color-secondary)' }}>
+					회원가입</Button>
 				</Link>
 			</NavbarContent>
 		</NextUINavbar>

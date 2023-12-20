@@ -37,6 +37,7 @@ export default function SignupPage() {
       email,
       password,
       rememberMe,
+      selectedArtist,
       selectedGenres,
     });
   };
