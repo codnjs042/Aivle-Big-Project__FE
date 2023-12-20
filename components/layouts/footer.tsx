@@ -5,8 +5,8 @@ import {Chip} from "@nextui-org/chip";
 
 export default function Footer() {
   return (
-      <footer className="w-full flex items-center justify-between py-5">
-        <div className="flex flex-row gap-5">
+      <footer className="w-full items-center justify-between py-5">
+        <div className="flex flex-row">
           <PrivacyPolicy/>
           <TermOfUse/>
         </div>
