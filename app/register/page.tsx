@@ -125,7 +125,7 @@ export default function SignupPage() {
           label="선호하는 장르"
           orientation="horizontal"
           value={selectedGenres}
-          onChange={(values) => setSelectedGenres(values)}
+          onChange={(values) => setSelectedGenres}
         >
           <Checkbox value="action">액션</Checkbox>
           <Checkbox value="drama">드라마</Checkbox>
@@ -138,14 +138,13 @@ export default function SignupPage() {
       <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
         <Listbox
           className="gap-5"
-          label="Favorite Contents"
-          orientation="horizontal"
-          value={setSelectedArtist}
           aria-label="Favorite Artist"
+          label="Favorite Contents"
           variant="flat"
           disallowEmptySelection
           selectionMode="multiple"
-          onChange={(values) => setSelectedArtist(values)}
+          selectedKeys={selectedArtist}
+          onChange={(values) => setSelectedArtist}
         >
           <ListboxItem key="start1">BTS</ListboxItem>
           <ListboxItem key="start2">BLACKPINK</ListboxItem>
