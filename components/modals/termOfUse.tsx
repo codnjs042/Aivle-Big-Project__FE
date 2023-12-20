@@ -3,7 +3,7 @@
 import React from "react";
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button} from "@nextui-org/react";
 import {useDisclosure} from "@nextui-org/use-disclosure";
-import Content from '@/public/termOfUse.md';
+
 export default function TermOfUse() {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
