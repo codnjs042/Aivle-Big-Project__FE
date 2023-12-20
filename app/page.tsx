@@ -2,39 +2,10 @@ import {subtitle, title} from "@/components/primitives";
 
 export default function Home() {
 	return (
-			<section className="flex flex-col items-start justify-center gap-4 py-8 md:py-10">
-			<div className="inline-block max-w-lg text-center justify-center">
-				<h1 className={title({ color: "violet" })}
-					style={{fontSize: "2.5rem", position: "relative", zIndex: 1 }}>K-POP</h1>
-				<h1 className={title()}
-					style={{fontSize: "2.5rem", position: "relative", zIndex: 1 }}>과&nbsp;</h1>
-				<h1 className={title({ color: "violet" })}
-					style={{fontSize: "2.5rem", position: "relative", zIndex: 1 }}>K-CONTENTS</h1>
-				<h1 className={title()}
-					style={{fontSize: "2.5rem", position: "relative", zIndex: 1 }}>를&nbsp;</h1>
-				<br />
-				<h1 className={title()}
-					style={{fontSize: "2.5rem", position: "relative", zIndex: 1 }}>따라하고&nbsp;</h1>
-				<br />
-				<h1 className={title()}
-					style={{fontSize: "2.5rem", position: "relative", zIndex: 1 }}>나만의&nbsp;</h1>
-				<h1 className={title({ color: "violet" })}
-					style={{fontSize: "2.5rem", position: "relative", zIndex: 1 }}>SHORTS</h1>
-				<h1 className={title()}
-					style={{fontSize: "2.5rem", position: "relative", zIndex: 1 }}>를&nbsp;</h1>
-				<br />
-				<h1 className={title()}
-					style={{fontSize: "2.5rem", position: "relative", zIndex: 1 }}>제작해보세요.&nbsp;</h1>
-				<h2 className={subtitle({ class: "mt-4"})}
-					style={{fontSize: "0.7rem"}}>
-					로맨스, 사극, 판타지 등 다양한 테마별로 30,000개 이상의 K-콘텐츠 명대사를 연습해보세요.<br />
-					방탄소년단, 블랙핑크, 뉴진스 등 좋아하는 가수의 노래 가사를 연습해보세요.
-				</h2>
-			</div>
-
-		{/* <div className="relative overflow-hidden w-full h-60">
+			<section className="flex flex-col items-start justify-center gap-4 py-8">
+			<div className="relative overflow-hidden w-full h-60">
 			<img
-				src="/kpop.jpg"
+				src="/contents.jpg"
 				alt="Your Alt Text"
 				className="absolute w-full h-full object-cover"
 			/>
@@ -68,8 +39,8 @@ export default function Home() {
 				</h2>
 			</div>
 			</div>
-		</div> */}
-
+		</div>
+		
 
 			<div className="flex justify-between mt-12 w-full">
 			<div className="text-center p-4">
