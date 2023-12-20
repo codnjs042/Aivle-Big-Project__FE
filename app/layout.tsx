@@ -32,8 +32,8 @@ export default function RootLayout({children,}: {
   children: React.ReactNode;
 }) {
   return (
-      <html lang="en" suppressHydrationWarning>
-      <head/>
+      <html lang="ko" suppressHydrationWarning>
+      <head><title>바름</title></head>
       <body
           className={clsx(
               "min-h-screen bg-background font-sans antialiased",
