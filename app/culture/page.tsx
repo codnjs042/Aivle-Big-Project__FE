@@ -5,7 +5,7 @@ import {Card, CardHeader, CardBody, CardFooter, Image, Link} from "@nextui-org/r
 import {usePagination, PaginationItemType} from "@nextui-org/react";
 
 export default function CulturePage() {
-	const list = [
+	const artistList = [
 		{
 			title: "NEWJEANS",
 			img: "/asset/images/idol1.png",
@@ -41,10 +41,9 @@ export default function CulturePage() {
 	
 	  ];
 
-
 	return (
-		<div className="flex justify-between gap-2 grid grid-cols-2 sm:grid-cols-4">
-		{list.map((item, index) => (
+		<div className="justify-between gap-10 grid grid-cols-4">
+		{artistList.map((item, index) => (
 		  <Card shadow="sm" key={index} isPressable onPress={() => console.log("item pressed")}>
 			<CardBody className="overflow-visible p-0">
 			  <Image
@@ -56,13 +55,11 @@ export default function CulturePage() {
 				src={item.img}
 			  />
 			</CardBody>
-			<CardFooter className="text-small justify-between">
+			<CardFooter className="text-small justify-center">
 			  <b>{item.title}</b>
-			  <p className="text-default-500">{item.price}</p>
 			</CardFooter>
 		  </Card>
 		))}
 	  </div>
-		
 	);
 }
