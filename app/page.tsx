@@ -1,5 +1,5 @@
 import {card, cardBody, cardHeader, subtitle, title} from "@/components/primitives";
-import {Image, Link} from "@nextui-org/react";
+import {Card, CardHeader, Image, Link} from "@nextui-org/react";
 import Footer from "@/components/layouts/footer";
 
 export default function Home() {

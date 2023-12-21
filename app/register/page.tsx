@@ -28,6 +28,7 @@ export default function SignupPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [repassword, setRepassword] = useState("");
   const [number, setNumber] = useState("");
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [selectedArtist, setSelectedArtist] = useState(new Set(["start1"]));
@@ -41,10 +42,16 @@ export default function SignupPage() {
       name,
       email,
       password,
+      repassword,
       selectedArtist,
       selectedGenres,
     });
   };
+
+  // const fixedWidthStyle = {
+  //   maxWidth: "400px", // 고정된 너비
+  //   margin: "0 auto", // 가운데 정렬
+  // };
 
   switch (step) {
     case 0:
@@ -116,10 +123,10 @@ export default function SignupPage() {
             </div>
             <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
               <Input
-                  type="password"
+                  type="repassword"
                   label="비밀번호 재확인"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={repassword}
+                  onChange={(e) => setRepassword(e.target.value)}
                   labelPlacement="outside"
                   startContent={
                     <LockFilledIcon

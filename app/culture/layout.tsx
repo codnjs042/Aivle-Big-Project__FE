@@ -1,4 +1,5 @@
 import React from "react";
+import {usePagination, PaginationItemType} from "@nextui-org/react";
 
 export default function CultureLayout({
 	children,
@@ -11,5 +12,6 @@ export default function CultureLayout({
 				{children}
 			</div>
 		</section>
+		
 	);
 }
