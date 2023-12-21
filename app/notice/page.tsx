@@ -1,9 +1,13 @@
 "use client";
 import React from "react";
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue} from "@nextui-org/react";
+import { title } from "@/components/primitives";
 
 export default function AboutPage() {
   return (
+    <div>
+    <h1 className="text-center" style={{ fontWeight: "bold" }}>NOTICE</h1>
+
     <Table removeWrapper aria-label="Example static collection table">
       <TableHeader>
         <TableColumn>No</TableColumn>
@@ -38,5 +42,6 @@ export default function AboutPage() {
         </TableRow>
       </TableBody>
     </Table>
+    </div>
   );
 }
