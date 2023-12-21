@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function CultureLayout({
+export default function GenreLayout({
   children,
 }: {
   children: React.ReactNode;
