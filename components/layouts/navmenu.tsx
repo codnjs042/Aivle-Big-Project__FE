@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {siteConfig} from "@/config/site";
 import {NavbarItem} from "@nextui-org/navbar";
@@ -19,8 +19,8 @@ export default function NavMenu() {
           </Button>
         </DropdownTrigger>
         <DropdownMenu variant="faded" aria-label="Static Actions">
-          <DropdownItem key="intro"><NextLink href="/about">서비스 소개</NextLink></DropdownItem>
-          <DropdownItem key="notice"><NextLink href="/about">공지사항</NextLink></DropdownItem>
+          <DropdownItem key="intro"><NextLink href="/about" className="flex">서비스 소개</NextLink></DropdownItem>
+          <DropdownItem key="notice"><NextLink href="/about" className="flex">공지사항</NextLink></DropdownItem>
         </DropdownMenu>
       </Dropdown>
 
@@ -32,8 +32,8 @@ export default function NavMenu() {
           </Button>
         </DropdownTrigger>
         <DropdownMenu variant="faded" aria-label="Pronunciation Correction Actions">
-          <DropdownItem key="practice"><NextLink href="/learn">발음 연습</NextLink></DropdownItem>
-          <DropdownItem key="test"><NextLink href="/learn">발음 평가</NextLink></DropdownItem>
+          <DropdownItem key="practice"><NextLink href="/learn" className="flex">발음 연습</NextLink></DropdownItem>
+          <DropdownItem key="test"><NextLink href="/learn" className="flex">발음 평가</NextLink></DropdownItem>
         </DropdownMenu>
       </Dropdown>
 
@@ -44,8 +44,8 @@ export default function NavMenu() {
           </Button>
         </DropdownTrigger>
         <DropdownMenu variant="faded" aria-label="Culture Actions">
-          <DropdownItem key="artist"><NextLink href="/artist">K-POP</NextLink></DropdownItem>
-          <DropdownItem key="contents"><NextLink href="/genre">K-CONTENTS</NextLink></DropdownItem>
+          <DropdownItem key="artist"><NextLink href="/artist" className="flex">K-POP</NextLink></DropdownItem>
+          <DropdownItem key="contents"><NextLink href="/genre" className="flex">K-CONTENTS</NextLink></DropdownItem>
         </DropdownMenu>
       </Dropdown>
 
@@ -56,8 +56,8 @@ export default function NavMenu() {
           </Button>
         </DropdownTrigger>
         <DropdownMenu variant="faded" aria-label="Shorts Actions">
-          <DropdownItem key="watch"><NextLink href="/shorts">시청</NextLink></DropdownItem>
-          <DropdownItem key="generate"><NextLink href="/shorts">제작</NextLink></DropdownItem>
+          <DropdownItem key="watch"><NextLink href="/shorts" className="flex">시청</NextLink></DropdownItem>
+          <DropdownItem key="generate"><NextLink href="/shorts" className="flex">제작</NextLink></DropdownItem>
         </DropdownMenu>
       </Dropdown>
     </div>

@@ -1,6 +1,4 @@
 import { title } from "@/components/primitives";
-import {Card, CardHeader, CardBody, CardFooter, Image, Link} from "@nextui-org/react";
-import {usePagination, PaginationItemType} from "@nextui-org/react";
 
 export default function GenrePage() {
 
