@@ -7,7 +7,7 @@ export default function CultureLayout({
 }) {
   return (
     <section className="flex flex-col items-center justify-center">
-      <div className="inline-block max-w-4xl">
+      <div className="max-w-4xl">
         {children}
       </div>
     </section>
