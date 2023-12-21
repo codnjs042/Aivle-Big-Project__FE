@@ -43,6 +43,7 @@ export default function CulturePage() {
 
 	return (
 		<div className="justify-between gap-10 grid grid-cols-4">
+		<h2 className="text-2xl text-center font-bold mb-4 col-span-full">아티스트 선택</h2>
 		{artistList.map((item, index) => (
 		  <Card shadow="sm" key={index} isPressable onPress={() => console.log("item pressed")}>
 			<CardBody className="overflow-visible p-0">
