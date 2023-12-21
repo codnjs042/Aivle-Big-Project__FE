@@ -32,10 +32,11 @@ export default function RootLayout({children,}: {
 }) {
   return (
       <html lang="ko" suppressHydrationWarning>
-      <head><title>바름</title></head>
-      <body
-          className={clsx(
-              "min-h-screen bg-background font-sans antialiased",
+      <meta name="google-site-verification" content="YDJY9wJjgHXHBWClOKak7K70HmqjBoMJHLPZ7YLr1cw"/>
+  <head><title>바름</title></head>
+  <body
+      className={clsx(
+          "min-h-screen bg-background font-sans antialiased",
               fontSans.variable
           )}
       >
