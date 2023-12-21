@@ -5,7 +5,6 @@ import {fontSans} from "@/config/fonts";
 import {Providers} from "./providers";
 import {Navbar} from "@/components/layouts/navbar";
 import clsx from "clsx";
-import Footer from "@/components/layouts/footer";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata: Metadata = {
