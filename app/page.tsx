@@ -41,7 +41,6 @@ export default function Home() {
           </div>
           <div style={{position: "absolute", right: 250, top: 30}}>
             <Image
-                isZoomed
                 isBlurred
                 width={500}
                 src="/asset/images/contents.png"
