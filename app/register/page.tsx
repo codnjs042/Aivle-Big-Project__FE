@@ -1,6 +1,8 @@
 "use client";
-
+import {contents} from "./contents";
+import {artist} from "./artist";
 import {useState} from "react";
+import React from "react";
 import {
   Button,
   Checkbox,
@@ -8,7 +10,9 @@ import {
   Input,
   Listbox,
   ListboxItem,
-  Spacer
+  Select,
+  SelectItem,
+  Spacer,
 } from "@nextui-org/react";
 import {
   AvatarIcon,
@@ -31,8 +35,8 @@ export default function SignupPage() {
   const [password, setPassword] = useState("");
   const [repassword, setRepassword] = useState("");
   const [number, setNumber] = useState("");
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  const [selectedArtist, setSelectedArtist] = useState(new Set(["start1"]));
+  const [selectedGenres, setSelectedGenres] = useState(new Set([]));
+  const [selectedArtist, setSelectedArtist] = useState(new Set([]));
 
   const nextStep = () => setStep(step + 1);
   const prevStep = () => setStep(step - 1);
@@ -43,7 +47,6 @@ export default function SignupPage() {
       name,
       email,
       password,
-      repassword,
       selectedArtist,
       selectedGenres,
     });
@@ -223,7 +226,46 @@ export default function SignupPage() {
                 className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
               <p className="text-2xl center">Step 3</p>
             </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+
+            <div className="flex w-full max-w-xs flex-col gap-2">
+            <Select
+              label="좋아하는 장르"
+              variant="bordered"
+              placeholder="장르를 선택하세요."
+              selectedKeys={selectedGenres}
+              className="max-w-xs"
+              selectionMode="multiple"
+              onSelectionChange={setSelectedGenres}
+            >
+              {contents.map((content) => (
+                <SelectItem key={content.value} value={content.value}>
+                  {content.label}
+                </SelectItem>
+              ))}
+            </Select>
+            <p className="text-small text-default-500">선택: {selectedGenres}</p>
+          </div>
+
+          <Select
+              label="좋아하는 가수"
+              variant="bordered"
+              placeholder="가수를 선택하세요."
+              selectedKeys={selectedArtist}
+              className="max-w-xs"
+              selectionMode="multiple"
+              onSelectionChange={setSelectedArtist}
+            >
+              {artist.map((star) => (
+                <SelectItem key={star.value} value={star.value}>
+                  {star.label}
+                </SelectItem>
+              ))}
+            </Select>
+            <p className="text-small text-default-500">선택: {selectedArtist}</p>
+          
+
+
+            {/* <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
               <CheckboxGroup
                   className="gap-10"
                   label="선호하는 장르"
@@ -252,7 +294,7 @@ export default function SignupPage() {
                 <ListboxItem key="start2" style={{  marginTop: '10px', marginBottom: '5px' }}>BLACKPINK</ListboxItem>
                 <ListboxItem key="start3" style={{  marginTop: '10px', marginBottom: '10px' }}>NEWJEANS</ListboxItem>
               </Listbox>
-            </div>
+            </div> */}
             <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
               <Spacer y={1}/>
             </div>

@@ -6,30 +6,35 @@ export default function AboutPage() {
   return (
     <Table removeWrapper aria-label="Example static collection table">
       <TableHeader>
-        <TableColumn>NAME</TableColumn>
-        <TableColumn>ROLE</TableColumn>
-        <TableColumn>STATUS</TableColumn>
+        <TableColumn>No</TableColumn>
+        <TableColumn>Title</TableColumn>
+        <TableColumn>Name</TableColumn>
+        <TableColumn>Date</TableColumn>
       </TableHeader>
       <TableBody>
         <TableRow key="1">
-          <TableCell>Tony Reichert</TableCell>
-          <TableCell>CEO</TableCell>
-          <TableCell>Active</TableCell>
+          <TableCell>1</TableCell>
+          <TableCell>안녕하세요</TableCell>
+          <TableCell>user</TableCell>
+          <TableCell>2023-12-14</TableCell>
         </TableRow>
         <TableRow key="2">
-          <TableCell>Zoey Lang</TableCell>
-          <TableCell>Technical Lead</TableCell>
-          <TableCell>Paused</TableCell>
+          <TableCell>2</TableCell>
+          <TableCell>공지사항입니다.</TableCell>
+          <TableCell>user</TableCell>
+          <TableCell>2023-12-15</TableCell>
         </TableRow>
         <TableRow key="3">
-          <TableCell>Jane Fisher</TableCell>
-          <TableCell>Senior Developer</TableCell>
-          <TableCell>Active</TableCell>
+          <TableCell>3</TableCell>
+          <TableCell>Hello</TableCell>
+          <TableCell>user</TableCell>
+          <TableCell>2023-12-16</TableCell>
         </TableRow>
         <TableRow key="4">
-          <TableCell>William Howard</TableCell>
-          <TableCell>Community Manager</TableCell>
-          <TableCell>Vacation</TableCell>
+          <TableCell>4</TableCell>
+          <TableCell>Notice</TableCell>
+          <TableCell>user</TableCell>
+          <TableCell>2023-12-17</TableCell>
         </TableRow>
       </TableBody>
     </Table>
