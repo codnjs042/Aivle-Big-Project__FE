@@ -218,19 +218,19 @@ export default function SignupPage() {
                 className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
               <p className="text-2xl center">Step 3</p>
             </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4" style={{  marginTop: '20px' }}>
               <CheckboxGroup
-                  className="gap-5"
+                  className="gap-10"
                   label="선호하는 장르"
                   orientation="horizontal"
                   value={selectedGenres}
                   onValueChange={setSelectedGenres}
               >
                 <Checkbox value="action">액션</Checkbox>
-                <Checkbox value="drama">드라마</Checkbox>
-                <Checkbox value="comedy">코미디</Checkbox>
-                <Checkbox value="romance">로맨스</Checkbox>
-                <Checkbox value="history">사극</Checkbox>
+                <Checkbox value="drama" style={{ marginLeft: '10px' }}>드라마</Checkbox>
+                <Checkbox value="comedy" style={{ marginLeft: '10px' }}>코미디</Checkbox>
+                <Checkbox value="romance" style={{ marginLeft: '10px' }}>로맨스</Checkbox>
+                <Checkbox value="history" style={{ marginLeft: '10px' }}>사극</Checkbox>
               </CheckboxGroup>
             </div>
             <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
@@ -243,9 +243,9 @@ export default function SignupPage() {
                   selectedKeys={selectedArtist}
                   onSelectionChange={(keys) => setSelectedArtist(keys as Set<string>)}
               >
-                <ListboxItem key="start1">BTS</ListboxItem>
-                <ListboxItem key="start2">BLACKPINK</ListboxItem>
-                <ListboxItem key="start3">NEWJEANS</ListboxItem>
+                <ListboxItem key="start1" style={{ marginTop: '20px', marginBottom: '5px' }}>BTS</ListboxItem>
+                <ListboxItem key="start2" style={{  marginTop: '10px', marginBottom: '5px' }}>BLACKPINK</ListboxItem>
+                <ListboxItem key="start3" style={{  marginTop: '10px', marginBottom: '10px' }}>NEWJEANS</ListboxItem>
               </Listbox>
             </div>
             <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
@@ -253,10 +253,10 @@ export default function SignupPage() {
             </div>
             <div
                 className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
-              <Button color="secondary" fullWidth={true} onClick={prevStep}>
+              <Button color="secondary" fullWidth={true} onClick={prevStep} style={{  marginLeft: '100px' }}>
                 이전 단계로
               </Button>
-              <Button color="secondary" fullWidth={true} onClick={handleSubmit}>
+              <Button color="secondary" fullWidth={true} onClick={handleSubmit} style={{  marginRight: '100px' }}>
                 회원가입
               </Button>
             </div>
