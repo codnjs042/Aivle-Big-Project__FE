@@ -5,7 +5,7 @@ import {fontSans} from "@/config/fonts";
 import {Providers} from "./providers";
 import {Navbar} from "@/components/layouts/navbar";
 import clsx from "clsx";
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import {SpeedInsights} from "@vercel/speed-insights/next"
 
 export const metadata: Metadata = {
   title: {
@@ -32,22 +32,26 @@ export default function RootLayout({children,}: {
 }) {
   return (
       <html lang="ko" suppressHydrationWarning>
-      <meta name="google-site-verification" content="YDJY9wJjgHXHBWClOKak7K70HmqjBoMJHLPZ7YLr1cw"/>
-  <head><title>바름</title></head>
-  <body
-      className={clsx(
-          "min-h-screen bg-background font-sans antialiased",
+      <head>
+        <meta name="google-site-verification"
+              content="YDJY9wJjgHXHBWClOKak7K70HmqjBoMJHLPZ7YLr1cw"/>
+        <title>바름</title>
+      </head>
+      <body
+          className={clsx(
+              "min-h-screen bg-background font-sans antialiased",
               fontSans.variable
           )}
       >
       <Providers themeProps={{attribute: "class", defaultTheme: "dark"}}>
         <div className="relative flex flex-col h-screen">
           <Navbar/>
-          <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow flex-shrink overflow-auto">
+          <main
+              className="container mx-auto max-w-7xl pt-16 px-6 flex-grow flex-shrink overflow-auto">
             {children}
           </main>
         </div>
-        <SpeedInsights />
+        <SpeedInsights/>
       </Providers>
       </body>
       </html>
