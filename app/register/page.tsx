@@ -91,7 +91,7 @@ export default function SignupPage() {
       const isIdValid = Boolean(string.trim() !== '');
       const isPwValid = Boolean(password.trim() !== '') && password === repassword;
       return (
-          <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg">
+          <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg" style={{ width: '400px' }}>
             <div
                 className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
               <p className="text-3xl center">회원가입</p>
@@ -128,7 +128,7 @@ export default function SignupPage() {
             </div>
             <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
               <Input
-                  type="repassword"
+                  type="password"
                   label="비밀번호 재확인"
                   value={repassword}
                   onChange={(e) => setRepassword(e.target.value)}
@@ -153,7 +153,7 @@ export default function SignupPage() {
       );
     case 2:
       return (
-          <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg">
+          <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg" style={{ width: '400px' }}>
             <div
                 className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
               <p className="text-3xl center">회원가입</p>
@@ -214,7 +214,7 @@ export default function SignupPage() {
       );
     case 3:
       return (
-          <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg">
+          <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg" style={{ width: '400px' }}>
             <div
                 className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
               <p className="text-3xl center">회원가입</p>
@@ -223,7 +223,7 @@ export default function SignupPage() {
                 className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
               <p className="text-2xl center">Step 3</p>
             </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4" style={{  marginTop: '20px' }}>
+            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
               <CheckboxGroup
                   className="gap-10"
                   label="선호하는 장르"
@@ -232,10 +232,10 @@ export default function SignupPage() {
                   onValueChange={setSelectedGenres}
               >
                 <Checkbox value="action">액션</Checkbox>
-                <Checkbox value="drama" style={{ marginLeft: '10px' }}>드라마</Checkbox>
-                <Checkbox value="comedy" style={{ marginLeft: '10px' }}>코미디</Checkbox>
-                <Checkbox value="romance" style={{ marginLeft: '10px' }}>로맨스</Checkbox>
-                <Checkbox value="history" style={{ marginLeft: '10px' }}>사극</Checkbox>
+                <Checkbox value="drama">드라마</Checkbox>
+                <Checkbox value="comedy">코미디</Checkbox>
+                <Checkbox value="romance">로맨스</Checkbox>
+                <Checkbox value="history">사극</Checkbox>
               </CheckboxGroup>
             </div>
             <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
@@ -258,10 +258,10 @@ export default function SignupPage() {
             </div>
             <div
                 className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
-              <Button color="secondary" fullWidth={true} onClick={prevStep} style={{  marginLeft: '100px' }}>
+              <Button color="secondary" fullWidth={true} onClick={prevStep}>
                 이전 단계로
               </Button>
-              <Button color="secondary" fullWidth={true} onClick={handleSubmit} style={{  marginRight: '100px' }}>
+              <Button color="secondary" fullWidth={true} onClick={handleSubmit}>
                 회원가입
               </Button>
             </div>

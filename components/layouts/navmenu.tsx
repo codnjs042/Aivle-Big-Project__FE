@@ -27,7 +27,7 @@ export default function NavMenu() {
       {/* 발음 교정 서비스 Dropdown */}
       <Dropdown backdrop="blur">
         <DropdownTrigger>
-          <Button variant="bordered">
+          <Button variant="ghost">
             발음 교정 서비스
           </Button>
         </DropdownTrigger>
