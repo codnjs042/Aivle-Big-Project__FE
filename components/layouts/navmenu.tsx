@@ -20,7 +20,7 @@ export default function NavMenu() {
         </DropdownTrigger>
         <DropdownMenu variant="faded" aria-label="Static Actions">
           <DropdownItem key="intro"><NextLink href="/about" className="flex">서비스 소개</NextLink></DropdownItem>
-          <DropdownItem key="notice"><NextLink href="/about" className="flex">공지사항</NextLink></DropdownItem>
+          <DropdownItem key="notice"><NextLink href="/notice" className="flex">공지사항</NextLink></DropdownItem>
         </DropdownMenu>
       </Dropdown>
 
