@@ -14,7 +14,7 @@ export const siteConfig = {
     },
     {
       label: "K-culture",
-      href: "/culture",
+      href: "/culture/artist",
     },
     {
       label: "shorts",
