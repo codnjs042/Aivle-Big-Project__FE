@@ -27,6 +27,7 @@ export default function SignupPage() {
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [string, setString] = useState("");
   const [password, setPassword] = useState("");
   const [repassword, setRepassword] = useState("");
   const [number, setNumber] = useState("");
@@ -87,6 +88,8 @@ export default function SignupPage() {
           </div>
       );
     case 1:
+      const isIdValid = Boolean(string.trim() !== '');
+      const isPwValid = Boolean(password.trim() !== '') && password === repassword;
       return (
           <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg">
             <div
@@ -101,6 +104,8 @@ export default function SignupPage() {
               <Input
                   type="string"
                   label="아이디"
+                  value={string}
+                  onChange={(e) => setString(e.target.value)}
                   labelPlacement="outside"
                   startContent={
                     <EditIcon
@@ -140,7 +145,7 @@ export default function SignupPage() {
               <Button color="secondary" fullWidth={true} onClick={prevStep}>
                 이전 단계로
               </Button>
-              <Button color="secondary" fullWidth={true} onClick={nextStep}>
+              <Button color="secondary" fullWidth={true} onClick={nextStep} disabled={!isIdValid||!isPwValid}>
                 다음 단계로
               </Button>
             </div>
