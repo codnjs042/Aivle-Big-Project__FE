@@ -120,7 +120,7 @@ export const SearchIcon = (props: IconSvgProps) => (
 	</svg>
 );
 
-export const ChevronIcon = (props) => (
+export const ChevronIcon = (props: IconSvgProps) => (
 	<svg
 	  aria-hidden="true"
 	  fill="none"
