@@ -29,7 +29,7 @@ export default function CulturePage() {
 			img: "/asset/images/idol6.png",
 		},
 		{
-			title: "NCT127",
+			title: "NCT 127",
 			img: "/asset/images/idol7.png",
 		},
 		{
