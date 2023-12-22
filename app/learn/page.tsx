@@ -1,13 +1,15 @@
+"use client"
+
 import React from "react";
 import {Card, CardBody, Image, Button, Slider} from "@nextui-org/react";
-import {HeartIcon} from "@components/icons.tsx";
-import {PauseCircleIcon} from "./PauseCircleIcon";
-import {NextIcon} from "./NextIcon";
-import {PreviousIcon} from "./PreviousIcon";
-import {RepeatOneIcon} from "./RepeatOneIcon";
-import {ShuffleIcon} from "./ShuffleIcon";
+import {HeartIcon} from "@/components/icons";
+import {PauseCircleIcon} from "@/components/icons";
+import {NextIcon} from "@/components/icons";
+import {PreviousIcon} from "@/components/icons";
+import {RepeatOneIcon} from "@/components/icons";
+import {ShuffleIcon} from "@/components/icons";
 
-export default function Learnpage() {
+export default function LearnPage() {
   const [liked, setLiked] = React.useState(false);
 
   return (
