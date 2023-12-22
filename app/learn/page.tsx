@@ -2,12 +2,7 @@
 
 import React from "react";
 import {Card, CardBody, Image, Button, Slider} from "@nextui-org/react";
-import {HeartIcon} from "@/components/icons";
-import {PauseCircleIcon} from "@/components/icons";
-import {NextIcon} from "@/components/icons";
-import {PreviousIcon} from "@/components/icons";
-import {RepeatOneIcon} from "@/components/icons";
-import {ShuffleIcon} from "@/components/icons";
+import {HeartIcon, PauseCircleIcon, NextIcon, PreviousIcon, RepeatOneIcon, ShuffleIcon} from "@/components/icons";
 
 export default function LearnPage() {
   const [liked, setLiked] = React.useState(false);
