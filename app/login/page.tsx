@@ -12,13 +12,16 @@ function Col(props: { span: number, children: ReactNode }) {
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
+  const [step, setStep] = useState(false);
+  const nextStep = () => setStep(step=>!step);
   const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
   };
 
-  return (
-      <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg">
+  switch (step) {
+    case false:
+      return (
+        <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg">
         <div
             className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
           <p className="text-3xl center">Welcome !</p>
@@ -49,7 +52,7 @@ export default function LoginPage() {
         </div>
         <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
           <Checkbox defaultSelected color="secondary">아이디 기억하기</Checkbox>
-          <Link color="secondary">비밀번호를 잊으셨나요?</Link>
+          <Link color="secondary" onClick={nextStep}>비밀번호를 잊으셨나요?</Link>
         </div>
         <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
           <Spacer y={1}/>
@@ -67,5 +70,10 @@ export default function LoginPage() {
           <SunFilledIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
         </div>
       </div>
-  );
+      );
+    case true:
+      return (
+          <button onClick={nextStep}>창닫기</button>
+      );
+  }
 }
