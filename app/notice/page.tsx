@@ -6,7 +6,7 @@ import { title } from "@/components/primitives";
 export default function AboutPage() {
   return (
     <div>
-    <h1 className="text-center" style={{ fontWeight: "bold" }}>NOTICE</h1>
+    <h1 className="text-xl text-center" style={{ fontWeight: "bold" }}>NOTICE</h1>
 
     <Table removeWrapper aria-label="Example static collection table">
       <TableHeader>
