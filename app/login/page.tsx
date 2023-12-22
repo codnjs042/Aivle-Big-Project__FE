@@ -1,79 +1,53 @@
 "use client";
 
-import {ReactNode, useState} from "react";
-import {Textarea, Input, Button, Spacer, Checkbox, Divider} from '@nextui-org/react';
-import {LockFilledIcon, MailIcon, SunFilledIcon, EditIcon} from "@nextui-org/shared-icons";
-import {Link} from "@nextui-org/link";
-
-function Col(props: { span: number, children: ReactNode }) {
-  return null;
-}
+import { ReactNode, useState } from "react";
+import { Input, Button, Spacer } from '@nextui-org/react';
+import { MailIcon } from "@nextui-org/shared-icons";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [step, setStep] = useState(false);
-  const nextStep = () => setStep(step=>!step);
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
-  };
 
-  switch (step) {
-    case false:
-      return (
-        <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg">
-        <div
-            className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
-          <p className="text-3xl center">Welcome !</p>
-        </div>
+  const nextStep = () => setStep(step => !step);
+
+  return (
+    <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg">
+      <div>
+        <p>비밀번호를 잊었다면, 이메일을 입력해 주세요.</p>
         <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
           <Input
-              type="string"
-              label="ID"
-              labelPlacement="outside"
-              startContent={
-                <EditIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
-              }
+            type="email"
+            label="이메일"
+            labelPlacement="outside"
+            startContent={<MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-          <Input
-              type="password"
-              label="Password"
-              labelPlacement="outside"
-              startContent={
-                <LockFilledIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
-              }
-          />
-
-        </div>
-        <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-          <Divider className="my-4"/>
-        </div>
-        <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-          <Checkbox defaultSelected color="secondary">아이디 기억하기</Checkbox>
-          <Link color="secondary" onClick={nextStep}>비밀번호를 잊으셨나요?</Link>
-        </div>
-        <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-          <Spacer y={1}/>
-        </div>
-        <div
-            className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
-          <Button color="secondary" fullWidth={true}>
-            로그인
+          <Button color="secondary" onClick={() => {
+            // 서버에 비밀번호 재설정 요청을 보냅니다.
+            fetch('/api/reset-password', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ email: username }),
+            })
+              .then(response => response.json())
+              .then(data => {
+                console.log("서버 응답:", data);
+                // 서버 응답을 기반으로 사용자에게 메시지를 표시하거나 다음 단계로 이동하는 등의 로직 추가
+              })
+              .catch(error => {
+                console.error("서버 요청 에러:", error);
+                // 에러 핸들링 로직 추가
+              });
+          }}>
+            비밀번호 재설정 링크 받기
           </Button>
         </div>
-        <div
-            className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
-          <SunFilledIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
-          <SunFilledIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
-          <SunFilledIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
-        </div>
+        <button onClick={nextStep}>창닫기</button>
       </div>
-      );
-    case true:
-      return (
-          <button onClick={nextStep}>창닫기</button>
-      );
-  }
+    </div>
+  );
 }
