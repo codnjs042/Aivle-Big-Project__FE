@@ -7,13 +7,14 @@ export default function CulturePage() {
 		{
 			title: "오징어게임",
 			img: "/asset/images/contents1.jpg",
+			
 		},
 		{
 			title: "기생충",
 			img: "/asset/images/contents2.jpg",
 		},
 		{
-			title: "킹덤",
+			title: "미스터션샤인",
 			img: "/asset/images/contents3.jpg",
 		},
 		{
