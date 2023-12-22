@@ -29,8 +29,8 @@ export default function LearnPage() {
           <div className="flex flex-col col-span-6 md:col-span-8">
             <div className="flex justify-between items-start">
               <div className="flex flex-col gap-0">
-                <p className="text-small text-foreground/80 mt-5">Hello</p>
-				<h3 className="font-semibold text-foreground/90 mt-5">Annyunghaseyo</h3>
+                <h3 className="text-small text-foreground/80 mt-5">Hello</h3>
+				        <h1 className="font-semibold text-foreground/90 mt-5">Annyunghaseyo</h1>
                 <h1 className="text-large font-medium mt-5">안녕하세요.</h1>
               </div>
               <Button

@@ -40,7 +40,7 @@ export default function Home() {
           />
         </div>
       </div>
-
+      
       <div className="flex justify-between mt-12 w-full">
         <Link isBlock showAnchorIcon href="/learn" color="foreground">
           <div className={card()} style={{ borderRadius: '20px', marginLeft: '10px', marginRight: '10px' }}>
