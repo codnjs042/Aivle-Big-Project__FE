@@ -1,19 +1,8 @@
 "use client";
 import {contents} from "./contents";
 import {artist} from "./artist";
-import {useState} from "react";
-import React from "react";
-import {
-  Button,
-  Checkbox,
-  CheckboxGroup,
-  Input,
-  Listbox,
-  ListboxItem,
-  Select,
-  SelectItem,
-  Spacer,
-} from "@nextui-org/react";
+import React, {useState} from "react";
+import {Button, Checkbox, Input, Select, SelectItem, Spacer,} from "@nextui-org/react";
 import {
   AvatarIcon,
   EditIcon,
@@ -69,13 +58,15 @@ export default function SignupPage() {
                 className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
               <p className="text-2xl center">Step 0</p>
             </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-between">
+            <div
+                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-between">
               <PrivacyPolicy/>
               <Checkbox color="secondary" isSelected={agreePrivacy} onValueChange={setAgreePrivacy}>
                 개인정보 처리방침에 동의합니다.
               </Checkbox>
             </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-between">
+            <div
+                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-between">
               <TermOfUse/>
               <Checkbox color="secondary" isSelected={agreeTerms} onValueChange={setAgreeTerms}>
                 서비스 이용약관에 동의합니다.
@@ -83,7 +74,8 @@ export default function SignupPage() {
             </div>
             <div
                 className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
-              <Button color="secondary" variant = {(agreePrivacy && agreeTerms) ? "solid" : "flat"} fullWidth={true} onClick={nextStep} disabled={!(agreePrivacy && agreeTerms)}>
+              <Button color="secondary" variant={(agreePrivacy && agreeTerms) ? "solid" : "flat"}
+                      fullWidth={true} onClick={nextStep} disabled={!(agreePrivacy && agreeTerms)}>
                 {(agreePrivacy && agreeTerms) ? "다음 단계로" : "모든 항목을 체크해주세요"}
               </Button>
 
@@ -94,7 +86,8 @@ export default function SignupPage() {
       const isIdValid = Boolean(string.trim() !== '');
       const isPwValid = Boolean(password.trim() !== '') && password === repassword;
       return (
-          <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg" style={{ width: '400px' }}>
+          <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg"
+               style={{width: '400px'}}>
             <div
                 className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
               <p className="text-3xl center">회원가입</p>
@@ -148,7 +141,8 @@ export default function SignupPage() {
               <Button color="secondary" fullWidth={true} onClick={prevStep}>
                 이전 단계로
               </Button>
-              <Button color="secondary" fullWidth={true} onClick={nextStep} disabled={!isIdValid||!isPwValid}>
+              <Button color="secondary" fullWidth={true} onClick={nextStep}
+                      disabled={!isIdValid || !isPwValid}>
                 다음 단계로
               </Button>
             </div>
@@ -156,7 +150,8 @@ export default function SignupPage() {
       );
     case 2:
       return (
-          <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg" style={{ width: '400px' }}>
+          <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg"
+               style={{width: '400px'}}>
             <div
                 className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
               <p className="text-3xl center">회원가입</p>
@@ -217,7 +212,8 @@ export default function SignupPage() {
       );
     case 3:
       return (
-          <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg" style={{ width: '400px' }}>
+          <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg"
+               style={{width: '400px'}}>
             <div
                 className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
               <p className="text-3xl center">회원가입</p>
@@ -228,41 +224,40 @@ export default function SignupPage() {
             </div>
 
             <div className="flex w-full max-w-xs flex-col gap-2">
-            <Select
-              label="좋아하는 장르"
-              variant="bordered"
-              placeholder="장르를 선택하세요."
-              selectedKeys={selectedGenres}
-              className="max-w-xs"
-              selectionMode="multiple"
-              onSelectionChange={setSelectedGenres}
-            >
-              {contents.map((content) => (
-                <SelectItem key={content.value} value={content.value}>
-                  {content.label}
-                </SelectItem>
-              ))}
-            </Select>
-            <p className="text-small text-default-500">선택: {selectedGenres}</p>
-          </div>
+              <Select
+                  label="좋아하는 장르"
+                  variant="bordered"
+                  placeholder="장르를 선택하세요."
+                  selectedKeys={selectedGenres}
+                  className="max-w-xs"
+                  selectionMode="multiple"
+                  onSelectionChange={setSelectedGenres}
+              >
+                {contents.map((content) => (
+                    <SelectItem key={content.value} value={content.value}>
+                      {content.label}
+                    </SelectItem>
+                ))}
+              </Select>
+              <p className="text-small text-default-500">선택: {Array.from(selectedGenres).join(', ')}</p>
+            </div>
 
-          <Select
-              label="좋아하는 가수"
-              variant="bordered"
-              placeholder="가수를 선택하세요."
-              selectedKeys={selectedArtist}
-              className="max-w-xs"
-              selectionMode="multiple"
-              onSelectionChange={setSelectedArtist}
+            <Select
+                label="좋아하는 가수"
+                variant="bordered"
+                placeholder="가수를 선택하세요."
+                selectedKeys={selectedArtist}
+                className="max-w-xs"
+                selectionMode="multiple"
+                onSelectionChange={setSelectedArtist}
             >
               {artist.map((star) => (
-                <SelectItem key={star.value} value={star.value}>
-                  {star.label}
-                </SelectItem>
+                  <SelectItem key={star.value} value={star.value}>
+                    {star.label}
+                  </SelectItem>
               ))}
             </Select>
-            <p className="text-small text-default-500">선택: {selectedArtist}</p>
-          
+            <p className="text-small text-default-500">선택: {Array.from(selectedArtist).join(', ')}</p>
 
 
             {/* <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
