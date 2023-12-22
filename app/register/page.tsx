@@ -85,6 +85,9 @@ export default function SignupPage() {
     case 1:
       const isIdValid = Boolean(string.trim() !== '');
       const isPwValid = Boolean(password.trim() !== '') && password === repassword;
+      const isNameValid = Boolean(string.trim() !== '');
+      const isMailValid = Boolean(string.trim() !== '');
+      const isTelValid = Boolean(string.trim() !== '');
       return (
           <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg"
                style={{width: '400px'}}>
@@ -138,12 +141,15 @@ export default function SignupPage() {
 
             <div
                 className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
-              <Button color="secondary" fullWidth={true} onClick={prevStep}>
+              <Button color="secondary"
+                      fullWidth={true} onClick={prevStep}>
                 이전 단계로
               </Button>
-              <Button color="secondary" fullWidth={true} onClick={nextStep}
+              <Button color="secondary" variant={(isIdValid && isPwValid) ? "solid" : "flat"}
+                      fullWidth={true} onClick={nextStep}
                       disabled={!isIdValid || !isPwValid}>
-                다음 단계로
+                      {(isIdValid && isPwValid) ? "다음 단계로" : "입력해주세요"}
+                
               </Button>
             </div>
           </div>
@@ -188,7 +194,7 @@ export default function SignupPage() {
             </div>
             <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
               <Input
-                  type="number"
+                  type="tel"
                   label="휴대전화"
                   value={number}
                   onChange={(e) => setNumber(e.target.value)}
