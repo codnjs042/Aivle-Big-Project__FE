@@ -276,4 +276,5 @@ export const ShuffleIcon = ({size = 24, width = 24, height = 24, ...props}) => (
           fill="currentColor"
       />
     </svg>
+    
 );
