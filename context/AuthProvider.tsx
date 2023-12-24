@@ -3,12 +3,14 @@ import Cookies from "js-cookie";
 import {access} from "@/api/token/access";
 import {refresh} from "@/api/token/refresh";
 import AuthContext from "@/context/AuthContext";
+import {useRouter} from "next/navigation";
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 
 const AuthProvider = ({children}: AuthProviderProps) => {
+  const router = useRouter();
   const [isLogin, setIsLogin] = React.useState(false);
   const [nickname, setNickname] = React.useState('');
 

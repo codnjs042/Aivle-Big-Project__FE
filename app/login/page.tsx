@@ -26,18 +26,19 @@ export default function LoginPage() {
     const emailCookie = Cookies.get('email');
     if (emailCookie) {
       setEmail(emailCookie);
+      setRememberMe(true);
     }
   }, []);
   const handleSubmit = async () => {
     setLoginLoadingState(true);
-    await sleep(2000); // 디버깅용
+    await sleep(1000); // 디버깅용
     try {
       const response = await login({email: email, password: password});
       rememberMe ? Cookies.set('email', email) : Cookies.remove('email'); // 아이디 기억
       Cookies.set('access_token', response.access);
       Cookies.set('refresh_token', response.refresh);
       setLoginLoadingState(false);
-      router.replace('/');
+      router.push('/');
     } catch (error) {
       setLoginLoadingState(false);
       if (error instanceof Error)

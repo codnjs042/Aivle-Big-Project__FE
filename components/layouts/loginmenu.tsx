@@ -19,7 +19,7 @@ export default function LoginMenu() {
   }
 
   return (
-      <>
+      <div className="flex gap-4 justify-start ml-2">
         {isLogin ? (
             <>
               <Button className="h-8" style={{
@@ -49,6 +49,6 @@ export default function LoginMenu() {
                   style={{background: 'none', border: '2px solid var(--nextui-color-secondary)'}}>
             회원가입</Button>
         </Link>
-      </>
+      </div>
   );
 }
