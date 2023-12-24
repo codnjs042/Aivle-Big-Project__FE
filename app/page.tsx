@@ -62,7 +62,7 @@ export default function Home() {
         </Link>
       </div>
 
-      <div className="max-w-[800px] gap-20 grid grid-cols-12 grid-rows-8 mt-20 px-20">
+      <div className="max-w-[800px] gap-20 grid grid-cols-12 grid-rows-8 mt-20 px-20" style={{paddingLeft:'100px', paddingRight:'100px'}}>
       <Card className="col-span-12 sm:col-span-4 h-[300px]">
         <CardHeader className="absolute z-10 top-1 flex-col !items-start">
           <p className="text-tiny text-white/60 uppercase font-bold">Shorts</p>

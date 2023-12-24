@@ -49,6 +49,7 @@ export default function LoginPage() {
         </div>
         <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
           <Input
+              isClearable
               type="email"
               label="Email"
               labelPlacement="outside"
@@ -57,10 +58,12 @@ export default function LoginPage() {
               }
               value={email}
               onChange={e => setEmail(e.target.value)}
+              onClear={() => console.log("input cleared")}
           />
         </div>
         <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
           <Input
+              isClearable
               type="password"
               label="Password"
               labelPlacement="outside"
@@ -70,6 +73,7 @@ export default function LoginPage() {
               }
               value={password}
               onChange={e => setPassword(e.target.value)}
+              onClear={() => console.log("input cleared")}
           />
 
         </div>

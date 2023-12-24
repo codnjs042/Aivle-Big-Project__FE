@@ -18,21 +18,22 @@ export default function PracticePage() {
       <CardBody>
         <div className="grid grid-cols-6 md:grid-cols-12 gap-6 md:gap-20 items-center justify-center">
           <div className="relative col-span-6 md:col-span-4">
-          <DynamicReactPlayer
-              url="asset/videos/contents2.avi" // Replace with your actual video file path
-              width="100%"
-              height="200px"
-              controls={true}
-              onError={(e) => console.error('Video error', e)}
-            />
+          <Image
+                  alt="Album cover"
+                  className="object-cover"
+                  height={200}
+                  shadow="md"
+                  src="asset/images/idol2.png"
+                  width="100%"
+                />
           </div>
 
           <div className="flex flex-col col-span-6 md:col-span-8">
             <div className="flex justify-between items-start">
               <div className="flex flex-col gap-0">
-                <p className="text-small text-foreground/80 mt-5">Son, you have a plan</p>
-				        <h3 className="font-semibold text-foreground/90 mt-5">adeura, neon gyehoegi da issguna</h3>
-                <h1 className="text-large font-medium mt-5">아들아, 넌 계획이 다 있구나</h1>
+                <p className="text-small text-foreground/80 mt-5">My blood, sweat, tears, my last dance</p>
+				        <h3 className="font-semibold text-foreground/90 mt-5">nae pi ttam nunmul nae majimak chumeul</h3>
+                <h1 className="text-large font-medium mt-5">내 피 땀 눈물 내 마지막 춤을</h1>
               </div>
               <Button
                 isIconOnly

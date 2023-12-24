@@ -2,7 +2,7 @@
 
 import React from "react";
 import {Input, Card, CardBody, Image, Button, Slider, Pagination, PaginationItemType, usePagination} from "@nextui-org/react";
-import {HeartIcon, PauseCircleIcon, NextIcon, PreviousIcon, RepeatOneIcon, ShuffleIcon, ChevronIcon} from "@/components/icons";
+import {HeartIcon, PauseCircleIcon, NextIcon, PreviousIcon, RepeatOneIcon, ShuffleIcon, ChevronIcon, SearchIcon} from "@/components/icons";
 import cn from 'classnames';
 
 // 상단에 다음과 같이 useState를 추가합니다.
@@ -44,6 +44,18 @@ export default function LearnPage() {
 
   return (
     <div >
+      <Input
+          classNames={{
+            base: "max-w-full sm:max-w-[10rem] h-10",
+            mainWrapper: "h-full",
+            input: "text-small",
+            inputWrapper: "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
+          }}
+          placeholder="Type to search..."
+          size="sm"
+          startContent={<SearchIcon size={18} />}
+          type="search"
+        />
     <Card
       isBlurred
       className="border-none bg-background/60 dark:bg-default-100/50 max-w-[1000px]"

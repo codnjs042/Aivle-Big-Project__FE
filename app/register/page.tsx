@@ -101,6 +101,7 @@ export default function SignupPage() {
             </div>
             <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
               <Input
+                  isClearable
                   type="string"
                   label="아이디"
                   value={string}
@@ -114,6 +115,7 @@ export default function SignupPage() {
             </div>
             <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
               <Input
+                  isClearable
                   type="password"
                   label="비밀번호"
                   value={password}
@@ -127,6 +129,7 @@ export default function SignupPage() {
             </div>
             <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
               <Input
+                  isClearable
                   type="password"
                   label="비밀번호 재확인"
                   value={repassword}
@@ -168,6 +171,7 @@ export default function SignupPage() {
             </div>
             <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
               <Input
+                  isClearable
                   type="string"
                   label="이름"
                   value={name}
@@ -181,6 +185,7 @@ export default function SignupPage() {
             </div>
             <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
               <Input
+                  isClearable
                   type="email"
                   label="이메일"
                   value={email}
@@ -194,6 +199,7 @@ export default function SignupPage() {
             </div>
             <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
               <Input
+                  isClearable
                   type="tel"
                   label="휴대전화"
                   value={number}
