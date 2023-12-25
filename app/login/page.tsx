@@ -26,17 +26,18 @@ export default function LoginPage() {
     const emailCookie = Cookies.get('email');
     if (emailCookie) {
       setEmail(emailCookie);
-      setRememberMe(true);
     }
   }, []);
   const handleSubmit = async () => {
     setLoginLoadingState(true);
-    await sleep(1000); // 디버깅용
+    await sleep(2000); // 디버깅용
     try {
       const response = await login({email: email, password: password});
       rememberMe ? Cookies.set('email', email) : Cookies.remove('email'); // 아이디 기억
+      Cookies.set('access_token', response.access);
+      Cookies.set('refresh_token', response.refresh);
       setLoginLoadingState(false);
-      router.push('/');
+      router.replace('/');
     } catch (error) {
       setLoginLoadingState(false);
       if (error instanceof Error)
@@ -79,7 +80,7 @@ export default function LoginPage() {
                 onChange={e => setPassword(e.target.value)}
                 onClear={() => console.log("input cleared")}
             />
-  
+
           </div>
           <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
             <Divider className="my-4"/>
@@ -118,7 +119,7 @@ export default function LoginPage() {
             <Divider className="mt-10"/>
             <div className="flex items-center mb-6 md:mb-0 gap-6 my-6">
               <span className="w-1/4 text-md text-default-500 text-right mr-1">이메일</span>
-              <Input 
+              <Input
               type="email"
               labelPlacement="outside"
               endContent={<MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />}
