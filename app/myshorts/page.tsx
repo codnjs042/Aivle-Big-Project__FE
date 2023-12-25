@@ -12,7 +12,13 @@ function useWebcamRecording() {
 	const [recordedChunks, setRecordedChunks] = useState([]);
 	const [recordedBlob, setRecordedBlob] = useState(null);
 	const [recorder, setRecorder] = useState(null);
-  
+	
+	const videoConstraints = {
+		width: 1280,
+		height: 720,
+		facingMode: "user",
+	  };
+
 	const startRecording = () => {
 		if (recorder) {
 			recorder.stopRecording(() => {
@@ -89,6 +95,7 @@ function useWebcamRecording() {
   
 	return {
 	  	webcamRef,
+		videoConstraints,
 	  	recording,
 	  	startRecording,
 	  	stopRecording,
@@ -100,57 +107,50 @@ export default function MyshortsPage() {
 	const [step, setStep] = useState(0);
 	const NextStep = () => setStep(step=>step+1);
 	const ResetStep = () => setStep(0);
-	const { webcamRef, recording, startRecording, stopRecording, downloadRecording } = useWebcamRecording();
+	const { webcamRef, videoConstraints, recording, startRecording, stopRecording, downloadRecording } = useWebcamRecording();
 	  
 	switch(step){
 		case 0:
 			return (
-				<div>
-					<h1 className={title()}>직접 쇼츠를 만들어 보세요!</h1>
-					<div>
-          				<Webcam
-            				audio={false}
-            				height={360}
-            				ref={webcamRef}
-            				screenshotFormat="image/jpeg"
-            				width={720}
-          				/>
-					</div>
-					<Button onClick={() => { NextStep(); startRecording(); }} color="primary" variant="light">촬영 시작</Button>
+				<div className="space-y-4">
+					<p className="text-2xl">직접 쇼츠를 만들어 보세요!</p>
+          			<Webcam
+            			audio={false}
+            			ref={webcamRef}
+            			screenshotFormat="image/jpeg"
+						videoConstraints={videoConstraints}
+          			/>
+					<Button onClick={() => { NextStep(); startRecording(); }} color="secondary" variant="ghost">촬영 시작</Button>
 				</div>
 			);
 		case 1:
 			return (
-				<div>
-					<h1 className={title()}></h1>
-					<div>
-          				<Webcam
-            				audio={false}
-            				height={360}
-            				ref={webcamRef}
-            				screenshotFormat="image/jpeg"
-            				width={720}
-          				/>
-					</div>
-					<Button onClick={() => { NextStep(); stopRecording();}} color="primary" variant="light">촬영 중지</Button>
+				<div className="space-y-4">
+					<p className="text-2xl">촬영중..</p>
+          			<Webcam
+            			audio={false}
+            			ref={webcamRef}
+            			screenshotFormat="image/jpeg"
+						videoConstraints={videoConstraints}
+          			/>
+					<Button onClick={() => { NextStep(); stopRecording();}} color="secondary" variant="ghost">촬영 중지</Button>
 				</div>
 			);
 		case 2:
 			return (
-				<div>
-					<h1 className={title()}></h1>
-					<div>
-          				<Webcam
-            				audio={false}
-            				height={360}
-            				ref={webcamRef}
-            				screenshotFormat="image/jpeg"
-            				width={720}
-          				/>
+				<div className="space-y-4">
+					<p className="text-2xl">촬영 완료!</p>
+          			<Webcam
+            			audio={false}
+            			ref={webcamRef}
+            			screenshotFormat="image/jpeg"
+						videoConstraints={videoConstraints}
+          			/>
+					<div className="space-x-4">
+						<Button onClick={ResetStep} color="secondary" variant="ghost">다시 촬영</Button>
+						<Button onClick={downloadRecording} color="secondary" variant="ghost">저장</Button>{/* 개인소장 - 마이페이지에 저장 및 다운로드 */}
+						<Button onClick={ResetStep} color="secondary" variant="ghost">업로드</Button>{/* 공유 - 숏츠시청페이지에 업로드 */}
 					</div>
-					<Button onClick={ResetStep} color="primary" variant="light">다시 촬영</Button>
-					<Button onClick={downloadRecording} color="primary" variant="light">저장</Button>{/* 개인소장 - 마이페이지에 저장 및 다운로드 */}
-					<Button onClick={ResetStep} color="primary" variant="light">업로드</Button>{/* 공유 - 숏츠시청페이지에 업로드 */}
 				</div>
 			);
 	}
