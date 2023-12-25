@@ -3,7 +3,7 @@ import {Metadata, Viewport} from "next";
 import {siteConfig} from "@/config/site";
 import {fontSans} from "@/config/fonts";
 import {Providers} from "./providers";
-import {Navbar} from "@/components/layouts/navbar";
+import {Navigator} from "@/components/layouts/navigator";
 import clsx from "clsx";
 import {SpeedInsights} from "@vercel/speed-insights/next"
 
@@ -45,7 +45,7 @@ export default function RootLayout({children,}: {
       >
       <Providers themeProps={{attribute: "class", defaultTheme: "dark"}}>
         <div className="relative flex flex-col h-screen">
-          <Navbar/>
+          <Navigator/>
           <main
               className="container mx-auto max-w-7xl pt-16 px-6 flex-grow flex-shrink overflow-auto">
             {children}

@@ -23,8 +23,9 @@ import {
 import { Logo } from "@/components/icons";
 import {Spacer} from "@nextui-org/react";
 import NavMenu from "@/components/layouts/navmenu";
+import LoginMenu from "@/components/layouts/loginmenu";
 
-export const Navbar = () => {
+export const Navigator = () => {
 	const searchInput = (
 		<Input
 			aria-label="Search"
@@ -63,16 +64,7 @@ export const Navbar = () => {
 				justify="end"
 			>
 				<ThemeSwitch />
-				<Link href="/login">
-					<Button className="h-8"
-					style={{ background: 'none', border: '2px solid var(--nextui-color-secondary)' }}>
-					로그인</Button>
-				</Link>
-				<Link href="/register">
-					<Button className="h-8"
-					style={{ background: 'none', border: '2px solid var(--nextui-color-secondary)' }}>
-					회원가입</Button>
-				</Link>
+				<LoginMenu />
 			</NavbarContent>
 		</NextUINavbar>
 	);
