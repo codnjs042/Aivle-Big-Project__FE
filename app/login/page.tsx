@@ -35,8 +35,6 @@ export default function LoginPage() {
     try {
       const response = await login({email: email, password: password});
       rememberMe ? Cookies.set('email', email) : Cookies.remove('email'); // 아이디 기억
-      Cookies.set('access_token', response.access);
-      Cookies.set('refresh_token', response.refresh);
       setLoginLoadingState(false);
       router.push('/');
     } catch (error) {
