@@ -3,6 +3,7 @@ import {backendConfig} from '../apiconfig';
 interface RequestDTO {
   email: string;
   password: string;
+  recaptcha: string;
 }
 
 interface ResponseDTO {
