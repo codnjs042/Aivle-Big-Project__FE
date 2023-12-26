@@ -2,28 +2,16 @@ import React from "react";
 
 interface AuthContextType {
   isLogin: boolean;
-  nickname: string;
-  email: string;
-  genrePrefers: bigint;
-  artistPrefers: bigint;
+  token: string;
   setIsLogin: React.Dispatch<React.SetStateAction<boolean>>;
-  setNickname: React.Dispatch<React.SetStateAction<string>>;
-  setEmail: React.Dispatch<React.SetStateAction<string>>;
-  setGenrePrefers: React.Dispatch<React.SetStateAction<bigint>>;
-  setArtistPrefers: React.Dispatch<React.SetStateAction<bigint>>;
+  setToken: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const AuthContext = React.createContext({
   isLogin: false,
-  nickname: '',
-  email: '',
-  genrePrefers: BigInt(0),
-  artistPrefers: BigInt(0),
+  token: '',
   setIsLogin: () => {},
-  setNickname: () => {},
-  setEmail: () => {},
-  setGenrePrefers: () => {},
-  setArtistPrefers: () => {}
+  setToken: () => {},
 } as AuthContextType);
 
 export default AuthContext;
