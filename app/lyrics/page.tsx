@@ -23,7 +23,7 @@ export default function PracticePage() {
     "NEWJEANS": {
       text1: "Cookies that I made",
       text2: "naega mandeun kuki",
-      text3: "내가 만든 쿠키가",
+      text3: "내가 만든 쿠키",
     },
     "BTS": {
       text1: "My blood, sweat, tears, my last dance",
