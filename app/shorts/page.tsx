@@ -13,7 +13,7 @@ export default function ShortsPage() {
 		case 0:
 			return (
 				<div className="justify-between gap-10 grid grid-cols-4">
-				<h2 className="text-2xl text-center font-bold mb-4 col-span-full">명대사 선택</h2>
+				<h2 className="text-2xl text-center font-bold mb-4 col-span-full">쇼츠 게시판</h2>
 				
 				{contentsList.map((item, index) => (
 					<div className="my-2 ml-2">

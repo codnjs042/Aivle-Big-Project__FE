@@ -64,9 +64,9 @@ export default function NavMenu() {
           </DropdownTrigger>
           <DropdownMenu variant="faded" aria-label="Shorts Actions">
             <DropdownItem key="watch"><NextLink href="/shorts"
-                                                className="flex">시청</NextLink></DropdownItem>
+                                                className="flex">쇼츠 게시판</NextLink></DropdownItem>
             <DropdownItem key="generate"><NextLink href="/myshorts"
-                                                   className="flex">제작</NextLink></DropdownItem>
+                                                   className="flex">쇼츠 제작</NextLink></DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </div>
