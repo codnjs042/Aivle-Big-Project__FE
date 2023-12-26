@@ -12,7 +12,7 @@ interface ResponseDTO {
   artistPrefers: bigint;
 }
 
-export async function verify(tokenData: RequestDTO) {
+export async function info(tokenData: RequestDTO) {
   const response = await fetch(`${backendConfig.serverUrl}/api/user/verify/`, {
     method: 'POST',
     credentials: 'include',
@@ -21,6 +21,7 @@ export async function verify(tokenData: RequestDTO) {
     },
     body: JSON.stringify(tokenData),
   });
+  console.log(response);
   if (response.ok) {
     return await response.json() as ResponseDTO;
   } else if (response.status === 401) {

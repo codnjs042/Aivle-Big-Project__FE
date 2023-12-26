@@ -7,10 +7,7 @@ interface RequestDTO {
 }
 
 interface ResponseDTO {
-  email: string;
-  nickname: string;
-  genrePrefers: bigint;
-  artistPrefers: bigint;
+  access: string;
 }
 export async function login(data: RequestDTO) {
   const response = await fetch(`${backendConfig.serverUrl}/api/user/login/`, {
@@ -20,6 +17,7 @@ export async function login(data: RequestDTO) {
     },
     body: JSON.stringify(data),
   });
+  console.log(response);
   if (response.ok) {
     return await response.json() as ResponseDTO;
   } else if (response.status === 400 || response.status === 401) {

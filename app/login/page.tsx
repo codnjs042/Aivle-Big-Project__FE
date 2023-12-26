@@ -18,7 +18,6 @@ export default function LoginPage() {
   const [rememberMe, setRememberMe] = useState(false);
   const [loginLodingState, setLoginLoadingState] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [username, setUsername] = useState("");
   const [step, setStep] = useState(false);
   const nextStep = () => setStep(step => !step);
   const { executeRecaptcha } = useReCaptcha();
@@ -142,7 +141,7 @@ export default function LoginPage() {
                     labelPlacement="outside"
                     endContent={<MailIcon
                         className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>}
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="w-full flex items-center mb-6 md:mb-0 gap-6 my-6">
@@ -153,7 +152,7 @@ export default function LoginPage() {
                     headers: {
                       'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({email: username}),
+                    body: JSON.stringify({email: email}),
                   })
                   .then(response => response.json())
                   .then(data => {
