@@ -1,11 +1,6 @@
 import {backendConfig} from '../apiconfig';
 
-interface RequestDTO {
-}
-
-interface ResponseDTO {
-}
-export async function logoutFetch(data: RequestDTO) {
+export async function logoutFetch() {
   return fetch(`${backendConfig.serverUrl}/api/user/logout/`, {
     method: 'POST',
     credentials: 'include',

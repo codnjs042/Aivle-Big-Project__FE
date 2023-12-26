@@ -1,6 +1,6 @@
 "use client";
 
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useMemo, useState} from "react";
 import {Button, Checkbox, Divider, Input, Spacer} from '@nextui-org/react';
 import {EditIcon, LockFilledIcon, MailIcon, SunFilledIcon} from "@nextui-org/shared-icons";
 import {Link} from "@nextui-org/link";
@@ -13,13 +13,28 @@ import AuthContext from "@/context/AuthContext";
 
 export default function LoginPage() {
   const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const [loginLodingState, setLoginLoadingState] = useState(false);
+  const [loginLoadingState, setLoginLoadingState] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
   const [step, setStep] = useState(false);
   const auth = useContext(AuthContext);
+
+
+  const checkEmail = useMemo(() => {
+    const validateEmail = (value: string) => value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
+    if (email === "") return false;
+    return !validateEmail(email);
+  }, [email]);
+
+  // const checkPassword = useMemo(() => {
+  //   if (email === "") return false;
+  //   return true;
+  // }, [password]);
+
   const nextStep = () => setStep(step => !step);
   const {executeRecaptcha} = useReCaptcha();
 
@@ -69,13 +84,16 @@ export default function LoginPage() {
                   type="email"
                   label="Email"
                   labelPlacement="outside"
+                  isInvalid={checkEmail}
+                  color={checkEmail ? "danger" : "default"}
+                  errorMessage={checkEmail && "올바른 이메일을 입력해주세요."}
                   startContent={
                     <EditIcon
                         className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
                   }
                   value={email}
                   onValueChange={setEmail}
-                  onClear={() => console.log("input cleared")}
+                  onClear={() => setEmail('')}
               />
             </div>
             <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
@@ -90,7 +108,7 @@ export default function LoginPage() {
                   }
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  onClear={() => console.log("input cleared")}
+                  onClear={() => setPassword('')}
               />
 
             </div>
@@ -117,7 +135,7 @@ export default function LoginPage() {
             <div
                 className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
               <Button color="secondary" fullWidth={true} onClick={handleSubmit}
-                      isLoading={loginLodingState}>
+                      isLoading={loginLoadingState}>
                 로그인
               </Button>
             </div>

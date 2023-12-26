@@ -28,12 +28,11 @@ export default function LoginMenu() {
         setLogin(true);
       }
     };
-
     fetchData();
   }, [auth.token]);
 
   const handleLogout = async () => {
-    const response = await logoutFetch({});
+    const response = await logoutFetch();
     if (response.ok) {
       auth.setToken('');
       setLogin(false);
