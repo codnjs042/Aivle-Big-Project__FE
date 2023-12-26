@@ -1,15 +1,10 @@
 import {backendConfig} from '../apiconfig';
 
 interface RequestDTO {
-  refresh: string;
 }
 
 interface ResponseDTO {
   token: string;
-  email: string;
-  nickname: string;
-  genrePrefers: bigint;
-  artistPrefers: bigint;
 }
 
 export async function refresh(data: RequestDTO) {
@@ -21,7 +16,6 @@ export async function refresh(data: RequestDTO) {
     },
     body: JSON.stringify(data),
   });
-  console.log(response);
   if (response.ok) {
     return await response.json() as ResponseDTO;
   } else if (response.status === 401) {

@@ -3,27 +3,28 @@
 import {Button} from "@nextui-org/react";
 import {Link} from "@nextui-org/link";
 import {useRouter} from "next/navigation";
-import {useContext} from "react";
+import {useContext, useState} from "react";
 import AuthContext from "@/context/AuthContext";
-import {logout} from "@/api/user/logout";
+import {logoutFetch} from "@/api/user/logout";
 
 export default function LoginMenu() {
   const router = useRouter();
-  const { isLogin, setIsLogin, nickname, setNickname } = useContext(AuthContext);
+  const auth = useContext(AuthContext);
+  const [login, setLogin] = useState(false);
+  const [nickname, setNickname] = useState('');
+
 
   const handleLogout = async () => {
-    try {
-      const response = await logout({refresh: 'x'});
-      setIsLogin(false);
-      setNickname('');
-    } catch (e) {
-      console.log(e);
+    const response = await logoutFetch({});
+    if (response.ok) {
+      auth.setToken('');
+      setLogin(false);
     }
   }
 
   return (
       <div className="flex gap-4 justify-start ml-2">
-        {isLogin ? (
+        {login ? (
             <>
               <Button className="h-8" style={{
                 background: 'none',

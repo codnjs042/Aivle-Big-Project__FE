@@ -1,15 +1,16 @@
 "use client";
 
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {Button, Checkbox, Divider, Input, Spacer} from '@nextui-org/react';
 import {EditIcon, LockFilledIcon, MailIcon, SunFilledIcon} from "@nextui-org/shared-icons";
 import {Link} from "@nextui-org/link";
 import {useRouter} from 'next/navigation';
-import {login} from "@/api/user/login";
-import {sleep} from "@/utils/sleep";
+import {loginFetch} from "@/api/user/login";
 import Cookies from 'js-cookie';
 import { useReCaptcha } from "next-recaptcha-v3";
 import ReCAPTCHA from "react-google-recaptcha";
+import AuthContext from "@/context/AuthContext";
+import {backendConfig} from "@/api/apiconfig";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -19,6 +20,7 @@ export default function LoginPage() {
   const [loginLodingState, setLoginLoadingState] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [step, setStep] = useState(false);
+  const auth = useContext(AuthContext);
   const nextStep = () => setStep(step => !step);
   const { executeRecaptcha } = useReCaptcha();
 
@@ -35,18 +37,22 @@ export default function LoginPage() {
   const handleSubmit = async () => {
     setLoginLoadingState(true);
     const token = await executeRecaptcha("login");
-    await sleep(2000); // 디버깅용
-    try {
-      const response = await login({email: email, password: password, recaptcha: token});
-      rememberMe ? Cookies.set('email', email) : Cookies.remove('email'); // 아이디 기억
-      setLoginLoadingState(false);
+    rememberMe ? Cookies.set('email', email) : Cookies.remove('email');
+    const response = await loginFetch({email, password});
+    console.log(response);
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      auth.setToken(data.token);
       router.replace('/');
-    } catch (error) {
-      setLoginLoadingState(false);
-      if (error instanceof Error)
-        setErrorMessage(error.message);
+    } else if (response.status === 400) {
+      setErrorMessage('입력하지 않은 내용이 있습니다.');
+    } else if (response.status === 401) {
+      setErrorMessage('이메일 또는 비밀번호가 일치하지 않습니다.');
     }
+    setLoginLoadingState(false);
   };
+
   switch (step) {
     case false:
       return (

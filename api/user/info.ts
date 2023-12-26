@@ -5,23 +5,21 @@ interface RequestDTO {
 }
 
 interface ResponseDTO {
-  token: string;
   email: string;
   nickname: string;
-  genrePrefers: bigint;
-  artistPrefers: bigint;
+  preferGenre: number;
+  preferArtist: number;
 }
 
 export async function info(tokenData: RequestDTO) {
-  const response = await fetch(`${backendConfig.serverUrl}/api/user/verify/`, {
-    method: 'POST',
+  const response = await fetch(`${backendConfig.serverUrl}/api/user/info/`, {
+    method: 'GET',
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${tokenData.token}`,
     },
-    body: JSON.stringify(tokenData),
   });
-  console.log(response);
   if (response.ok) {
     return await response.json() as ResponseDTO;
   } else if (response.status === 401) {
