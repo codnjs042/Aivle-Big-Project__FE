@@ -4,18 +4,21 @@ import React, { useState, useEffect } from "react";
 import dynamic from 'next/dynamic';
 import {Card, CardBody, Image, Button, Slider} from "@nextui-org/react";
 import {HeartIcon, PauseCircleIcon, NextIcon, PreviousIcon} from "@/components/icons";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
+type ArtistNames = 'NEWJEANS' | 'BTS' | 'NCT DREAM' | 'BLACKPINK' | 'AESPA' | 'IVE' | 'NCT 127' | 'SEVENTEEN';
+const artistNamesArray: ArtistNames[] = ['NEWJEANS', 'BTS', 'NCT DREAM', 'BLACKPINK', 'AESPA', 'IVE', 'NCT 127', 'SEVENTEEN'];
 export default function PracticePage() {
   const router = useRouter();
-  const artist = router && router.query ? router.query.artist : null;
+  const queryParams = useSearchParams();
+  const artist = queryParams.get('artist');
   const [liked, setLiked] = React.useState(false);
   const DynamicReactPlayer = dynamic(() => import('react-player'), { ssr: false });
-  const [selectedArtist, setSelectedArtist] = useState(null);
+  const [selectedArtist, setSelectedArtist] = useState<ArtistNames | null>(null);
 
   useEffect(() => {
-    if (artist) {
-      setSelectedArtist(artist);
+    if (artist !== null && artistNamesArray.includes(artist as ArtistNames)) {
+      setSelectedArtist(artist as ArtistNames);
     }
   }, [artist]);
 
