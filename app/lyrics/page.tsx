@@ -1,13 +1,66 @@
 "use client"
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import dynamic from 'next/dynamic';
 import {Card, CardBody, Image, Button, Slider} from "@nextui-org/react";
 import {HeartIcon, PauseCircleIcon, NextIcon, PreviousIcon} from "@/components/icons";
+import { useRouter } from "next/navigation";
 
 export default function PracticePage() {
+  const router = useRouter();
+  const artist = router && router.query ? router.query.artist : null;
   const [liked, setLiked] = React.useState(false);
   const DynamicReactPlayer = dynamic(() => import('react-player'), { ssr: false });
+  const [selectedArtist, setSelectedArtist] = useState(null);
+
+  useEffect(() => {
+    if (artist) {
+      setSelectedArtist(artist);
+    }
+  }, [artist]);
+
+  const artistInfo = {
+    "NEWJEANS": {
+      text1: "Cookies that I made",
+      text2: "naega mandeun kuki",
+      text3: "내가 만든 쿠키가",
+    },
+    "BTS": {
+      text1: "My blood, sweat, tears, my last dance",
+      text2: "nae pi ttam nunmul nae majimak chumeul",
+      text3: "내 피 땀 눈물 내 마지막 춤을",
+    },
+    "NCT DREAM": {
+      text1: "I just said I love you",
+      text2: "danji neol saranghae ireohge malhaessji",
+      text3: "단지 널 사랑해 이렇게 말했지",
+    },
+    "BLACKPINK": {
+      text1: "Baby, hug me like I'm going to explode Stop thinking about it What's so difficult",
+      text2: "baby, nal teojil geoscheoreom anajwo geuman saenggakhae mwoga geuri eoryeowo ",
+      text3: "Baby, 날 터질 것처럼 안아줘 그만 생각해 뭐가 그리 어려워",
+    },
+    "AESPA": {
+      text1: "My blood, sweat, tears, my last dance",
+      text2: "nae pi ttam nunmul nae majimak chumeul",
+      text3: "내 피 땀 눈물 내 마지막 춤을",
+    },
+    "IVE": {
+      text1: "My blood, sweat, tears, my last dance",
+      text2: "nae pi ttam nunmul nae majimak chumeul",
+      text3: "내 피 땀 눈물 내 마지막 춤을",
+    },
+    "NCT 127": {
+      text1: "My blood, sweat, tears, my last dance",
+      text2: "nae pi ttam nunmul nae majimak chumeul",
+      text3: "내 피 땀 눈물 내 마지막 춤을",
+    },
+    "SEVENTEEN": {
+      text1: "My blood, sweat, tears, my last dance",
+      text2: "nae pi ttam nunmul nae majimak chumeul",
+      text3: "내 피 땀 눈물 내 마지막 춤을",
+    },
+  };
 
   return (
     <Card
@@ -31,9 +84,9 @@ export default function PracticePage() {
           <div className="flex flex-col col-span-6 md:col-span-8">
             <div className="flex justify-between items-start">
               <div className="flex flex-col gap-0">
-                <p className="text-small text-foreground/80 mt-5">My blood, sweat, tears, my last dance</p>
-				        <h3 className="font-semibold text-foreground/90 mt-5">nae pi ttam nunmul nae majimak chumeul</h3>
-                <h1 className="text-large font-medium mt-5">내 피 땀 눈물 내 마지막 춤을</h1>
+                <p className="text-small text-foreground/80 mt-5">{selectedArtist && artistInfo[selectedArtist]?.text1}</p>
+				        <h3 className="font-semibold text-foreground/90 mt-5">{selectedArtist && artistInfo[selectedArtist]?.text2}</h3>
+                <h1 className="text-large font-medium mt-5">{selectedArtist && artistInfo[selectedArtist]?.text3}</h1>
               </div>
               <Button
                 isIconOnly
