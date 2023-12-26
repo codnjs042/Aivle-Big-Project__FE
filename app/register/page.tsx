@@ -3,7 +3,13 @@ import {contents} from "./contents";
 import {artist} from "./artist";
 import React, {useCallback, useMemo, useState} from "react";
 import {Button, Checkbox, Input, Progress, Select, SelectItem, Spacer,} from "@nextui-org/react";
-import {AvatarIcon, EditIcon, LockFilledIcon,} from "@nextui-org/shared-icons";
+import {
+  AvatarIcon,
+  EditIcon,
+  EyeFilledIcon,
+  EyeSlashFilledIcon,
+  LockFilledIcon,
+} from "@nextui-org/shared-icons";
 import PrivacyPolicy from "@/components/modals/privacyPolicy";
 import TermOfUse from "@/components/modals/termOfUse";
 import {emailFetch} from "@/api/user/email";
@@ -19,7 +25,11 @@ export default function SignupPage() {
   const [emailError, setEmailError] = useState('');
 
   const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState('');
+  const [passwordVisible, setPasswordVisible] = React.useState(false);
   const [rePassword, setRePassword] = useState("");
+  const [rePasswordVisible, setRePasswordVisible] = React.useState(false);
+
   const [nickname, setNickname] = useState("");
 
   const [selectedGenres, setSelectedGenres] = useState(new Set([]));
@@ -32,6 +42,8 @@ export default function SignupPage() {
     return agreePrivacy && agreeTerms;
   }, [agreePrivacy, agreeTerms]);
 
+  const togglePasswordVisibility = () => setPasswordVisible(!passwordVisible);
+  const toggleRePasswordVisibility = () => setRePasswordVisible(!rePasswordVisible);
 
   const validateEmail = useCallback((value: string) => {
     if (!value) return false;
@@ -42,7 +54,7 @@ export default function SignupPage() {
   const checkEmailDuplication = async () => {
     console.log("이메일 중복검사 시작");
     if (!email) {
-      setEmailError("메일을 입력해주세요.");
+      setEmailError("이메일을 입력해주세요.");
       return;
     }
     if (validateEmail(email)) return;
@@ -60,18 +72,39 @@ export default function SignupPage() {
     }
   }
 
-  const validatePassword = (value: string) => {
+  const validatePassword = useCallback((value: string) => {
     if (!value) return false;
-    return value.length < 8;
-  }
+    if (value.length < 8) {
+      setPasswordError("8자리 이상 입력해주세요.")
+      return true;
+    }
+    if (!value.match(/[0-9]/g)) {
+      setPasswordError("숫자를 포함해주세요.")
+      return true;
+    }
+    if (!value.match(/[a-zA-Z]/g)) {
+      setPasswordError("영문을 포함해주세요.")
+      return true;
+    }
+    if (!value.match(/[~!@#$%^&*()_+|<>?:{}]/g)) {
+      setPasswordError("특수문자를 포함해주세요.")
+      return true;
+    }
+    return false;
+  }, []);
+
+  const checkPassword = useMemo(() => validatePassword(password), [password]);
+
+  const validateRePassword = useCallback((value: string, value2: string) => {
+    if (!value) return false;
+    return value !== value2;
+  }, []);
+
+  const checkRePassword = useMemo(() => validateRePassword(rePassword, password), [password, rePassword]);
 
   const checkInfo = useMemo(() => { // step 2 유효성 검사
-
-    const validateRePassword = (value: string) => value === password;
-    return validateEmail(email) && validatePassword(password) && validateRePassword(rePassword);
-  }, [email, password, rePassword]);
-
-
+    return !checkEmail && emailDuplication && !checkPassword && !checkRePassword && email && password && rePassword;
+  }, [email, emailDuplication, password, rePassword]);
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     console.log("Signup form submitted:", {
@@ -83,6 +116,12 @@ export default function SignupPage() {
     });
   };
 
+  const validateNickname= useCallback((value: string) => {
+    if (!value) return false;
+    return value.length > 30;
+  }, []);
+
+  const checkNickname = useMemo(() => validateNickname(nickname), [nickname]);
 
   switch (step) {
     case 1:
@@ -144,6 +183,7 @@ export default function SignupPage() {
                     checkEmail ? "올바른 이메일을 입력해주세요." : emailError
                   }
                   value={email}
+                  placeholder="이메일을 입력해주세요."
                   onChange={(e) => {
                     setEmail(e.target.value);
                     setEmailError('');
@@ -157,7 +197,7 @@ export default function SignupPage() {
                   onClear={() => setEmail('')}
               />
               <div className="flex flex-col justify-center h-unit-20">
-                <Button color="secondary" variant="solid"
+                <Button color="secondary" variant={emailDuplication ? "bordered" : "solid"}
                         onClick={() => emailDuplication ? setEmailDuplication(false) : checkEmailDuplication()}>
                   {emailDuplication ? '초기화' : '중복확인'}
                 </Button>
@@ -167,15 +207,26 @@ export default function SignupPage() {
               <Input
                   isClearable
                   isRequired={true}
-                  type="password"
                   label="비밀번호"
                   value={password}
+                  placeholder="영문, 숫자, 특수문자를 포함하여 8자리 이상"
+                  isInvalid={checkPassword}
+                  color={checkPassword ? "danger" : "default"}
+                  errorMessage={
+                    checkPassword ? passwordError : ""
+                  }
                   onChange={(e) => setPassword(e.target.value)}
                   labelPlacement="outside"
                   startContent={
-                    <LockFilledIcon
-                        className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
+                    <button className="focus:outline-none" type="button" onClick={togglePasswordVisibility}>
+                      {passwordVisible ? (
+                          <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                      ) : (
+                          <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                      )}
+                    </button>
                   }
+                  type={passwordVisible ? "text" : "password"}
                   onClear={() => setPassword('')}
               />
             </div>
@@ -183,15 +234,25 @@ export default function SignupPage() {
               <Input
                   isClearable
                   isRequired={true}
-                  type="password"
                   label="비밀번호 재확인"
                   value={rePassword}
+                  isInvalid={checkRePassword}
+                  color={checkRePassword ? "danger" : "default"}
+                  errorMessage={
+                    checkRePassword ? "비밀번호가 일치하지 않습니다." : ""
+                  }
                   onChange={(e) => setRePassword(e.target.value)}
                   labelPlacement="outside"
                   startContent={
-                    <LockFilledIcon
-                        className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
+                    <button className="focus:outline-none" type="button" onClick={toggleRePasswordVisibility}>
+                      {rePasswordVisible ? (
+                          <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                      ) : (
+                          <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                      )}
+                    </button>
                   }
+                  type={rePasswordVisible ? "text" : "password"}
                   onClear={() => setRePassword('')}
               />
             </div>
@@ -202,11 +263,9 @@ export default function SignupPage() {
                       fullWidth={true} onClick={prevStep}>
                 이전 단계로
               </Button>
-              <Button color="secondary" variant={(true) ? "solid" : "flat"}
-                      fullWidth={true} onClick={nextStep}
-                      disabled={false}>
-                {(true) ? "다음 단계로" : "모든 내용을 입력해주세요"}
-
+              <Button color="secondary" variant={(checkInfo) ? "solid" : "flat"}
+                      fullWidth={true} onClick={nextStep} disabled={!checkInfo}>
+                {(checkInfo) ? "다음 단계로" : "모든 항목을 완료해주세요."}
               </Button>
             </div>
           </div>
@@ -230,6 +289,11 @@ export default function SignupPage() {
                   type="string"
                   label="닉네임"
                   value={nickname}
+                  isInvalid={checkNickname}
+                  color={checkNickname ? "danger" : "default"}
+                  errorMessage={
+                    checkNickname ? "닉네임이 너무 깁니다." : ""
+                  }
                   onChange={(e) => setNickname(e.target.value)}
                   labelPlacement="outside"
                   startContent={
