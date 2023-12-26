@@ -8,13 +8,14 @@ interface ResponseDTO {
   token: string;
   email: string;
   nickname: string;
-  genre_preferences: bigint;
-  singer_preferences: bigint;
+  genrePrefers: bigint;
+  artistPrefers: bigint;
 }
 
-export async function access(tokenData: RequestDTO) {
-  const response = await fetch(`${backendConfig.serverUrl}/api/token/verify/`, {
+export async function verify(tokenData: RequestDTO) {
+  const response = await fetch(`${backendConfig.serverUrl}/api/user/verify/`, {
     method: 'POST',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },

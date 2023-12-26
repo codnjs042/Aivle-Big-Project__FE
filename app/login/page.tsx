@@ -5,7 +5,7 @@ import {Button, Checkbox, Divider, Input, Spacer} from '@nextui-org/react';
 import {EditIcon, LockFilledIcon, MailIcon, SunFilledIcon} from "@nextui-org/shared-icons";
 import {Link} from "@nextui-org/link";
 import {useRouter} from 'next/navigation';
-import {login} from "@/api/token/login";
+import {login} from "@/api/user/login";
 import {sleep} from "@/utils/sleep";
 import Cookies from 'js-cookie';
 import { useReCaptcha } from "next-recaptcha-v3";
@@ -41,14 +41,12 @@ export default function LoginPage() {
     try {
       const response = await login({email: email, password: password, recaptcha: token});
       rememberMe ? Cookies.set('email', email) : Cookies.remove('email'); // 아이디 기억
-      Cookies.set('access_token', response.access);
-      Cookies.set('refresh_token', response.refresh);
       setLoginLoadingState(false);
       router.replace('/');
     } catch (error) {
       setLoginLoadingState(false);
       if (error instanceof Error)
-        setErrorMessage("로그인에 실패했습니다. " + error.message);
+        setErrorMessage(error.message);
     }
   };
   switch (step) {

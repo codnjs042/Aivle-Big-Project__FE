@@ -5,12 +5,17 @@ interface RequestDTO {
 }
 
 interface ResponseDTO {
-  access: string;
+  token: string;
+  email: string;
+  nickname: string;
+  genrePrefers: bigint;
+  artistPrefers: bigint;
 }
 
 export async function refresh(data: RequestDTO) {
-  const response = await fetch(`${backendConfig.serverUrl}/api/token/refresh/`, {
+  const response = await fetch(`${backendConfig.serverUrl}/api/user/refresh/`, {
     method: 'POST',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },

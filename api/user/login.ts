@@ -7,11 +7,13 @@ interface RequestDTO {
 }
 
 interface ResponseDTO {
-  access: string;
-  refresh: string;
+  email: string;
+  nickname: string;
+  genrePrefers: bigint;
+  artistPrefers: bigint;
 }
 export async function login(data: RequestDTO) {
-  const response = await fetch(`${backendConfig.serverUrl}/api/token/`, {
+  const response = await fetch(`${backendConfig.serverUrl}/api/user/login/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

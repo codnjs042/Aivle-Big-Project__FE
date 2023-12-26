@@ -1,7 +1,7 @@
 import React, {ReactNode, useEffect} from "react";
 import Cookies from "js-cookie";
-import {access} from "@/api/token/access";
-import {refresh} from "@/api/token/refresh";
+import {verify} from "@/api/user/verify";
+import {refresh} from "@/api/user/refresh";
 import AuthContext from "@/context/AuthContext";
 import {useRouter} from "next/navigation";
 
@@ -13,34 +13,32 @@ const AuthProvider = ({children}: AuthProviderProps) => {
   const router = useRouter();
   const [isLogin, setIsLogin] = React.useState(false);
   const [nickname, setNickname] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [genrePrefers, setGenrePrefers] = React.useState(BigInt(0));
+  const [artistPrefers, setArtistPrefers] = React.useState(BigInt(0));
 
   useEffect(() => {
     console.log('login 검증 시작');
     const fetchData = async () => {
-      const access_token = Cookies.get('access_token');
-      console.log("access_token :" + access_token);
       try {
-        if (access_token) {
-          const response = await access({token: access_token});
-          console.log(response);
-          console.log('login 상태1');
-          setIsLogin(true);
-          setNickname(response.nickname);
-        }
+        const response = await verify({token: ''});
+        console.log(response);
+        console.log('login 상태1');
+        setIsLogin(true);
+        setNickname(response.nickname);
+        setEmail(response.email);
+        setGenrePrefers(response.genrePrefers);
+        setArtistPrefers(response.artistPrefers);
       } catch (error) {
-        const refresh_token = Cookies.get('refresh_token');
         try {
-          if (refresh_token) {
-            const response = await refresh({refresh: refresh_token});
-            Cookies.set('access_token', response.access);
-            const access_token = Cookies.get('access_token');
-            if (access_token) {
-              const response = await access({token: access_token});
-              console.log('login 상태2');
-              setIsLogin(true);
-              setNickname(response.nickname);
-            }
-          }
+          const response2 = await refresh({refresh: ''});
+          const response3 = await verify({token: ''});
+          console.log('login 상태2');
+          setIsLogin(true);
+          setNickname(response3.nickname);
+          setEmail(response3.email);
+          setGenrePrefers(response3.genrePrefers);
+          setArtistPrefers(response3.artistPrefers);
         } catch (error) {
           console.log('login 실패');
         }
@@ -50,7 +48,18 @@ const AuthProvider = ({children}: AuthProviderProps) => {
   }, []);
 
   return (
-      <AuthContext.Provider value={{isLogin, nickname, setIsLogin, setNickname}}>
+      <AuthContext.Provider value={{
+        isLogin,
+        nickname,
+        email,
+        genrePrefers,
+        artistPrefers,
+        setIsLogin,
+        setNickname,
+        setEmail,
+        setGenrePrefers,
+        setArtistPrefers
+      }}>
         {children}
       </AuthContext.Provider>
   );
