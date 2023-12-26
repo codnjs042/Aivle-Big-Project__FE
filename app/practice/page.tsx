@@ -1,13 +1,12 @@
 "use client"
 
 import React from "react";
-import dynamic from 'next/dynamic';
+import ReactPlayer from 'react-player';
 import {Card, CardBody, Image, Button, Slider} from "@nextui-org/react";
 import {HeartIcon, PauseCircleIcon, NextIcon, PreviousIcon} from "@/components/icons";
 
 export default function PracticePage() {
   const [liked, setLiked] = React.useState(false);
-  const DynamicReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
   return (
     <Card
@@ -18,15 +17,14 @@ export default function PracticePage() {
       <CardBody>
         <div className="grid grid-cols-6 md:grid-cols-12 gap-6 md:gap-20 items-center justify-center">
           <div className="relative col-span-6 md:col-span-4">
-          <DynamicReactPlayer
-              url="asset/videos/contents2.avi" // Replace with your actual video file path
-              width="100%"
-              height="200px"
-              controls={true}
-              onError={(e) => console.error('Video error', e)}
-            />
-          </div>
-
+          <ReactPlayer
+            url="asset/videos/contents2.mp4" // 실제 경로로 변경
+            width="100%"
+            height="200px"
+            controls={true}
+            onError={(e) => console.error('Video error', e)}
+          />
+          </div> 
           <div className="flex flex-col col-span-6 md:col-span-8">
             <div className="flex justify-between items-start">
               <div className="flex flex-col gap-0">
