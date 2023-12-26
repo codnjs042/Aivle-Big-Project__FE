@@ -14,15 +14,17 @@ export default function ShortsPage() {
 			return (
 				<div className="justify-between gap-10 grid grid-cols-4">
 				<h2 className="text-2xl text-center font-bold mb-4 col-span-full">명대사 선택</h2>
+				
 				{contentsList.map((item, index) => (
-					<div>
+					<div className="my-2 ml-2">
 						<Card shadow="sm" key={index} isPressable onPress={() => console.log("item pressed")}>
-							<CardBody className="overflow-visible p-0">
-					  			<Image
+							<CardBody className="p-0">
+								<Image
 								shadow="sm"
 								radius="lg"
 								alt={item.title}
-								className="w-full object-cover"
+								className="object-cover h-24"
+								style={{width:'180px'}}
 								src={item.scene}
 					  		/>
 							</CardBody>
@@ -32,6 +34,7 @@ export default function ShortsPage() {
 						</Card>
 					</div>
 				))}
+				
 			</div>
 			);
 	}
