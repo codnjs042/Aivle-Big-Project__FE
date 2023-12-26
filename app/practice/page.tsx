@@ -24,7 +24,7 @@ export default function PracticePage() {
       className="border-none bg-background/60 dark:bg-default-100/50 max-w-[1000px]"
       shadow="sm"
     >
-      <CardBody>
+      <CardBody style={{ marginLeft:'50px'}}>
         <div className="grid grid-cols-6 md:grid-cols-12 gap-6 md:gap-20 items-center justify-center">
           <div className="relative col-span-6 md:col-span-4">
           <ReactPlayer
@@ -35,7 +35,7 @@ export default function PracticePage() {
             onError={(e) => console.error('Video error', e)}
           />
           </div> 
-          <div className="flex flex-col col-span-6 md:col-span-8">
+          <div className="flex flex-col col-span-6 md:col-span-7">
             <div className="flex justify-between items-start">
               <div className="flex flex-col gap-0">
                 <p className="text-small text-foreground/80 mt-5">Son, you have a plan</p>
