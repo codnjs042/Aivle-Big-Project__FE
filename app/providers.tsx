@@ -17,7 +17,7 @@ export function Providers({children, themeProps}: ProvidersProps) {
   const router = useRouter();
 
   return (
-      <ReCaptchaProvider reCaptchaKey="6Le2ezspAAAAAJ6dLjdZNw9ypPA7NYtAES1a0CBv" useEnterprise>
+      <ReCaptchaProvider reCaptchaKey="6Le2ezspAAAAAJ6dLjdZNw9ypPA7NYtAES1a0CBv" useEnterprise useRecaptchaNet>
         <AuthProvider>
           <NextUIProvider navigate={router.push}>
             <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>

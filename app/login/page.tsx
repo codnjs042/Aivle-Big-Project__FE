@@ -9,6 +9,7 @@ import {login} from "@/api/token/login";
 import {sleep} from "@/utils/sleep";
 import Cookies from 'js-cookie';
 import { useReCaptcha } from "next-recaptcha-v3";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -20,8 +21,12 @@ export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [step, setStep] = useState(false);
   const nextStep = () => setStep(step => !step);
-
   const { executeRecaptcha } = useReCaptcha();
+
+  const checkReCaptcha = (value: string | null) => {
+
+    console.log("reCAPTCHA value:", value);
+  };
 
   useEffect(() => {
     const emailCookie = Cookies.get('email');
@@ -96,7 +101,10 @@ export default function LoginPage() {
               <Spacer y={1}/>
             </div>
             <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-              <Spacer y={1}/>
+              <ReCAPTCHA
+                  sitekey="6Lc5sTspAAAAACJ_kKW6-60V9JOEg7gPMP9g-nC4"
+                  onChange={checkReCaptcha}
+              />
             </div>
             <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
               <Spacer y={1}/>
@@ -127,7 +135,7 @@ export default function LoginPage() {
     case true:
       return (
           <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg">
-          <div>
+            <div>
               <h1 className="text-2xl text-center font-bold mb-4 col-span-full">비밀번호 찾기</h1>
               <Divider className="mt-10"/>
               <div className="flex items-center mb-6 md:mb-0 gap-6 my-6">
