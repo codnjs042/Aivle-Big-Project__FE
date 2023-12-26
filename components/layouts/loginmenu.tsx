@@ -3,19 +3,22 @@
 import {Button} from "@nextui-org/react";
 import {Link} from "@nextui-org/link";
 import {useRouter} from "next/navigation";
-import Cookies from "js-cookie";
 import {useContext} from "react";
 import AuthContext from "@/context/AuthContext";
+import {logout} from "@/api/user/logout";
 
 export default function LoginMenu() {
   const router = useRouter();
   const { isLogin, setIsLogin, nickname, setNickname } = useContext(AuthContext);
 
-  const logout = () => {
-    Cookies.remove('access_token');
-    Cookies.remove('refresh_token');
-    setIsLogin(false);
-    setNickname('');
+  const handleLogout = async () => {
+    try {
+      const response = await logout({refresh: 'x'});
+      setIsLogin(false);
+      setNickname('');
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   return (
@@ -31,7 +34,7 @@ export default function LoginMenu() {
                         background: 'none',
                         border: '2px solid var(--nextui-color-secondary)'
                       }}
-                      onClick={logout}>로그아웃</Button>
+                      onClick={handleLogout}>로그아웃</Button>
             </>
         ) : (
             <Link href="/login">
