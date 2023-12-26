@@ -1,53 +1,91 @@
 "use client";
 import {contents} from "./contents";
 import {artist} from "./artist";
-import React, {useState} from "react";
-import {Button, Checkbox, Input, Select, SelectItem, Spacer,} from "@nextui-org/react";
-import {
-  AvatarIcon,
-  EditIcon,
-  LockFilledIcon,
-  MailIcon,
-  MonitorMobileIcon,
-  SunFilledIcon,
-} from "@nextui-org/shared-icons";
+import React, {useCallback, useMemo, useState} from "react";
+import {Button, Checkbox, Input, Progress, Select, SelectItem, Spacer,} from "@nextui-org/react";
+import {AvatarIcon, EditIcon, LockFilledIcon,} from "@nextui-org/shared-icons";
 import PrivacyPolicy from "@/components/modals/privacyPolicy";
 import TermOfUse from "@/components/modals/termOfUse";
+import {emailFetch} from "@/api/user/email";
 
 export default function SignupPage() {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(1);
+
   const [agreePrivacy, setAgreePrivacy] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
-  const [name, setName] = useState("");
+
   const [email, setEmail] = useState("");
-  const [string, setString] = useState("");
+  const [emailDuplication, setEmailDuplication] = useState(false);
+  const [emailError, setEmailError] = useState('');
+
   const [password, setPassword] = useState("");
-  const [repassword, setRepassword] = useState("");
-  const [number, setNumber] = useState("");
+  const [rePassword, setRePassword] = useState("");
+  const [nickname, setNickname] = useState("");
+
   const [selectedGenres, setSelectedGenres] = useState(new Set([]));
   const [selectedArtist, setSelectedArtist] = useState(new Set([]));
 
   const nextStep = () => setStep(step + 1);
   const prevStep = () => setStep(step - 1);
 
+  const checkAgree = useMemo(() => { // step 1 유효성 검사
+    return agreePrivacy && agreeTerms;
+  }, [agreePrivacy, agreeTerms]);
+
+
+  const validateEmail = useCallback((value: string) => {
+    if (!value) return false;
+    return !value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
+  }, []);
+
+  const checkEmail = useMemo(() => validateEmail(email), [email]);
+  const checkEmailDuplication = async () => {
+    console.log("이메일 중복검사 시작");
+    if (!email) {
+      setEmailError("메일을 입력해주세요.");
+      return;
+    }
+    if (validateEmail(email)) return;
+    const response = await emailFetch(email);
+    if (response.ok) {
+      console.log("이메일 사용가능");
+      setEmailDuplication(true);
+      return;
+    }
+    if (response.status === 409) {
+      console.log("이미 존재하는 이메일입니다.");
+      setEmailDuplication(false);
+      setEmailError("이미 가입된 이메일입니다.");
+      return;
+    }
+  }
+
+  const validatePassword = (value: string) => {
+    if (!value) return false;
+    return value.length < 8;
+  }
+
+  const checkInfo = useMemo(() => { // step 2 유효성 검사
+
+    const validateRePassword = (value: string) => value === password;
+    return validateEmail(email) && validatePassword(password) && validateRePassword(rePassword);
+  }, [email, password, rePassword]);
+
+
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     console.log("Signup form submitted:", {
-      name,
       email,
+      nickname,
       password,
       selectedArtist,
       selectedGenres,
     });
   };
 
-  // const fixedWidthStyle = {
-  //   maxWidth: "400px", // 고정된 너비
-  //   margin: "0 auto", // 가운데 정렬
-  // };
 
   switch (step) {
-    case 0:
+    case 1:
       return (
           <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg">
             <div
@@ -55,8 +93,8 @@ export default function SignupPage() {
               <p className="text-3xl center">회원가입</p>
             </div>
             <div
-                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
-              <p className="text-2xl center">Step 0</p>
+                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center py-5">
+              <Progress size="lg" aria-label="Loading..." value={33} className="max-w-md"/>
             </div>
             <div
                 className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-between">
@@ -74,20 +112,15 @@ export default function SignupPage() {
             </div>
             <div
                 className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
-              <Button color="secondary" variant={(agreePrivacy && agreeTerms) ? "solid" : "flat"}
-                      fullWidth={true} onClick={nextStep} disabled={!(agreePrivacy && agreeTerms)}>
-                {(agreePrivacy && agreeTerms) ? "다음 단계로" : "모든 항목을 체크해주세요"}
+              <Button color="secondary" variant={(checkAgree) ? "solid" : "flat"}
+                      fullWidth={true} onClick={nextStep} disabled={!checkAgree}>
+                {(checkAgree) ? "다음 단계로" : "모든 항목에 동의해주세요"}
               </Button>
-
             </div>
           </div>
       );
-    case 1:
-      const isIdValid = Boolean(string.trim() !== '');
-      const isPwValid = Boolean(password.trim() !== '') && password === repassword;
-      const isNameValid = Boolean(string.trim() !== '');
-      const isMailValid = Boolean(string.trim() !== '');
-      const isTelValid = Boolean(string.trim() !== '');
+    case 2:
+
       return (
           <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg"
                style={{width: '400px'}}>
@@ -96,26 +129,44 @@ export default function SignupPage() {
               <p className="text-3xl center">회원가입</p>
             </div>
             <div
-                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
-              <p className="text-2xl center">Step 1</p>
+                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center py-5">
+              <Progress size="lg" aria-label="Loading..." value={67} className="max-w-md"/>
             </div>
             <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
               <Input
                   isClearable
-                  type="string"
-                  label="아이디"
-                  value={string}
-                  onChange={(e) => setString(e.target.value)}
+                  isRequired={true}
+                  type="email"
+                  label="이메일"
+                  isInvalid={checkEmail}
+                  color={checkEmail ? "danger" : "default"}
+                  errorMessage={
+                    checkEmail ? "올바른 이메일을 입력해주세요." : emailError
+                  }
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setEmailError('');
+                  }}
                   labelPlacement="outside"
                   startContent={
                     <EditIcon
                         className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
                   }
+                  isDisabled={emailDuplication}
+                  onClear={() => setEmail('')}
               />
+              <div className="flex flex-col justify-center h-unit-20">
+                <Button color="secondary" variant="solid"
+                        onClick={() => emailDuplication ? setEmailDuplication(false) : checkEmailDuplication()}>
+                  {emailDuplication ? '초기화' : '중복확인'}
+                </Button>
+              </div>
             </div>
             <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
               <Input
                   isClearable
+                  isRequired={true}
                   type="password"
                   label="비밀번호"
                   value={password}
@@ -125,20 +176,23 @@ export default function SignupPage() {
                     <LockFilledIcon
                         className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
                   }
+                  onClear={() => setPassword('')}
               />
             </div>
             <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
               <Input
                   isClearable
+                  isRequired={true}
                   type="password"
                   label="비밀번호 재확인"
-                  value={repassword}
-                  onChange={(e) => setRepassword(e.target.value)}
+                  value={rePassword}
+                  onChange={(e) => setRePassword(e.target.value)}
                   labelPlacement="outside"
                   startContent={
                     <LockFilledIcon
                         className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
                   }
+                  onClear={() => setRePassword('')}
               />
             </div>
 
@@ -148,76 +202,11 @@ export default function SignupPage() {
                       fullWidth={true} onClick={prevStep}>
                 이전 단계로
               </Button>
-              <Button color="secondary" variant={(isIdValid && isPwValid) ? "solid" : "flat"}
+              <Button color="secondary" variant={(true) ? "solid" : "flat"}
                       fullWidth={true} onClick={nextStep}
-                      disabled={!isIdValid || !isPwValid}>
-                      {(isIdValid && isPwValid) ? "다음 단계로" : "입력해주세요"}
-                
-              </Button>
-            </div>
-          </div>
-      );
-    case 2:
-      return (
-          <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg"
-               style={{width: '400px'}}>
-            <div
-                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
-              <p className="text-3xl center">회원가입</p>
-            </div>
-            <div
-                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
-              <p className="text-2xl center">Step 2</p>
-            </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-              <Input
-                  isClearable
-                  type="string"
-                  label="이름"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  labelPlacement="outside"
-                  startContent={
-                    <AvatarIcon
-                        className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
-                  }
-              />
-            </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-              <Input
-                  isClearable
-                  type="email"
-                  label="이메일"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  labelPlacement="outside"
-                  startContent={
-                    <MailIcon
-                        className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
-                  }
-              />
-            </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-              <Input
-                  isClearable
-                  type="tel"
-                  label="휴대전화"
-                  value={number}
-                  onChange={(e) => setNumber(e.target.value)}
-                  labelPlacement="outside"
-                  startContent={
-                    <MonitorMobileIcon
-                        className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
-                  }
-              />
-            </div>
-            <div
-                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
-              <Button color="secondary" fullWidth={true} onClick={prevStep}>
-                이전 단계로
-              </Button>
-              <Button color="secondary" fullWidth={true} onClick={nextStep}>
-                다음 단계로
+                      disabled={false}>
+                {(true) ? "다음 단계로" : "모든 내용을 입력해주세요"}
+
               </Button>
             </div>
           </div>
@@ -231,10 +220,25 @@ export default function SignupPage() {
               <p className="text-3xl center">회원가입</p>
             </div>
             <div
-                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
-              <p className="text-2xl center">Step 3</p>
+                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center py-5">
+              <Progress size="lg" aria-label="Loading..." value={100} className="max-w-md"/>
             </div>
-
+            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+              <Input
+                  isClearable
+                  isRequired={true}
+                  type="string"
+                  label="닉네임"
+                  value={nickname}
+                  onChange={(e) => setNickname(e.target.value)}
+                  labelPlacement="outside"
+                  startContent={
+                    <AvatarIcon
+                        className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
+                  }
+                  onClear={() => setNickname('')}
+              />
+            </div>
             <div className="flex w-full max-w-xs flex-col gap-2">
               <Select
                   label="좋아하는 장르"
@@ -243,7 +247,7 @@ export default function SignupPage() {
                   selectedKeys={selectedGenres}
                   className="max-w-xs"
                   selectionMode="multiple"
-                  onSelectionChange={setSelectedGenres}
+                  //onSelectionChange={setSelectedGenres}
               >
                 {contents.map((content) => (
                     <SelectItem key={content.value} value={content.value}>
@@ -261,7 +265,7 @@ export default function SignupPage() {
                 selectedKeys={selectedArtist}
                 className="max-w-xs"
                 selectionMode="multiple"
-                onSelectionChange={setSelectedArtist}
+                //onSelectionChange={setSelectedArtist}
             >
               {artist.map((star) => (
                   <SelectItem key={star.value} value={star.value}>
@@ -270,7 +274,6 @@ export default function SignupPage() {
               ))}
             </Select>
             <p className="text-small text-default-500">선택: {Array.from(selectedArtist).join(', ')}</p>
-            
 
 
             {/* <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
@@ -314,15 +317,6 @@ export default function SignupPage() {
               <Button color="secondary" fullWidth={true} onClick={handleSubmit}>
                 회원가입
               </Button>
-            </div>
-            <div
-                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
-              <SunFilledIcon
-                  className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
-              <SunFilledIcon
-                  className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
-              <SunFilledIcon
-                  className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
             </div>
           </div>
       );
