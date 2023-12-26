@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function PracticeLayout({
+export default function ShortsvideoLayout({
 	children,
 }: {
 	children: React.ReactNode;
