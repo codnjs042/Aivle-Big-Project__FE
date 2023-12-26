@@ -43,7 +43,7 @@ export default function LearnPage() {
   };
 
   return (
-    <div >
+    <div>
       <Input
           classNames={{
             base: "max-w-full sm:max-w-[10rem] h-10",

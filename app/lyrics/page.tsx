@@ -82,7 +82,7 @@ export default function PracticePage() {
       className="border-none bg-background/60 dark:bg-default-100/50 max-w-[1000px]"
       shadow="sm"
     >
-      <CardBody style={{ marginLeft:50}}>
+      <CardBody style={{ marginLeft:'50px'}}>
         <div className="grid grid-cols-6 md:grid-cols-12 gap-6 md:gap-20 items-center justify-center">
           <div className="relative col-span-6 md:col-span-4">
           <Image
