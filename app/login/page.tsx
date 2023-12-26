@@ -7,10 +7,9 @@ import {Link} from "@nextui-org/link";
 import {useRouter} from 'next/navigation';
 import {loginFetch} from "@/api/user/login";
 import Cookies from 'js-cookie';
-import { useReCaptcha } from "next-recaptcha-v3";
+import {useReCaptcha} from "next-recaptcha-v3";
 import ReCAPTCHA from "react-google-recaptcha";
 import AuthContext from "@/context/AuthContext";
-import {backendConfig} from "@/api/apiconfig";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -22,7 +21,7 @@ export default function LoginPage() {
   const [step, setStep] = useState(false);
   const auth = useContext(AuthContext);
   const nextStep = () => setStep(step => !step);
-  const { executeRecaptcha } = useReCaptcha();
+  const {executeRecaptcha} = useReCaptcha();
 
   const checkReCaptcha = (value: string | null) => {
     console.log("reCAPTCHA value:", value);
@@ -30,20 +29,23 @@ export default function LoginPage() {
 
   useEffect(() => {
     const emailCookie = Cookies.get('email');
+    console.log('email cookie loaded:', Cookies.get('email'));
     if (emailCookie) {
       setEmail(emailCookie);
+      setRememberMe(true);
     }
   }, []);
   const handleSubmit = async () => {
     setLoginLoadingState(true);
-    const token = await executeRecaptcha("login");
+    //const token = await executeRecaptcha("login");
     rememberMe ? Cookies.set('email', email) : Cookies.remove('email');
+    console.log('remember?', rememberMe, 'email value', email, 'email cookie:', Cookies.get('email'));
     const response = await loginFetch({email, password});
     console.log(response);
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
-      auth.setToken(data.token);
+      console.log("token 발급: ", data.access);
+      auth.setToken(data.access);
       router.replace('/');
     } else if (response.status === 400) {
       setErrorMessage('입력하지 않은 내용이 있습니다.');
@@ -72,7 +74,7 @@ export default function LoginPage() {
                         className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
                   }
                   value={email}
-                  onChange={e => setEmail(e.target.value)}
+                  onValueChange={setEmail}
                   onClear={() => console.log("input cleared")}
               />
             </div>
@@ -96,7 +98,8 @@ export default function LoginPage() {
               <Divider className="my-4"/>
             </div>
             <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-              <Checkbox defaultSelected color="secondary">아이디 기억하기</Checkbox>
+              <Checkbox defaultSelected color="secondary" checked={rememberMe}
+                        onValueChange={setRememberMe}>아이디 기억하기</Checkbox>
               <Link color="secondary" onClick={nextStep}>비밀번호를 잊으셨나요?</Link>
             </div>
             <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">

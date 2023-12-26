@@ -3,10 +3,6 @@
 import NextLink from "next/link";
 import {usePathname, useRouter} from 'next/navigation'
 import {Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@nextui-org/react";
-import {useEffect, useState} from "react";
-import {info} from "@/api/user/info";
-import Cookies from "js-cookie";
-import {refresh} from "@/api/user/refresh";
 
 export default function NavMenu() {
   const pathname = usePathname()

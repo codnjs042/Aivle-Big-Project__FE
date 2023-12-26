@@ -3,9 +3,11 @@
 import {Button} from "@nextui-org/react";
 import {Link} from "@nextui-org/link";
 import {useRouter} from "next/navigation";
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import AuthContext from "@/context/AuthContext";
 import {logoutFetch} from "@/api/user/logout";
+import {infoFetch} from "@/api/user/info";
+import {authFetch} from "@/api/authFetch";
 
 export default function LoginMenu() {
   const router = useRouter();
@@ -13,6 +15,22 @@ export default function LoginMenu() {
   const [login, setLogin] = useState(false);
   const [nickname, setNickname] = useState('');
 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      console.log("auth.token: " + auth.token);
+      const response = await infoFetch(auth.token, auth.setToken);
+      console.log(response);
+      if (response.ok) {
+        const result = await response.json();
+        console.log(result);
+        setNickname(result.nickname);
+        setLogin(true);
+      }
+    };
+
+    fetchData();
+  }, [auth.token]);
 
   const handleLogout = async () => {
     const response = await logoutFetch({});
