@@ -78,8 +78,8 @@ export default function LearnPage() {
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <h3 className="text-small text-foreground/80 mt-5">Hello</h3>
-				        <h1 className="font-semibold text-foreground/90 mt-5">Annyunghaseyo</h1>
+                <h3 className="text-large text-foreground/80 mt-5">Hello</h3>
+				        <h1 className="font-large text-foreground/90 mt-5">Annyunghaseyo</h1>
                 <h1 className="text-large font-medium mt-5">안녕하세요.</h1>
               </div>
               <Button
