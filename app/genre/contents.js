@@ -1,0 +1,68 @@
+const contentsList = [
+    {
+        id: 0,
+        title: "오징어게임",
+        img: "/asset/images/contents1.jpg",
+        contents: "제발 그만해. 나.. 나 무서워. 이러다가 다 죽어! 다.. 다 죽는단 말이야.",
+        video: "/asset/videos/contents1.mp4",
+        path: "/practice",
+    },
+    {   
+        id: 1,
+        title: "기생충",
+        img: "/asset/images/contents2.jpg",
+        contents: "어 너는 계획이 다 있구나.",
+        video: "/asset/videos/contents2.mp4",
+        path: "/practice",
+    },
+    {
+        id: 2,
+        title: "미스터션샤인",
+        img: "/asset/images/contents3.jpg",
+        contents: "당신은 당신의 조선을 구하시오. 난 당신을 구할 거니까.",
+        video: "/asset/videos/contents3.mp4",
+        path: "/practice",
+    },
+    {
+        id: 3,
+        title: "더글로리",
+        img: "/asset/images/contents4.jpg",
+        contents: "파이팅, 박연진! 브라보! 멋지다, 연진아!",
+        video: "/asset/videos/contents4.mp4",
+        path: "/practice",
+    },
+    {
+        id: 4,
+        title: "태양의 후예",
+        img: "/asset/images/contents5.jpg",
+        contents: "뭘 할까요 내가. 사과할까요 고백할까요.",
+        video: "/asset/videos/contents5.mp4",
+        path: "/practice",
+    },
+    {
+        id: 5,
+        title: "도깨비",
+        img: "/asset/images/contents6.jpg",
+        contents: "날이 좋아서, 날이 좋지 않아서, 날이 적당해서, 모든 날이 좋았다.",
+        video: "/asset/videos/contents6.mp4",
+        path: "/practice",
+    },
+    {
+        id: 6,
+        title: "응답하라 1988",
+        img: "/asset/images/contents7.jpg",
+        contents: "아이고 성 사장~ 아이고 김 사장~ 이거 정말 반갑구먼. 반가워요. 반갑구먼. 반갑습니다!",
+        video: "/asset/videos/contents7.mp4",
+        path: "/practice",
+    },
+    {
+        id: 7,
+        title: "사랑의 불시착",
+        img: "/asset/images/contents8.jpg",
+        contents: "보고 싶은 사람 만날 수 있냐고 묻지 않았소? 만날 수 있소. 사랑하오. 사랑해요.",
+        video: "/asset/videos/contents8.mp4",
+        path: "/practice",
+    },
+];
+
+export default contentsList;
