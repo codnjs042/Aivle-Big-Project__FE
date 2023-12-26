@@ -21,7 +21,7 @@ const AuthProvider = ({children}: AuthProviderProps) => {
     console.log('login 검증 시작');
     const fetchData = async () => {
       try {
-        const response = await verify({token: ''});
+        const response = await verify({token: 'x'});
         console.log(response);
         console.log('login 상태1');
         setIsLogin(true);
@@ -31,8 +31,8 @@ const AuthProvider = ({children}: AuthProviderProps) => {
         setArtistPrefers(response.artistPrefers);
       } catch (error) {
         try {
-          const response2 = await refresh({refresh: ''});
-          const response3 = await verify({token: ''});
+          const response2 = await refresh({refresh: 'x'});
+          const response3 = await verify({token: 'x'});
           console.log('login 상태2');
           setIsLogin(true);
           setNickname(response3.nickname);

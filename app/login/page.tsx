@@ -24,7 +24,6 @@ export default function LoginPage() {
   const { executeRecaptcha } = useReCaptcha();
 
   const checkReCaptcha = (value: string | null) => {
-
     console.log("reCAPTCHA value:", value);
   };
 
