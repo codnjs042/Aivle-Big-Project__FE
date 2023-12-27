@@ -59,7 +59,8 @@ export default function LoginPage() {
       const data = await response.json();
       console.log("token 발급: ", data.access);
       auth.setToken(data.access);
-      //router.replace('/');
+      console.log("refresh 쿠키설정됨: ", data.refresh);
+      router.replace('/');
     } else if (response.status === 400) {
       setErrorMessage('입력하지 않은 내용이 있습니다.');
     } else if (response.status === 401) {
