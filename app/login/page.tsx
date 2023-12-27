@@ -7,7 +7,6 @@ import {Link} from "@nextui-org/link";
 import {useRouter} from 'next/navigation';
 import {loginFetch} from "@/api/user/login";
 import Cookies from 'js-cookie';
-import {useReCaptcha} from "next-recaptcha-v3";
 import ReCAPTCHA from "react-google-recaptcha";
 import AuthContext from "@/context/AuthContext";
 
