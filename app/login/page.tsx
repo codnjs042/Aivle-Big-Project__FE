@@ -1,8 +1,8 @@
 "use client";
 
-import {useContext, useEffect, useMemo, useState} from "react";
-import {Button, Checkbox, Divider, Input, Spacer} from '@nextui-org/react';
-import {EditIcon, LockFilledIcon, MailIcon, SunFilledIcon} from "@nextui-org/shared-icons";
+import React, {useContext, useEffect, useMemo, useState} from "react";
+import {Button, Checkbox, Divider, Input} from '@nextui-org/react';
+import {EyeFilledIcon, EyeSlashFilledIcon, MailIcon} from "@nextui-org/shared-icons";
 import {Link} from "@nextui-org/link";
 import {useRouter} from 'next/navigation';
 import {loginFetch} from "@/api/user/login";
@@ -16,6 +16,8 @@ export default function LoginPage() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordVisible, setPasswordVisible] = React.useState(false);
+
   const [rememberMe, setRememberMe] = useState(false);
   const [loginLoadingState, setLoginLoadingState] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -23,17 +25,13 @@ export default function LoginPage() {
   const [step, setStep] = useState(false);
   const auth = useContext(AuthContext);
 
+  const togglePasswordVisibility = () => setPasswordVisible(!passwordVisible);
 
   const checkEmail = useMemo(() => {
     const validateEmail = (value: string) => value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
     if (email === "") return false;
     return !validateEmail(email);
   }, [email]);
-
-  // const checkPassword = useMemo(() => {
-  //   if (email === "") return false;
-  //   return true;
-  // }, [password]);
 
   const nextStep = () => setStep(step => !step);
   const {executeRecaptcha} = useReCaptcha();
@@ -61,7 +59,7 @@ export default function LoginPage() {
       const data = await response.json();
       console.log("token 발급: ", data.access);
       auth.setToken(data.access);
-      router.replace('/');
+      //router.replace('/');
     } else if (response.status === 400) {
       setErrorMessage('입력하지 않은 내용이 있습니다.');
     } else if (response.status === 401) {
@@ -75,10 +73,10 @@ export default function LoginPage() {
       return (
           <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg">
             <div
-                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
-              <p className="text-3xl center">Welcome !</p>
+                className="flex w-full justify-center">
+              <p className="text-2xl">Welcome !</p>
             </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+            <div className="flex w-full">
               <Input
                   isClearable
                   type="email"
@@ -88,70 +86,53 @@ export default function LoginPage() {
                   color={checkEmail ? "danger" : "default"}
                   errorMessage={checkEmail && "올바른 이메일을 입력해주세요."}
                   startContent={
-                    <EditIcon
-                        className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
+                    <MailIcon
+                        className="text-2xl"/>
                   }
                   value={email}
                   onValueChange={setEmail}
                   onClear={() => setEmail('')}
               />
             </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+            <div className="flex w-full">
               <Input
                   isClearable
-                  type="password"
                   label="Password"
                   labelPlacement="outside"
                   startContent={
-                    <LockFilledIcon
-                        className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
+                    <button className="focus:outline-none" type="button"
+                            onClick={togglePasswordVisibility}>
+                      {passwordVisible ? (
+                          <EyeSlashFilledIcon className="text-2xl"/>) : (
+                          <EyeFilledIcon className="text-2xl"/>)}
+                    </button>
                   }
+                  type={passwordVisible ? "text" : "password"}
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   onClear={() => setPassword('')}
               />
 
             </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-              <Divider className="my-4"/>
-            </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+            <div className="flex w-full gap-5">
               <Checkbox defaultSelected color="secondary" checked={rememberMe}
                         onValueChange={setRememberMe}>아이디 기억하기</Checkbox>
               <Link color="secondary" onClick={nextStep}>비밀번호를 잊으셨나요?</Link>
             </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-              <Spacer y={1}/>
-            </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+
+            <div className="flex w-full py-5">
               <ReCAPTCHA
                   sitekey="6Lc5sTspAAAAACJ_kKW6-60V9JOEg7gPMP9g-nC4"
                   onChange={checkReCaptcha}
               />
             </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-              <Spacer y={1}/>
-            </div>
+            <Button color="secondary" onClick={handleSubmit}
+                    isLoading={loginLoadingState}>
+              로그인
+            </Button>
             <div
-                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
-              <Button color="secondary" fullWidth={true} onClick={handleSubmit}
-                      isLoading={loginLoadingState}>
-                로그인
-              </Button>
-            </div>
-            <div
-                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center"
-                style={{height: '50px'}}>
+                className="flex w-full justify-center items-center">
               {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-            </div>
-            <div
-                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
-              <SunFilledIcon
-                  className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
-              <SunFilledIcon
-                  className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
-              <SunFilledIcon
-                  className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
             </div>
           </div>
       );
@@ -159,7 +140,7 @@ export default function LoginPage() {
       return (
           <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg">
             <div>
-              <h1 className="text-2xl text-center font-bold mb-4 col-span-full">비밀번호 찾기</h1>
+              <h1 className="text-2xl">비밀번호 찾기</h1>
               <Divider className="mt-10"/>
               <div className="flex items-center mb-6 md:mb-0 gap-6 my-6">
                 <span className="w-1/4 text-md text-default-500 text-right mr-1">이메일</span>
