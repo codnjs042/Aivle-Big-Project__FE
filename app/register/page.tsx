@@ -8,7 +8,6 @@ import {
   EditIcon,
   EyeFilledIcon,
   EyeSlashFilledIcon,
-  LockFilledIcon,
 } from "@nextui-org/shared-icons";
 import PrivacyPolicy from "@/components/modals/privacyPolicy";
 import TermOfUse from "@/components/modals/termOfUse";
