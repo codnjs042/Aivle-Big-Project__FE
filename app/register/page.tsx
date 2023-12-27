@@ -1,6 +1,6 @@
 "use client";
 import React, {useCallback, useMemo, useState} from "react";
-import {Button, Checkbox, Input, Progress, Select, SelectItem, Spacer,} from "@nextui-org/react";
+import {Button, Checkbox, Input, Progress, Select, SelectItem,} from "@nextui-org/react";
 import {AvatarIcon, EyeFilledIcon, EyeSlashFilledIcon, MailIcon,} from "@nextui-org/shared-icons";
 import PrivacyPolicy from "@/components/modals/privacyPolicy";
 import TermOfUse from "@/components/modals/termOfUse";
@@ -124,10 +124,12 @@ export default function SignupPage() {
   switch (step) {
     case 1:
       return (
-          <div className="flex flex-col gap-4 p-10 rounded-lg shadow-lg overflow-auto"
-               style={{width: '480px'}}>
-            <p className="text-3xl center">회원가입</p>
-            <Progress isStriped size="lg" label="Step 1" value={33}/>
+          <>
+            <div className="text-center">
+              <p className="text-2xl center">회원가입</p>
+              <Progress isStriped size="lg" label="Step 1" radius="lg" value={33}
+                        style={{paddingBottom: '10px'}}/>
+            </div>
             <div className="flex w-full justify-between">
               <PrivacyPolicy/>
               <Checkbox color="secondary" isSelected={agreePrivacy} onValueChange={setAgreePrivacy}>
@@ -140,18 +142,22 @@ export default function SignupPage() {
                 서비스 이용약관에 동의합니다.
               </Checkbox>
             </div>
-            <Button color="secondary" variant={(checkAgree) ? "solid" : "flat"}
-                    fullWidth={true} onClick={nextStep} disabled={!checkAgree}>
-              {(checkAgree) ? "다음 단계로" : "모든 항목에 동의해주세요"}
-            </Button>
-          </div>
+            <div className="flex w-full py-5">
+              <Button color="secondary" variant={(checkAgree) ? "solid" : "flat"}
+                      fullWidth={true} onClick={nextStep} disabled={!checkAgree}>
+                {(checkAgree) ? "다음 단계로" : "모든 항목에 동의해주세요"}
+              </Button>
+            </div>
+          </>
       );
     case 2:
       return (
-          <div className="flex flex-col gap-4 p-10 rounded-lg shadow-lg overflow-auto"
-               style={{width: '480px'}}>
-            <p className="text-3xl center">회원가입</p>
-            <Progress isStriped size="lg" label="Step 2" value={67}/>
+          <>
+            <div className="text-center">
+              <p className="text-2xl center">회원가입</p>
+              <Progress isStriped size="lg" label="Step 2" radius="lg" value={67}
+                        style={{paddingBottom: '10px'}}/>
+            </div>
             <div className="flex w-full gap-5">
               <Input
                   isClearable
@@ -176,8 +182,9 @@ export default function SignupPage() {
                   isDisabled={emailDuplication}
                   onClear={() => setEmail('')}
               />
-              <div className={checkEmail || emailError ? "flex flex-col justify-center" : "flex flex-col justify-end"}>
-              <Button color="secondary" variant={emailDuplication ? "bordered" : "solid"}
+              <div
+                  className={checkEmail || emailError ? "flex flex-col justify-center" : "flex flex-col justify-end"}>
+                <Button color="secondary" variant={emailDuplication ? "bordered" : "solid"}
                         onClick={() => emailDuplication ? setEmailDuplication(false) : checkEmailDuplication()}>
                   {emailDuplication ? '초기화' : '중복확인'}
                 </Button>
@@ -245,14 +252,15 @@ export default function SignupPage() {
                 {(checkInfo) ? "다음 단계로" : "모든 항목을 완료해주세요."}
               </Button>
             </div>
-          </div>
+          </>
       );
     case 3:
       return (
-          <div className="flex flex-col gap-4 p-10 rounded-lg shadow-lg overflow-auto"
-               style={{width: '480px'}}>
-            <p className="text-3xl center">회원가입</p>
-            <Progress isStriped size="lg" label="Step 3" value={100}/>
+          <>
+            <div className="text-center">
+              <p className="text-2xl center">회원가입</p>
+              <Progress isStriped size="lg" label="Step 3" value={100}/>
+            </div>
             <div className="flex w-full">
               <Input
                   isClearable
@@ -318,7 +326,7 @@ export default function SignupPage() {
                 회원가입
               </Button>
             </div>
-          </div>
+          </>
       );
     default:
       return null;

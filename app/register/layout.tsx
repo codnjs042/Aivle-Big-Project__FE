@@ -4,8 +4,9 @@ export default function RegisterLayout({children,}: {
   children: React.ReactNode;
 }) {
   return (
-      <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-        <div className="inline-block max-w-lg text-center justify-center">
+      <section className="flex flex-col items-center justify-center">
+        <div className="flex flex-col gap-4 p-10 rounded-lg shadow-lg overflow-auto"
+        style={{minWidth: "480px"}}>
           {children}
         </div>
       </section>
