@@ -260,6 +260,7 @@ export default function SignupPage() {
                   type="string"
                   label="닉네임"
                   value={nickname}
+                  placeholder="닉네임을 30자 이내로 입력해주세요."
                   isInvalid={checkNickname}
                   color={checkNickname ? "danger" : "default"}
                   errorMessage={
