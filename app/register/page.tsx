@@ -274,7 +274,7 @@ export default function SignupPage() {
                   onClear={() => setNickname('')}
               />
             </div>
-            <div className="flex w-full gap-10">
+            <div className="flex w-full gap-10 py-5">
               <Button color="secondary"
                       fullWidth={true} onClick={prevStep}>
                 이전 단계로
