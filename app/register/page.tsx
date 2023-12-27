@@ -7,8 +7,10 @@ import TermOfUse from "@/components/modals/termOfUse";
 import {emailFetch} from "@/api/user/email";
 import {Artist, artistList} from "@/types/artist";
 import {Genre, genreList} from "@/types/genre";
+import {useRouter} from "next/navigation";
 
 export default function SignupPage() {
+  const router = useRouter();
   const [step, setStep] = useState(1);
 
   const [agreePrivacy, setAgreePrivacy] = useState(false);
@@ -108,6 +110,8 @@ export default function SignupPage() {
       selectedArtist,
       selectedGenres,
     });
+    alert("회원가입이 완료되었습니다.");
+    router.replace('/login');
   };
 
   const validateNickname = useCallback((value: string) => {
@@ -148,7 +152,7 @@ export default function SignupPage() {
                style={{width: '480px'}}>
             <p className="text-3xl center">회원가입</p>
             <Progress isStriped size="lg" label="Step 2" value={67}/>
-            <div className="flex w-full">
+            <div className="flex w-full gap-5">
               <Input
                   isClearable
                   isRequired={true}
@@ -172,7 +176,7 @@ export default function SignupPage() {
                   isDisabled={emailDuplication}
                   onClear={() => setEmail('')}
               />
-              <div className={`flex flex-col ${checkEmail ? "justify-end" : ""}`}>
+              <div className={checkEmail || emailError ? "flex flex-col justify-center" : "flex flex-col justify-end"}>
               <Button color="secondary" variant={emailDuplication ? "bordered" : "solid"}
                         onClick={() => emailDuplication ? setEmailDuplication(false) : checkEmailDuplication()}>
                   {emailDuplication ? '초기화' : '중복확인'}
@@ -231,7 +235,7 @@ export default function SignupPage() {
                   onClear={() => setRePassword('')}
               />
             </div>
-            <div className="flex w-full gap-10">
+            <div className="flex w-full py-5 gap-10">
               <Button color="secondary"
                       fullWidth={true} onClick={prevStep}>
                 이전 단계로
@@ -246,10 +250,10 @@ export default function SignupPage() {
     case 3:
       return (
           <div className="flex flex-col gap-4 p-10 rounded-lg shadow-lg overflow-auto"
-               style={{width: '400px'}}>
+               style={{width: '480px'}}>
             <p className="text-3xl center">회원가입</p>
-            <Progress isStriped size="lg" label="Step 3" value={100} className="max-w-md"/>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+            <Progress isStriped size="lg" label="Step 3" value={100}/>
+            <div className="flex w-full">
               <Input
                   isClearable
                   isRequired={true}
@@ -264,14 +268,13 @@ export default function SignupPage() {
                   onValueChange={(e) => setNickname(e)}
                   labelPlacement="outside"
                   startContent={
-                    <AvatarIcon
-                        className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
+                    <AvatarIcon className="text-2xl"/>
                   }
                   onClear={() => setNickname('')}
               />
             </div>
             <div
-                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
+                className="flex w-full">
               <Select
                   label="좋아하는 장르"
                   variant="bordered"
@@ -289,7 +292,7 @@ export default function SignupPage() {
               </Select>
             </div>
             <div
-                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
+                className="flex w-full">
               <Select
                   label="좋아하는 가수"
                   variant="bordered"
@@ -306,42 +309,8 @@ export default function SignupPage() {
                 ))}
               </Select>
             </div>
-
-            {/* <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-              <CheckboxGroup
-                  className="gap-10"
-                  label="선호하는 장르"
-                  orientation="horizontal"
-                  value={selectedGenres}
-                  onValueChange={setSelectedGenres}
-              >
-                <Checkbox value="action">액션</Checkbox>
-                <Checkbox value="drama">드라마</Checkbox>
-                <Checkbox value="comedy">코미디</Checkbox>
-                <Checkbox value="romance">로맨스</Checkbox>
-                <Checkbox value="history">사극</Checkbox>
-              </CheckboxGroup>
-            </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-              <Listbox
-                  className="gap-5"
-                  aria-label="Favorite Artist"
-                  variant="flat"
-                  disallowEmptySelection
-                  selectionMode="multiple"
-                  selectedKeys={selectedArtist}
-                  onSelectionChange={(keys) => setSelectedArtist(keys as Set<string>)}
-              >
-                <ListboxItem key="start1" style={{ marginTop: '20px', marginBottom: '5px' }}>BTS</ListboxItem>
-                <ListboxItem key="start2" style={{  marginTop: '10px', marginBottom: '5px' }}>BLACKPINK</ListboxItem>
-                <ListboxItem key="start3" style={{  marginTop: '10px', marginBottom: '10px' }}>NEWJEANS</ListboxItem>
-              </Listbox>
-            </div> */}
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-              <Spacer y={1}/>
-            </div>
             <div
-                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
+                className="flex w-full py-5 gap-10">
               <Button color="secondary" fullWidth={true} onClick={prevStep}>
                 이전 단계로
               </Button>
