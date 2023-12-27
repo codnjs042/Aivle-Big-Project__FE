@@ -6,7 +6,6 @@ import {useRouter} from 'next/navigation'
 import {ThemeProvider as NextThemesProvider} from "next-themes";
 import {ThemeProviderProps} from "next-themes/dist/types";
 import AuthProvider from "@/context/AuthProvider";
-import {ReCaptchaProvider} from "next-recaptcha-v3";
 
 export interface ProvidersProps {
   children: React.ReactNode;
