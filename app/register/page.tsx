@@ -141,13 +141,13 @@ export default function SignupPage() {
               <Progress color="secondary" isStriped size="lg" label="Step 1" radius="lg" value={33}
                         style={{paddingBottom: '10px', textIndent: '10px'}}/>
             </div>
-            <div className="flex w-full" style={{ marginBottom: '-10px' }}>
+            <div className="flex w-full justify-between" style={{ marginBottom: '-10px' }}>
               <PrivacyPolicy/>
               <Checkbox style={{ marginLeft: '90px' }} color="secondary" isSelected={agreePrivacy} onValueChange={setAgreePrivacy}>
                 동의합니다.
               </Checkbox>
             </div>
-            <div className="flex w-full">
+            <div className="flex w-full justify-between">
               <TermOfUse/>
               <Checkbox style={{ marginLeft: '160px' }} color="secondary" isSelected={agreeTerms} onValueChange={setAgreeTerms}>
                 동의합니다.
@@ -166,7 +166,7 @@ export default function SignupPage() {
           <>
             <div className="text-center">
               <p className="text-2xl center">회원가입</p>
-              <Progress isStriped size="lg" label="Step 2" radius="lg" value={67}
+              <Progress color="secondary" isStriped size="lg" label="Step 2" radius="lg" value={67}
                         style={{paddingBottom: '10px'}}/>
             </div>
             <div className="flex w-full gap-5">
@@ -290,7 +290,7 @@ export default function SignupPage() {
           <>
             <div className="text-center">
               <p className="text-2xl center">회원가입</p>
-              <Progress isStriped size="lg" label="Step 3" value={100}
+              <Progress color="secondary" isStriped size="lg" label="Step 3" value={100}
                         style={{paddingBottom: '10px'}}/>
             </div>
 
