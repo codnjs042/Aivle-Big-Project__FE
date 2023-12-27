@@ -126,20 +126,20 @@ export default function SignupPage() {
       return (
           <>
             <div className="text-center">
-              <p className="text-2xl center">회원가입</p>
-              <Progress isStriped size="lg" label="Step 1" radius="lg" value={33}
-                        style={{paddingBottom: '10px'}}/>
+              <p className="text-2xl center mb-5">회원가입</p>
+              <Progress color="secondary" isStriped size="lg" label="Step 1" radius="lg" value={33}
+                        style={{paddingBottom: '10px', textIndent: '10px'}}/>
             </div>
-            <div className="flex w-full justify-between">
+            <div className="flex w-full" style={{ marginBottom: '-10px' }}>
               <PrivacyPolicy/>
-              <Checkbox color="secondary" isSelected={agreePrivacy} onValueChange={setAgreePrivacy}>
-                개인정보 처리방침에 동의합니다.
+              <Checkbox style={{ marginLeft: '90px' }} color="secondary" isSelected={agreePrivacy} onValueChange={setAgreePrivacy}>
+                동의합니다.
               </Checkbox>
             </div>
-            <div className="flex w-full justify-between">
+            <div className="flex w-full">
               <TermOfUse/>
-              <Checkbox color="secondary" isSelected={agreeTerms} onValueChange={setAgreeTerms}>
-                서비스 이용약관에 동의합니다.
+              <Checkbox style={{ marginLeft: '160px' }} color="secondary" isSelected={agreeTerms} onValueChange={setAgreeTerms}>
+                동의합니다.
               </Checkbox>
             </div>
             <div className="flex w-full py-5">

@@ -1,15 +1,15 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button} from "@nextui-org/react";
 import {useDisclosure} from "@nextui-org/use-disclosure";
 
 export default function TermOfUse() {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
-
+  const [isHovered, setIsHovered] = useState(false);
   return (
       <>
-        <Button size='md' onClick={onOpen} style={{ background: 'none', fontSize: '16px', textDecoration: 'underline'}}>이용약관</Button>
+        <Button size='md' onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} onClick={onOpen} style={{ background: 'none', fontSize: '16px', textDecoration: isHovered ? 'underline' : 'none'}}>이용약관</Button>
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
           <ModalContent>
             {(onClose) => (
@@ -143,7 +143,7 @@ export default function TermOfUse() {
 
                   </ModalBody>
                   <ModalFooter>
-                    <Button color="primary" onPress={onClose}>
+                    <Button color="secondary" onPress={onClose}>
                       확인
                     </Button>
                   </ModalFooter>
