@@ -7,7 +7,6 @@ import {useContext, useEffect, useState} from "react";
 import AuthContext from "@/context/AuthContext";
 import {logoutFetch} from "@/api/user/logout";
 import {infoFetch} from "@/api/user/info";
-import {authFetch} from "@/api/authFetch";
 
 export default function LoginMenu() {
   const router = useRouter();

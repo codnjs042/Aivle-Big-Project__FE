@@ -71,19 +71,19 @@ export default function SignupPage() {
   const validatePassword = useCallback((value: string) => {
     if (!value) return false;
     if (value.length < 8) {
-      setPasswordError("8자리 이상 입력해주세요.")
+      setPasswordError("비밀번호는 8자리 이상이어야 합니다.")
       return true;
     }
     if (!value.match(/[0-9]/g)) {
-      setPasswordError("숫자를 포함해주세요.")
+      setPasswordError("비밀번호는 숫자를 포함해야 합니다.")
       return true;
     }
     if (!value.match(/[a-zA-Z]/g)) {
-      setPasswordError("영문을 포함해주세요.")
+      setPasswordError("비밀번호는 영문을 포함해야 합니다.")
       return true;
     }
     if (!value.match(/[~!@#$%^&*()_+|<>?:{}]/g)) {
-      setPasswordError("특수문자를 포함해주세요.")
+      setPasswordError("비밀번호는 특수문자를 포함해야 합니다.")
       return true;
     }
     return false;
@@ -186,7 +186,7 @@ export default function SignupPage() {
                   className={checkEmail || emailError ? "flex flex-col justify-center" : "flex flex-col justify-end"}>
                 <Button color="secondary" variant={emailDuplication ? "bordered" : "solid"}
                         onClick={() => emailDuplication ? setEmailDuplication(false) : checkEmailDuplication()}>
-                  {emailDuplication ? '초기화' : '중복확인'}
+                  {emailDuplication ? '재입력' : '중복확인'}
                 </Button>
               </div>
             </div>
@@ -259,7 +259,7 @@ export default function SignupPage() {
           <>
             <div className="text-center">
               <p className="text-2xl center">회원가입</p>
-              <Progress isStriped size="lg" label="Step 3" value={100}/>
+              <Progress isStriped size="lg" label="Step 3" value={100} style={{paddingBottom: '10px'}}/>
             </div>
             <div className="flex w-full">
               <Input

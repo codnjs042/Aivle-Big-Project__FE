@@ -6,7 +6,7 @@ export default function RegisterLayout({children,}: {
   return (
       <section className="flex flex-col items-center justify-center">
         <div className="flex flex-col gap-4 p-10 rounded-lg shadow-lg overflow-auto"
-        style={{minWidth: "480px"}}>
+        style={{width: "480px"}}>
           {children}
         </div>
       </section>
