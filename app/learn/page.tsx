@@ -9,6 +9,7 @@ import cn from 'classnames';
 import { useState } from 'react';
 
 export default function LearnPage() {
+  const [audio, setAudio] = useState<string | null>(null);
   const [liked, setLiked] = useState(false);
   const [currentPageText, setCurrentPageText] = useState('안녕하세요'); // 초기 텍스트 설정
 
@@ -42,8 +43,39 @@ export default function LearnPage() {
     }
   };
 
+  //음성
+  const handleTextToSpeech = async () => {
+    try {
+      const response = await fetch('/api/textToSpeech', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: '안녕하세요' }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`API request failed with status ${response.status}`);
+      }
+
+      const { audioContent } = await response.json();
+      setAudio(`data:audio/mpeg;base64,${audioContent}`);
+    } catch (error) {
+      console.error('Error fetching textToSpeech API:', error);
+    }
+  };
+
   return (
     <div>
+      <Button
+        onPress={handleTextToSpeech}
+        className="data-[hover]:bg-foreground/10 listen-button"
+        radius="full"
+        variant="light"
+      >
+        음성 듣기
+      </Button>
+      {audio && <audio controls src={audio} />}
       <Input
           classNames={{
             base: "max-w-full sm:max-w-[10rem] h-10",

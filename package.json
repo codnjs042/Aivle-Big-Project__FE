@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@google-cloud/text-to-speech": "^5.0.1",
     "@iconscout/react-unicons": "^2.0.2",
     "@mdx-js/loader": "^3.0.0",
     "@next/mdx": "^14.0.4",
