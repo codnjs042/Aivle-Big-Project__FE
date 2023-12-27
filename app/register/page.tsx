@@ -132,7 +132,7 @@ export default function SignupPage() {
             </div>
             <div
                 className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center py-5">
-              <Progress size="lg" aria-label="Loading..." value={33} className="max-w-md"/>
+              <Progress isStriped size="lg" label="Step 1" value={33} className="max-w-md"/>
             </div>
             <div
                 className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-between">
@@ -168,7 +168,7 @@ export default function SignupPage() {
             </div>
             <div
                 className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center py-5">
-              <Progress size="lg" aria-label="Loading..." value={67} className="max-w-md"/>
+              <Progress isStriped size="lg" label="Step 2" value={67} className="max-w-md"/>
             </div>
             <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
               <Input
@@ -279,7 +279,7 @@ export default function SignupPage() {
             </div>
             <div
                 className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center py-5">
-              <Progress size="lg" aria-label="Loading..." value={100} className="max-w-md"/>
+              <Progress isStriped size="lg" label="Step 3" value={100} className="max-w-md"/>
             </div>
             <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
               <Input

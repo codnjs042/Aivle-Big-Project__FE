@@ -5,9 +5,9 @@ export async function authFetch(url: RequestInfo | URL, options: RequestInit, to
     ...options.headers,
     Authorization: `Bearer ${token}`,
   };
-  let response = await fetch(url, { ...options, headers });
+  const response = await fetch(url, { ...options, headers });
   if (response.status === 401) {
-      const refresh = await refreshFetch({});
+      const refresh = await refreshFetch();
       if (refresh.ok) {
         const data = await refresh.json();
         setToken(data.token as string);
