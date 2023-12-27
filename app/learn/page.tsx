@@ -6,12 +6,13 @@ import {Input, Card, CardBody, Image, Button, Slider, Pagination, PaginationItem
 import {HeartIcon, PauseCircleIcon, NextIcon, PreviousIcon, RepeatOneIcon, ShuffleIcon, ChevronIcon, SearchIcon, } from "@/components/icons";
 import cn from 'classnames';
 import axios from 'axios';
+import { ReactMediaRecorder, useReactMediaRecorder } from 'react-media-recorder';
 
 export default function LearnPage() {
   const [audio, setAudio] = useState<string | null>(null);
   const [liked, setLiked] = useState(false);
-  const [audioUrl, setAudioUrl] = useState(null);
   const [currentPageVoice, setCurrentPageVoice] = useState('안녕하세요');
+  const [audioUrl, setAudioUrl] = useState(null);
   const sizes = ['sm']; 
 
   // 녹음 상태 및 녹음된 Blob을 저장할 상태
@@ -80,7 +81,7 @@ export default function LearnPage() {
     }
   };
 
-  // 음성 녹음 시작 함수
+/*   // 음성 녹음 시작 함수
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -118,7 +119,7 @@ export default function LearnPage() {
       mediaStreamRef.current.getTracks().forEach((track) => track.stop());
       setRecording(false);
     }
-  };
+  }; */
   const playRecording = () => {
     if (audioUrl) {
       const audio = new Audio(audioUrl);
@@ -130,8 +131,20 @@ export default function LearnPage() {
   const handleTextToSpeech = async () => {
     const audioUrl = await textToSpeech(SentenceInfo[activePage].text3);
     setAudio(audioUrl);
+    const audioElement = new Audio(audioUrl);
+    audioElement.play();
   };
+  const [isRecording, setIsRecording] = useState(false);
+  const { status, startRecording, stopRecording, mediaBlobUrl } = useReactMediaRecorder({ video: false });
 
+  const handleButtonClick = () => {
+    if (isRecording) {
+      stopRecording();
+    } else {
+      startRecording();
+    }
+    setIsRecording(!isRecording);
+  };
 
   return (
     <div>
@@ -141,9 +154,9 @@ export default function LearnPage() {
         radius="full"
         variant="light"
       >
-        음성 듣기
+        음성 듣기 {/* 혹은 확성기 아이콘 */}
       </Button>
-      {audio && <audio controls src={audio} />}
+      {/* {audio && <audio controls src={audio} />} */}
       <Input
           classNames={{
             base: "max-w-full sm:max-w-[10rem] h-10",
@@ -266,16 +279,25 @@ export default function LearnPage() {
     >
       {/* 음성 녹음 */}
       <CardBody style={{paddingLeft:'100px', paddingRight:'100px'}}>
-          <div className="flex flex-col col-span-6 md:col-span-8">
-            <Button
+          <div className="flex flex-col col-span-6 md:col-span-8 item-center">
+            {/* <Button
                 className="w-10 item-center"
                 radius="full"
                 variant="light"
                 onPress={recording ? stopRecording : startRecording}
               >
-            {recording ? "녹음정지" : "녹음시작"}
+                {recording ? "녹음정지" : "녹음시작"}
+              </Button> */}
+              <div style={{marginLeft:"185px"}}>
+              <Button radius="full"
+                variant="light" onClick={handleButtonClick}>
+                {isRecording ? '녹화 중지' : '음성 녹화'}
               </Button>
-            <div className="flex flex-col mt-10 gap-1">
+              </div>
+              {mediaBlobUrl && (
+                <video style={{marginTop:"-150px"}} src={mediaBlobUrl} controls />
+              )}
+            {/* <div className="flex flex-col mt-10 gap-1">
               <Slider
                 aria-label="Record progress"
                 classNames={{
@@ -292,7 +314,7 @@ export default function LearnPage() {
               </div>
             </div>
 
-            <div className="flex w-full items-center justify-center">
+            <div className="flex w-full items-center justify-center"> */}
               {/* <Button
                 isIconOnly
                 className="data-[hover]:bg-foreground/10"
@@ -302,7 +324,7 @@ export default function LearnPage() {
               >
                 <PreviousIcon />
               </Button> */}
-              <Button
+              {/* <Button
                 isIconOnly
                 className="w-auto h-auto data-[hover]:bg-foreground/10"
                 radius="full"
@@ -310,7 +332,7 @@ export default function LearnPage() {
                 onPress={playRecording}
               >
                 <PauseCircleIcon size={54}/>
-              </Button>
+              </Button> */}
               {/* <Button
                 isIconOnly
                 className="data-[hover]:bg-foreground/10"
@@ -320,7 +342,7 @@ export default function LearnPage() {
               >
                 <NextIcon />
               </Button> */}
-            </div>        
+            {/* </div> */}        
           </div>
         </CardBody>
       </Card>
@@ -328,4 +350,38 @@ export default function LearnPage() {
   );
 }
 
+/* 
+"use client";
+import React, { useState } from 'react';
+import { Button } from '@nextui-org/react';
+import { ReactMediaRecorder, useReactMediaRecorder } from 'react-media-recorder';
 
+export default function AudioRecorder() {
+  const [isRecording, setIsRecording] = useState(false);
+  const { status, startRecording, stopRecording, mediaBlobUrl } = useReactMediaRecorder({ video: false });
+
+  const handleButtonClick = () => {
+    if (isRecording) {
+      stopRecording();
+    } else {
+      startRecording();
+    }
+    setIsRecording(!isRecording);
+  };
+
+  return (
+    <div>
+      {status === 'stopped' && <p>녹화를 시작하세요.</p>}
+      {status === 'recording' && <p>녹화 중...</p>}
+
+      <Button onClick={handleButtonClick}>
+        {isRecording ? '녹화 중지' : '녹화 시작'}
+      </Button>
+
+      {mediaBlobUrl && (
+        <video src={mediaBlobUrl} controls />
+      )}
+    </div>
+  );
+};
+ */
