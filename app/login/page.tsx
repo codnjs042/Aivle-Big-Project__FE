@@ -20,24 +20,27 @@ export default function LoginPage() {
   const [rememberMe, setRememberMe] = useState(false);
   const [loginLoadingState, setLoginLoadingState] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [captcha, setCaptcha] = useState<string>("");
 
   const [step, setStep] = useState(false);
   const auth = useContext(AuthContext);
 
   const togglePasswordVisibility = () => setPasswordVisible(!passwordVisible);
+  const changeStep = () => setStep(step => !step);
 
-  const checkEmail = useMemo(() => {
+  const validateEmail = useMemo(() => {
     const validateEmail = (value: string) => value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
     if (email === "") return false;
     return !validateEmail(email);
   }, [email]);
 
-  const nextStep = () => setStep(step => !step);
-  const {executeRecaptcha} = useReCaptcha();
-
-  const checkReCaptcha = (value: string | null) => {
-    console.log("reCAPTCHA value:", value);
+  const checkReCaptcha = (value: string) => {
+    setCaptcha(value);
   };
+
+  const validateLogin = useMemo(() => {
+    return !!email && !validateEmail && !!password && !!captcha;
+  }, [email, validateEmail, password, captcha]);
 
   useEffect(() => {
     const emailCookie = Cookies.get('email');
@@ -52,7 +55,7 @@ export default function LoginPage() {
     //const token = await executeRecaptcha("login");
     rememberMe ? Cookies.set('email', email) : Cookies.remove('email');
     console.log('remember?', rememberMe, 'email value', email, 'email cookie:', Cookies.get('email'));
-    const response = await loginFetch({email, password});
+    const response = await loginFetch({email, password, captcha});
     console.log(response);
     if (response.ok) {
       const data = await response.json();
@@ -82,9 +85,9 @@ export default function LoginPage() {
                   type="email"
                   label="Email"
                   labelPlacement="outside"
-                  isInvalid={checkEmail}
-                  color={checkEmail ? "danger" : "default"}
-                  errorMessage={checkEmail && "올바른 이메일을 입력해주세요."}
+                  isInvalid={validateEmail}
+                  color={validateEmail ? "danger" : "default"}
+                  errorMessage={validateEmail && "올바른 이메일을 입력해주세요."}
                   startContent={
                     <MailIcon
                         className="text-2xl"/>
@@ -117,7 +120,7 @@ export default function LoginPage() {
             <div className="flex w-full gap-5">
               <Checkbox defaultSelected color="secondary" checked={rememberMe}
                         onValueChange={setRememberMe}>아이디 기억하기</Checkbox>
-              <Link color="secondary" onClick={nextStep}>비밀번호를 잊으셨나요?</Link>
+              <Link color="secondary" onClick={changeStep}>비밀번호를 잊으셨나요?</Link>
             </div>
 
             <div className="flex w-full py-5">
@@ -127,7 +130,7 @@ export default function LoginPage() {
               />
             </div>
             <Button color="secondary" onClick={handleSubmit}
-                    isLoading={loginLoadingState}>
+                    isLoading={loginLoadingState} isDisabled={!validateLogin}>
               로그인
             </Button>
             <div
@@ -177,7 +180,7 @@ export default function LoginPage() {
               </div>
               <p className="my-4 mb-8 text-sm text-gray-300">가입 시 등록한 이메일 주소로 비밀번호 재설정 링크를
                 보내드립니다.</p>
-              <Button onClick={nextStep} color="secondary" variant="ghost"
+              <Button onClick={changeStep} color="secondary" variant="ghost"
                       className="mt-4 font-normal">확인</Button>
             </div>
           </div>
