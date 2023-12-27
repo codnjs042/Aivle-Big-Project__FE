@@ -255,7 +255,6 @@ export default function SignupPage() {
                   onClear={() => setRePassword('')}
               />
             </div>
-
             <div
                 className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
               <Button color="secondary"

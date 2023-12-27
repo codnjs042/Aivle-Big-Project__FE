@@ -5,9 +5,8 @@ import dynamic from 'next/dynamic';
 import {Card, CardBody, Image, Button, Slider} from "@nextui-org/react";
 import {HeartIcon, PauseCircleIcon, NextIcon, PreviousIcon} from "@/components/icons";
 import { useRouter, useSearchParams } from "next/navigation";
+import {ArtistNames, artistNamesArray} from "@/types/artist";
 
-type ArtistNames = 'NEWJEANS' | 'BTS' | 'NCT DREAM' | 'BLACKPINK' | 'AESPA' | 'IVE' | 'NCT 127' | 'SEVENTEEN';
-const artistNamesArray: ArtistNames[] = ['NEWJEANS', 'BTS', 'NCT DREAM', 'BLACKPINK', 'AESPA', 'IVE', 'NCT 127', 'SEVENTEEN'];
 export default function PracticePage() {
   const router = useRouter();
   const queryParams = useSearchParams();
@@ -17,6 +16,7 @@ export default function PracticePage() {
   const [selectedArtist, setSelectedArtist] = useState<ArtistNames | null>(null);
 
   useEffect(() => {
+
     if (artist !== null && artistNamesArray.includes(artist as ArtistNames)) {
       setSelectedArtist(artist as ArtistNames);
     } else {
@@ -90,7 +90,7 @@ export default function PracticePage() {
                   className="object-cover"
                   height={200}
                   shadow="md"
-                  src={selectedArtist && artistInfo[selectedArtist]?.image}
+                  src={selectedArtist ? artistInfo[selectedArtist]?.image || undefined : undefined}
                   width="100%"
                 />
           </div>
