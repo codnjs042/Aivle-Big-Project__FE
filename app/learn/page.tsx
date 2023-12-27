@@ -128,7 +128,7 @@ export default function LearnPage() {
 
   //단어 음성 듣기
   const handleTextToSpeech = async () => {
-    const audioUrl = await textToSpeech(currentPageVoice);
+    const audioUrl = await textToSpeech(SentenceInfo[activePage].text3);
     setAudio(audioUrl);
   };
 
@@ -180,9 +180,9 @@ export default function LearnPage() {
                 </div>
                 {/* 단어 문장 */}
                 <div className="flex flex-col gap-2">
-                  <h1 className="text-large text-foreground/80 mt-5">Hello</h1>
-                  <h1 className="font-large text-foreground/90 mt-5">Annyunghaseyo</h1>
-                  <h1 className="text-large font-medium mt-5">안녕하세요</h1>
+                  <h1 className="text-large text-foreground/80 mt-5">{SentenceInfo[activePage].text1}</h1>
+                  <h1 className="font-large text-foreground/90 mt-5">{SentenceInfo[activePage].text2}</h1>
+                  <h1 className="text-large font-medium mt-5">{SentenceInfo[activePage].text3}</h1>
                 </div>
                 <Button
                   isIconOnly
