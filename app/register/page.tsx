@@ -8,6 +8,8 @@ import {emailFetch} from "@/api/user/email";
 import {Artist, artistList} from "@/types/artist";
 import {Genre, genreList} from "@/types/genre";
 import {useRouter} from "next/navigation";
+import ReCAPTCHA from "react-google-recaptcha";
+import {useTheme} from "next-themes";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -30,6 +32,9 @@ export default function SignupPage() {
 
   const [selectedGenres, setSelectedGenres] = useState<Set<Genre>>(new Set([]));
   const [selectedArtist, setSelectedArtist] = useState<Set<Artist>>(new Set([]));
+
+  const [captcha, setCaptcha] = useState<string>("");
+  const { theme, setTheme } = useTheme();
 
   const nextStep = () => setStep(step + 1);
   const prevStep = () => setStep(step - 1);
@@ -98,9 +103,22 @@ export default function SignupPage() {
 
   const checkRePassword = useMemo(() => validateRePassword(rePassword, password), [password, rePassword]);
 
+  const validateNickname = useCallback((value: string) => {
+    if (!value) return false;
+    return value.length > 30;
+  }, []);
+
+  const checkNickname = useMemo(() => validateNickname(nickname), [nickname]);
+
   const checkInfo = useMemo(() => { // step 2 유효성 검사
-    return !checkEmail && emailDuplication && !checkPassword && !checkRePassword && email && password && rePassword;
-  }, [email, emailDuplication, password, rePassword]);
+    return !checkEmail && emailDuplication && !checkPassword && !checkRePassword && email && password && rePassword && nickname && !checkNickname
+  }, [email, emailDuplication, password, rePassword, nickname]);
+
+  const checkReCaptcha = (value: string | null) => {
+    if (value === null) return;
+    setCaptcha(value);
+  };
+
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     console.log("Signup form submitted:", {
@@ -114,13 +132,6 @@ export default function SignupPage() {
     router.replace('/login');
   };
 
-  const validateNickname = useCallback((value: string) => {
-    if (!value) return false;
-    return value.length > 30;
-  }, []);
-
-  const checkNickname = useMemo(() => validateNickname(nickname), [nickname]);
-
   switch (step) {
     case 1:
       return (
@@ -130,19 +141,19 @@ export default function SignupPage() {
               <Progress color="secondary" isStriped size="lg" label="Step 1" radius="lg" value={33}
                         style={{paddingBottom: '10px', textIndent: '10px'}}/>
             </div>
-            <div className="flex w-full" style={{ marginBottom: '-10px' }}>
+            <div className="flex w-full justify-between" style={{ marginBottom: '-10px' }}>
               <PrivacyPolicy/>
               <Checkbox style={{ marginLeft: '90px' }} color="secondary" isSelected={agreePrivacy} onValueChange={setAgreePrivacy}>
                 동의합니다.
               </Checkbox>
             </div>
-            <div className="flex w-full">
+            <div className="flex w-full justify-between">
               <TermOfUse/>
               <Checkbox style={{ marginLeft: '160px' }} color="secondary" isSelected={agreeTerms} onValueChange={setAgreeTerms}>
                 동의합니다.
               </Checkbox>
             </div>
-            <div className="flex w-full py-5">
+            <div className="flex w-full">
               <Button color="secondary" variant={(checkAgree) ? "solid" : "flat"}
                       fullWidth={true} onClick={nextStep} disabled={!checkAgree}>
                 {(checkAgree) ? "다음 단계로" : "모든 항목에 동의해주세요"}
@@ -155,7 +166,7 @@ export default function SignupPage() {
           <>
             <div className="text-center">
               <p className="text-2xl center">회원가입</p>
-              <Progress isStriped size="lg" label="Step 2" radius="lg" value={67}
+              <Progress color="secondary" isStriped size="lg" label="Step 2" radius="lg" value={67}
                         style={{paddingBottom: '10px'}}/>
             </div>
             <div className="flex w-full gap-5">
@@ -242,7 +253,28 @@ export default function SignupPage() {
                   onClear={() => setRePassword('')}
               />
             </div>
-            <div className="flex w-full py-5 gap-10">
+            <div className="flex w-full">
+              <Input
+                  isClearable
+                  isRequired={true}
+                  type="string"
+                  label="닉네임"
+                  value={nickname}
+                  placeholder="닉네임을 30자 이내로 입력해주세요."
+                  isInvalid={checkNickname}
+                  color={checkNickname ? "danger" : "default"}
+                  errorMessage={
+                    checkNickname ? "닉네임이 너무 깁니다." : ""
+                  }
+                  onValueChange={(e) => setNickname(e)}
+                  labelPlacement="outside"
+                  startContent={
+                    <AvatarIcon className="text-2xl"/>
+                  }
+                  onClear={() => setNickname('')}
+              />
+            </div>
+            <div className="flex w-full gap-10 py-5">
               <Button color="secondary"
                       fullWidth={true} onClick={prevStep}>
                 이전 단계로
@@ -259,28 +291,10 @@ export default function SignupPage() {
           <>
             <div className="text-center">
               <p className="text-2xl center">회원가입</p>
-              <Progress isStriped size="lg" label="Step 3" value={100} style={{paddingBottom: '10px'}}/>
+              <Progress color="secondary" isStriped size="lg" label="Step 3" value={100}
+                        style={{paddingBottom: '10px'}}/>
             </div>
-            <div className="flex w-full">
-              <Input
-                  isClearable
-                  isRequired={true}
-                  type="string"
-                  label="닉네임"
-                  value={nickname}
-                  isInvalid={checkNickname}
-                  color={checkNickname ? "danger" : "default"}
-                  errorMessage={
-                    checkNickname ? "닉네임이 너무 깁니다." : ""
-                  }
-                  onValueChange={(e) => setNickname(e)}
-                  labelPlacement="outside"
-                  startContent={
-                    <AvatarIcon className="text-2xl"/>
-                  }
-                  onClear={() => setNickname('')}
-              />
-            </div>
+
             <div
                 className="flex w-full">
               <Select
@@ -317,12 +331,21 @@ export default function SignupPage() {
                 ))}
               </Select>
             </div>
+            <div className="flex w-full justify-center py-5">
+              <ReCAPTCHA
+                  sitekey="6Lc5sTspAAAAACJ_kKW6-60V9JOEg7gPMP9g-nC4"
+                  onChange={checkReCaptcha}
+                  theme={theme === "light" ? "light" : "dark"}
+                  key={theme}
+              />
+            </div>
             <div
-                className="flex w-full py-5 gap-10">
+                className="flex w-full gap-10">
               <Button color="secondary" fullWidth={true} onClick={prevStep}>
                 이전 단계로
               </Button>
-              <Button color="secondary" fullWidth={true} onClick={handleSubmit}>
+              <Button color="secondary" fullWidth={true} onClick={handleSubmit}
+                      isDisabled={!captcha}>
                 회원가입
               </Button>
             </div>
