@@ -9,7 +9,7 @@ import {loginFetch} from "@/api/user/login";
 import Cookies from 'js-cookie';
 import ReCAPTCHA from "react-google-recaptcha";
 import AuthContext from "@/context/AuthContext";
-
+import {useTheme} from "next-themes";
 export default function LoginPage() {
   const router = useRouter();
 
@@ -21,6 +21,7 @@ export default function LoginPage() {
   const [loginLoadingState, setLoginLoadingState] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [captcha, setCaptcha] = useState<string>("");
+  const { theme, setTheme } = useTheme();
 
   const [step, setStep] = useState(false);
   const auth = useContext(AuthContext);
@@ -34,7 +35,8 @@ export default function LoginPage() {
     return !validateEmail(email);
   }, [email]);
 
-  const checkReCaptcha = (value: string) => {
+  const checkReCaptcha = (value: string | null) => {
+    if (value === null) return;
     setCaptcha(value);
   };
 
@@ -67,6 +69,8 @@ export default function LoginPage() {
       setErrorMessage('입력하지 않은 내용이 있습니다.');
     } else if (response.status === 401) {
       setErrorMessage('이메일 또는 비밀번호가 일치하지 않습니다.');
+    } else if (response.status === 403) {
+      setErrorMessage('당신은 봇입니까?');
     }
     setLoginLoadingState(false);
   };
@@ -117,16 +121,18 @@ export default function LoginPage() {
               />
 
             </div>
-            <div className="flex w-full gap-5">
+            <div className="flex w-full gap-5 justify-between">
               <Checkbox defaultSelected color="secondary" checked={rememberMe}
                         onValueChange={setRememberMe}>아이디 기억하기</Checkbox>
               <Link color="secondary" onClick={changeStep}>비밀번호를 잊으셨나요?</Link>
             </div>
 
-            <div className="flex w-full py-5">
+            <div className="flex w-full justify-center py-5">
               <ReCAPTCHA
                   sitekey="6Lc5sTspAAAAACJ_kKW6-60V9JOEg7gPMP9g-nC4"
                   onChange={checkReCaptcha}
+                  theme={theme === "light" ? "light" : "dark"}
+                  key={theme}
               />
             </div>
             <Button color="secondary" onClick={handleSubmit}
