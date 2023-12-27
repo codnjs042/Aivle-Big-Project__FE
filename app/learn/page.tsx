@@ -27,37 +27,37 @@ export default function LearnPage() {
       text1: "Hello",
       text2: "Annyunghaseyo",
       text3: "안녕하세요",
-      image: "asset/images/idol1.png",
+      image: "asset/images/sentence/hello.jpg",
     },
     "2": {
       text1: "Thank you",
       text2: "gamsahapnida",
       text3: "감사합니다",
-      image: "asset/images/idol2.png",
+      image: "asset/images/sentence/thanku.jpg",
     },
     "3": {
       text1: "I'm sorry",
       text2: "joesonghapnida",
       text3: "죄송합니다",
-      image: "asset/images/idol3.png",
+      image: "asset/images/sentence/sorry.jpg",
     },
     "4": {
       text1: "Nice to meet you",
       text2: "bangapseupnida",
       text3: "반갑습니다",
-      image: "asset/images/idol4.png",
+      image: "asset/images/sentence/nice.jpg",
     },
     "5": {
       text1: "Goodbye",
       text2: "annyeonghigyeseyo",
       text3: "안녕히계세요",
-      image: "asset/images/idol5.png",
+      image: "asset/images/sentence/bye.jpg",
     },
     "6": {
       text1: "I'm hungry",
       text2: "baegopeupnida ",
       text3: "배고픕니다",
-      image: "asset/images/idol6.png",
+      image: "asset/images/sentence/hungry.jpg",
     },
   };
 
@@ -174,8 +174,8 @@ export default function LearnPage() {
                     className="object-cover"
                     height={200}
                     shadow="md"
-                    src="asset/images/shorts.png"
-                    width="100%"
+                    src={SentenceInfo[activePage].image}
+                    width="250"
                   />
                 </div>
                 {/* 단어 문장 */}
@@ -201,7 +201,7 @@ export default function LearnPage() {
             {/* 페이지네이션 */}
 
               <div>
-              <p>Active page: {activePage}</p>
+              {/* <p>Active page: {activePage}</p> */}
                 <ul className="flex gap-2 mt-10 items-center justify-center">
                   {range.map((page) => {
                     if (page === PaginationItemType.NEXT) {
