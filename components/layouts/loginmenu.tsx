@@ -42,33 +42,37 @@ export default function LoginMenu() {
       <div className="flex gap-4 justify-start ml-2">
         {login ? (
             <>
-              <Button className="h-8" style={{
+              <Button style={{
                 background: 'none',
                 border: '2px solid var(--nextui-color-secondary)'
               }}>{nickname} 님</Button>
-              <Button className="h-8"
-                      style={{
-                        background: 'none',
-                        border: '2px solid var(--nextui-color-secondary)'
-                      }}
-                      onClick={handleLogout}>로그아웃</Button>
+              <Button
+                  style={{
+                    background: 'none',
+                    border: '2px solid var(--nextui-color-secondary)'
+                  }}
+                  onClick={handleLogout}>로그아웃</Button>
             </>
         ) : (
-            <Link href="/login">
-              <Button className="h-8"
-                      style={{
-                        background: 'none',
-                        border: '2px solid var(--nextui-color-secondary)'
-                      }}>
-                로그인</Button>
-            </Link>
+            <>
+              <Link href="/login">
+                <Button
+                    style={{
+                      background: 'none',
+                      border: '2px solid var(--nextui-color-secondary)'
+                    }}>
+                  로그인</Button>
+              </Link>
+              <Link href="/register">
+                <Button
+                    style={{
+                      background: 'none',
+                      border: '2px solid var(--nextui-color-secondary)'
+                    }}>
+                  회원가입</Button>
+              </Link>
+            </>
         )}
-
-        <Link href="/register">
-          <Button className="h-8"
-                  style={{background: 'none', border: '2px solid var(--nextui-color-secondary)'}}>
-            회원가입</Button>
-        </Link>
       </div>
   );
 }
