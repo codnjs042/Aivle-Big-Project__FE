@@ -1,17 +1,12 @@
 "use client";
-import {contents} from "./contents";
-import {artist} from "./artist";
 import React, {useCallback, useMemo, useState} from "react";
 import {Button, Checkbox, Input, Progress, Select, SelectItem, Spacer,} from "@nextui-org/react";
-import {
-  AvatarIcon,
-  EditIcon,
-  EyeFilledIcon,
-  EyeSlashFilledIcon,
-} from "@nextui-org/shared-icons";
+import {AvatarIcon, EyeFilledIcon, EyeSlashFilledIcon, MailIcon,} from "@nextui-org/shared-icons";
 import PrivacyPolicy from "@/components/modals/privacyPolicy";
 import TermOfUse from "@/components/modals/termOfUse";
 import {emailFetch} from "@/api/user/email";
+import {Artist, artistList} from "@/types/artist";
+import {Genre, genreList} from "@/types/genre";
 
 export default function SignupPage() {
   const [step, setStep] = useState(1);
@@ -31,8 +26,8 @@ export default function SignupPage() {
 
   const [nickname, setNickname] = useState("");
 
-  const [selectedGenres, setSelectedGenres] = useState(new Set([]));
-  const [selectedArtist, setSelectedArtist] = useState(new Set([]));
+  const [selectedGenres, setSelectedGenres] = useState<Set<Genre>>(new Set([]));
+  const [selectedArtist, setSelectedArtist] = useState<Set<Artist>>(new Set([]));
 
   const nextStep = () => setStep(step + 1);
   const prevStep = () => setStep(step - 1);
@@ -115,7 +110,7 @@ export default function SignupPage() {
     });
   };
 
-  const validateNickname= useCallback((value: string) => {
+  const validateNickname = useCallback((value: string) => {
     if (!value) return false;
     return value.length > 30;
   }, []);
@@ -125,52 +120,35 @@ export default function SignupPage() {
   switch (step) {
     case 1:
       return (
-          <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg">
-            <div
-                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
-              <p className="text-3xl center">회원가입</p>
-            </div>
-            <div
-                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center py-5">
-              <Progress isStriped size="lg" label="Step 1" value={33} className="max-w-md"/>
-            </div>
-            <div
-                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-between">
+          <div className="flex flex-col gap-4 p-10 rounded-lg shadow-lg overflow-auto"
+               style={{width: '480px'}}>
+            <p className="text-3xl center">회원가입</p>
+            <Progress isStriped size="lg" label="Step 1" value={33}/>
+            <div className="flex w-full justify-between">
               <PrivacyPolicy/>
               <Checkbox color="secondary" isSelected={agreePrivacy} onValueChange={setAgreePrivacy}>
                 개인정보 처리방침에 동의합니다.
               </Checkbox>
             </div>
-            <div
-                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-between">
+            <div className="flex w-full justify-between">
               <TermOfUse/>
               <Checkbox color="secondary" isSelected={agreeTerms} onValueChange={setAgreeTerms}>
                 서비스 이용약관에 동의합니다.
               </Checkbox>
             </div>
-            <div
-                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
-              <Button color="secondary" variant={(checkAgree) ? "solid" : "flat"}
-                      fullWidth={true} onClick={nextStep} disabled={!checkAgree}>
-                {(checkAgree) ? "다음 단계로" : "모든 항목에 동의해주세요"}
-              </Button>
-            </div>
+            <Button color="secondary" variant={(checkAgree) ? "solid" : "flat"}
+                    fullWidth={true} onClick={nextStep} disabled={!checkAgree}>
+              {(checkAgree) ? "다음 단계로" : "모든 항목에 동의해주세요"}
+            </Button>
           </div>
       );
     case 2:
-
       return (
-          <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg"
-               style={{width: '400px'}}>
-            <div
-                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
-              <p className="text-3xl center">회원가입</p>
-            </div>
-            <div
-                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center py-5">
-              <Progress isStriped size="lg" label="Step 2" value={67} className="max-w-md"/>
-            </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+          <div className="flex flex-col gap-4 p-10 rounded-lg shadow-lg overflow-auto"
+               style={{width: '480px'}}>
+            <p className="text-3xl center">회원가입</p>
+            <Progress isStriped size="lg" label="Step 2" value={67}/>
+            <div className="flex w-full">
               <Input
                   isClearable
                   isRequired={true}
@@ -183,26 +161,25 @@ export default function SignupPage() {
                   }
                   value={email}
                   placeholder="이메일을 입력해주세요."
-                  onChange={(e) => {
-                    setEmail(e.target.value);
+                  onValueChange={(e) => {
+                    setEmail(e);
                     setEmailError('');
                   }}
                   labelPlacement="outside"
                   startContent={
-                    <EditIcon
-                        className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
+                    <MailIcon className="text-2xl"/>
                   }
                   isDisabled={emailDuplication}
                   onClear={() => setEmail('')}
               />
-              <div className="flex flex-col justify-center h-unit-20">
-                <Button color="secondary" variant={emailDuplication ? "bordered" : "solid"}
+              <div className={`flex flex-col ${checkEmail ? "justify-end" : ""}`}>
+              <Button color="secondary" variant={emailDuplication ? "bordered" : "solid"}
                         onClick={() => emailDuplication ? setEmailDuplication(false) : checkEmailDuplication()}>
                   {emailDuplication ? '초기화' : '중복확인'}
                 </Button>
               </div>
             </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+            <div className="flex w-full">
               <Input
                   isClearable
                   isRequired={true}
@@ -214,49 +191,47 @@ export default function SignupPage() {
                   errorMessage={
                     checkPassword ? passwordError : ""
                   }
-                  onChange={(e) => setPassword(e.target.value)}
+                  onValueChange={(e) => setPassword(e)}
                   labelPlacement="outside"
                   startContent={
-                    <button className="focus:outline-none" type="button" onClick={togglePasswordVisibility}>
+                    <button className="focus:outline-none" type="button"
+                            onClick={togglePasswordVisibility}>
                       {passwordVisible ? (
-                          <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                      ) : (
-                          <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                      )}
+                          <EyeSlashFilledIcon className="text-2xl"/>) : (
+                          <EyeFilledIcon className="text-2xl"/>)}
                     </button>
                   }
                   type={passwordVisible ? "text" : "password"}
                   onClear={() => setPassword('')}
               />
             </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+            <div className="flex w-full">
               <Input
                   isClearable
                   isRequired={true}
                   label="비밀번호 재확인"
                   value={rePassword}
+                  placeholder="비밀번호와 동일하게 입력해주세요."
                   isInvalid={checkRePassword}
                   color={checkRePassword ? "danger" : "default"}
                   errorMessage={
                     checkRePassword ? "비밀번호가 일치하지 않습니다." : ""
                   }
-                  onChange={(e) => setRePassword(e.target.value)}
+                  onValueChange={(e) => setRePassword(e)}
                   labelPlacement="outside"
                   startContent={
-                    <button className="focus:outline-none" type="button" onClick={toggleRePasswordVisibility}>
+                    <button className="focus:outline-none" type="button"
+                            onClick={toggleRePasswordVisibility}>
                       {rePasswordVisible ? (
-                          <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                      ) : (
-                          <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                      )}
+                          <EyeSlashFilledIcon className="text-2xl"/>) : (
+                          <EyeFilledIcon className="text-2xl"/>)}
                     </button>
                   }
                   type={rePasswordVisible ? "text" : "password"}
                   onClear={() => setRePassword('')}
               />
             </div>
-            <div
-                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
+            <div className="flex w-full gap-10">
               <Button color="secondary"
                       fullWidth={true} onClick={prevStep}>
                 이전 단계로
@@ -270,16 +245,10 @@ export default function SignupPage() {
       );
     case 3:
       return (
-          <div className="flex flex-col gap-4 p-6 bg-top rounded-lg shadow-lg"
+          <div className="flex flex-col gap-4 p-10 rounded-lg shadow-lg overflow-auto"
                style={{width: '400px'}}>
-            <div
-                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
-              <p className="text-3xl center">회원가입</p>
-            </div>
-            <div
-                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center py-5">
-              <Progress isStriped size="lg" label="Step 3" value={100} className="max-w-md"/>
-            </div>
+            <p className="text-3xl center">회원가입</p>
+            <Progress isStriped size="lg" label="Step 3" value={100} className="max-w-md"/>
             <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
               <Input
                   isClearable
@@ -292,7 +261,7 @@ export default function SignupPage() {
                   errorMessage={
                     checkNickname ? "닉네임이 너무 깁니다." : ""
                   }
-                  onChange={(e) => setNickname(e.target.value)}
+                  onValueChange={(e) => setNickname(e)}
                   labelPlacement="outside"
                   startContent={
                     <AvatarIcon
@@ -301,42 +270,42 @@ export default function SignupPage() {
                   onClear={() => setNickname('')}
               />
             </div>
-            <div className="flex w-full max-w-xs flex-col gap-2">
+            <div
+                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
               <Select
                   label="좋아하는 장르"
                   variant="bordered"
-                  placeholder="장르를 선택하세요."
+                  placeholder="무응답"
                   selectedKeys={selectedGenres}
-                  className="max-w-xs"
+                  labelPlacement="outside"
                   selectionMode="multiple"
-                  //onSelectionChange={setSelectedGenres}
+                  onSelectionChange={(keys) => setSelectedGenres(new Set(keys) as Set<Genre>)}
               >
-                {contents.map((content) => (
-                    <SelectItem key={content.value} value={content.value}>
-                      {content.label}
+                {genreList.map((item) => (
+                    <SelectItem key={item} value={item}>
+                      {item}
                     </SelectItem>
                 ))}
               </Select>
-              <p className="text-small text-default-500">선택: {Array.from(selectedGenres).join(', ')}</p>
             </div>
-
-            <Select
-                label="좋아하는 가수"
-                variant="bordered"
-                placeholder="가수를 선택하세요."
-                selectedKeys={selectedArtist}
-                className="max-w-xs"
-                selectionMode="multiple"
-                //onSelectionChange={setSelectedArtist}
-            >
-              {artist.map((star) => (
-                  <SelectItem key={star.value} value={star.value}>
-                    {star.label}
-                  </SelectItem>
-              ))}
-            </Select>
-            <p className="text-small text-default-500">선택: {Array.from(selectedArtist).join(', ')}</p>
-
+            <div
+                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 justify-center items-center">
+              <Select
+                  label="좋아하는 가수"
+                  variant="bordered"
+                  placeholder="무응답"
+                  selectedKeys={selectedArtist}
+                  labelPlacement="outside"
+                  selectionMode="multiple"
+                  onSelectionChange={(keys) => setSelectedArtist(new Set(keys) as Set<Artist>)}
+              >
+                {artistList.map((item) => (
+                    <SelectItem key={item} value={item}>
+                      {item}
+                    </SelectItem>
+                ))}
+              </Select>
+            </div>
 
             {/* <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
               <CheckboxGroup

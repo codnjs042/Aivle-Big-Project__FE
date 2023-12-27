@@ -9,7 +9,7 @@ export default function TermOfUse() {
 
   return (
       <>
-        <Button size='md' onClick={onOpen} style={{ background: 'none', fontSize: '16px'}}>이용약관</Button>
+        <Button size='md' onClick={onOpen} style={{ background: 'none', fontSize: '16px', textDecoration: 'underline'}}>이용약관</Button>
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
           <ModalContent>
             {(onClose) => (

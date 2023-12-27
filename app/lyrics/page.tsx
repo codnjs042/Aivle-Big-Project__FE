@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 import {Card, CardBody, Image, Button, Slider} from "@nextui-org/react";
 import {HeartIcon, PauseCircleIcon, NextIcon, PreviousIcon} from "@/components/icons";
 import { useRouter, useSearchParams } from "next/navigation";
-import {ArtistNames, artistNamesArray} from "@/types/artist";
+import {Artist, artistList} from "@/types/artist";
 
 export default function PracticePage() {
   const router = useRouter();
@@ -13,12 +13,12 @@ export default function PracticePage() {
   const artist = queryParams.get('artist');
   const [liked, setLiked] = React.useState(false);
   const DynamicReactPlayer = dynamic(() => import('react-player'), { ssr: false });
-  const [selectedArtist, setSelectedArtist] = useState<ArtistNames | null>(null);
+  const [selectedArtist, setSelectedArtist] = useState<Artist | null>(null);
 
   useEffect(() => {
 
-    if (artist !== null && artistNamesArray.includes(artist as ArtistNames)) {
-      setSelectedArtist(artist as ArtistNames);
+    if (artist !== null && artistList.includes(artist as Artist)) {
+      setSelectedArtist(artist as Artist);
     } else {
       setSelectedArtist(null);
     }

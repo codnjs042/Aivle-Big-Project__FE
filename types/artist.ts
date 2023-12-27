@@ -1,4 +1,4 @@
- export enum ArtistNames {
+ export enum Artist {
   NEWJEANS = 'NEWJEANS',
   BTS = 'BTS',
   NCTDREAM = 'NCT DREAM',
@@ -9,13 +9,13 @@
   SEVENTEEN = 'SEVENTEEN'
 }
 
- export const artistNamesArray: ArtistNames[] = [
-  ArtistNames.NEWJEANS,
-  ArtistNames.BTS,
-  ArtistNames.NCTDREAM,
-  ArtistNames.BLACKPINK,
-  ArtistNames.AESPA,
-  ArtistNames.IVE,
-  ArtistNames.NCT127,
-  ArtistNames.SEVENTEEN
+ export const artistList: Artist[] = [
+  Artist.NEWJEANS,
+  Artist.BTS,
+  Artist.NCTDREAM,
+  Artist.BLACKPINK,
+  Artist.AESPA,
+  Artist.IVE,
+  Artist.NCT127,
+  Artist.SEVENTEEN
 ];
