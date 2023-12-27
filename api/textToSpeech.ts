@@ -1,27 +1,24 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { TextToSpeechClient } from '@google-cloud/text-to-speech';
+// api/textToSpeech.ts
 
-const apiKey = 'AIzaSyB_yrG0StK0YALXlDWEyY_B2EItX9n145Y';   //api 키
+import axios from 'axios';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method Not Allowed' });
-  }
-
+export const textToSpeech = async (text: string): Promise<string | null> => {
   try {
-    const { text } = req.body;
+    const apiKey = 'AIzaSyB_yrG0StK0YALXlDWEyY_B2EItX9n145Y'; // api key
 
-    const client = new TextToSpeechClient({ key: apiKey });
-    const [response] = await client.synthesizeSpeech({
-      input: { text },
-      voice: { languageCode: 'ko-KR', ssmlGender: 'NEUTRAL' },
-      audioConfig: { audioEncoding: 'MP3' },
-    });
+    const response = await axios.post(
+      `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`,
+      {
+        input: { text },
+        voice: { languageCode: 'ko-KR', name: 'ko-KR-Wavenet-A', ssmlGender: 'NEUTRAL' },
+        audioConfig: { audioEncoding: 'LINEAR16' },
+      }
+    );
 
-    const audioContent = response?.audioContent?.toString('base64') || '';
-    res.status(200).json({ audioContent });
+    const audioContent = response.data.audioContent;
+    return `data:audio/wav;base64,${audioContent}`;
   } catch (error) {
-    console.error('Error in textToSpeech API:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Text-to-Speech API Error:', error);
+    return null;
   }
-}
+};

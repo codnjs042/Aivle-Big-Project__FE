@@ -1,9 +1,11 @@
 "use client"
 
 import React, { useState, useRef } from 'react';
+import { textToSpeech } from '@/api/textToSpeech'
 import {Input, Card, CardBody, Image, Button, Slider, Pagination, PaginationItemType, usePagination} from "@nextui-org/react";
 import {HeartIcon, PauseCircleIcon, NextIcon, PreviousIcon, RepeatOneIcon, ShuffleIcon, ChevronIcon, SearchIcon, } from "@/components/icons";
 import cn from 'classnames';
+import axios from 'axios';
 
 export default function LearnPage() {
   const [audio, setAudio] = useState<string | null>(null);
@@ -95,27 +97,12 @@ export default function LearnPage() {
     }
   };
 
-  //음성
+  //단어 음성 듣기
   const handleTextToSpeech = async () => {
-    try {
-      const response = await fetch('/api/textToSpeech', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ text: '안녕하세요' }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`API request failed with status ${response.status}`);
-      }
-
-      const { audioContent } = await response.json();
-      setAudio(`data:audio/mpeg;base64,${audioContent}`);
-    } catch (error) {
-      console.error('Error fetching textToSpeech API:', error);
-    }
+    const audioUrl = await textToSpeech(currentPageText);
+    setAudio(audioUrl);
   };
+
   
 
   return (
