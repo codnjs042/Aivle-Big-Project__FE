@@ -153,7 +153,7 @@ export default function SignupPage() {
                 동의합니다.
               </Checkbox>
             </div>
-            <div className="flex w-full py-5">
+            <div className="flex w-full">
               <Button color="secondary" variant={(checkAgree) ? "solid" : "flat"}
                       fullWidth={true} onClick={nextStep} disabled={!checkAgree}>
                 {(checkAgree) ? "다음 단계로" : "모든 항목에 동의해주세요"}
@@ -273,7 +273,7 @@ export default function SignupPage() {
                   onClear={() => setNickname('')}
               />
             </div>
-            <div className="flex w-full py-5 gap-10">
+            <div className="flex w-full gap-10">
               <Button color="secondary"
                       fullWidth={true} onClick={prevStep}>
                 이전 단계로
@@ -339,7 +339,7 @@ export default function SignupPage() {
               />
             </div>
             <div
-                className="flex w-full py-5 gap-10">
+                className="flex w-full gap-10">
               <Button color="secondary" fullWidth={true} onClick={prevStep}>
                 이전 단계로
               </Button>
