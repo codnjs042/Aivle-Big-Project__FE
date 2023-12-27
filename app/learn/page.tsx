@@ -1,17 +1,14 @@
 "use client"
 
-import React from "react";
+import React, { useState, useRef } from 'react';
 import {Input, Card, CardBody, Image, Button, Slider, Pagination, PaginationItemType, usePagination} from "@nextui-org/react";
-import {HeartIcon, PauseCircleIcon, NextIcon, PreviousIcon, RepeatOneIcon, ShuffleIcon, ChevronIcon, SearchIcon} from "@/components/icons";
+import {HeartIcon, PauseCircleIcon, NextIcon, PreviousIcon, RepeatOneIcon, ShuffleIcon, ChevronIcon, SearchIcon, } from "@/components/icons";
 import cn from 'classnames';
-
-// 상단에 다음과 같이 useState를 추가합니다.
-import { useState } from 'react';
 
 export default function LearnPage() {
   const [liked, setLiked] = useState(false);
   const [currentPageText, setCurrentPageText] = useState('안녕하세요'); // 초기 텍스트 설정
-
+  const [audioUrl, setAudioUrl] = useState(null);
   const sizes = ['sm'];
 
   const {
@@ -41,6 +38,62 @@ export default function LearnPage() {
       setCurrentPageText('');
     }
   };
+
+  // 녹음 상태 및 녹음된 Blob을 저장할 상태
+  const [recording, setRecording] = useState(false);
+  const [recordedBlob, setRecordedBlob] = useState(null);
+
+  // 미디어 스트림 및 녹음기 참조
+  const mediaStreamRef = useRef(null);
+  const mediaRecorderRef = useRef(null);
+  
+  // 음성 녹음 시작 함수
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaStreamRef.current = stream;
+
+      const recorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = recorder;
+
+      const chunks = [];
+
+      recorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          chunks.push(event.data);
+        }
+      };
+      
+      recorder.onstop = () => {
+        const blob = new Blob(chunks, { type: 'audio/wav' });
+        setRecordedBlob(blob);
+
+        const url = URL.createObjectURL(blob);
+        setAudioUrl(url);
+      };
+
+      recorder.start();
+      setRecording(true);
+    } catch (error) {
+      console.error('Error starting recording:', error);
+    }
+  };
+
+  // 음성 녹음 종료 함수
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && recording) {
+      mediaRecorderRef.current.stop();
+      mediaStreamRef.current.getTracks().forEach((track) => track.stop());
+      setRecording(false);
+    }
+  };
+  const playRecording = () => {
+    if (audioUrl) {
+      const audio = new Audio(audioUrl);
+      audio.play();
+    }
+  };
+  
 
   return (
     <div>
@@ -168,9 +221,16 @@ export default function LearnPage() {
       {/* 오늘의 단어 */}
       <CardBody style={{paddingLeft:'100px', paddingRight:'100px'}}>
         <div className="grid grid-cols-6 md:grid-cols-3 gap-6 md:gap-20 items-center justify-center">
-
           <div className="flex flex-col col-span-6 md:col-span-8">
-          <div className="flex flex-col mt-20 gap-1">
+          <Button
+              className="w-10 item-center"
+              radius="full"
+              variant="light"
+              onPress={recording ? stopRecording : startRecording}
+            >
+          {recording ? "녹음정지" : "녹음시작"}
+            </Button>
+          <div className="flex flex-col mt-10 gap-1">
             <Slider
               aria-label="Record progress"
               classNames={{
@@ -202,8 +262,9 @@ export default function LearnPage() {
               className="w-auto h-auto data-[hover]:bg-foreground/10"
               radius="full"
               variant="light"
+              onPress={playRecording}
             >
-              <PauseCircleIcon size={54} />
+              <PauseCircleIcon size={54}/>
             </Button>
             <Button
               isIconOnly
