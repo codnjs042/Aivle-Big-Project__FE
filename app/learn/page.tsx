@@ -10,18 +10,29 @@ import axios from 'axios';
 import { ReactMediaRecorder, useReactMediaRecorder } from 'react-media-recorder';
 
 export default function LearnPage() {
-  const [audio, setAudio] = useState<string | null>(null);
   const [liked, setLiked] = useState(false);
   const [currentPageVoice, setCurrentPageVoice] = useState('안녕하세요');
+  // 음성듣기용 오디오
+  const [audio, setAudio] = useState<string | null>(null);
   const [audioUrl, setAudioUrl] = useState(null);
+  // 음성녹음용 오디오
+  const [voice, setVoice] = useState<string | null>(null);
+  const [voiceUrl, setVoiceUrl] = useState(null);
   const sizes = ['sm']; 
-
   // 녹음 상태 및 녹음된 Blob을 저장할 상태
   const [recording, setRecording] = useState(false);
   const [recordedBlob, setRecordedBlob] = useState(null);
   // 미디어 스트림 및 녹음기 참조
   const mediaStreamRef = useRef(null);
   const mediaRecorderRef = useRef(null);
+
+  //단어 음성 듣기
+  const handleTextToSpeech = async () => {
+    const audioUrl = await textToSpeech(SentenceInfo[activePage].text3);
+    setAudio(audioUrl);
+    const audioElement = new Audio(audioUrl);
+    audioElement.play();
+  };
 
   //문장 리스트
   const SentenceInfo = {
@@ -77,10 +88,7 @@ export default function LearnPage() {
   };
 
   // 페이지에 따라 문장리스트 호출
-  const updatePageText = (page) => {
-    if (page === 1) {
-    }
-  };
+  const updatePageText = (page) => {  };
 
   // 음성 녹음 시작 함수
   const startRecording = async () => {
@@ -103,7 +111,7 @@ export default function LearnPage() {
         setRecordedBlob(blob);
 
         const url = URL.createObjectURL(blob);
-        setAudioUrl(url);
+        setVoiceUrl(url);
       };
 
       recorder.start();
@@ -121,35 +129,17 @@ export default function LearnPage() {
       setRecording(false);
     }
   };
+  // 음성 녹음 듣기 함수
   const playRecording = () => {
-    if (audioUrl) {
-      const audio = new Audio(audioUrl);
-      audio.play();
+    if (voiceUrl) {
+      setVoice(voiceUrl);
+      const voice = new Audio(voiceUrl);
+      // voice.play();
     }
-  };
-
-  //단어 음성 듣기
-  const handleTextToSpeech = async () => {
-    const audioUrl = await textToSpeech(SentenceInfo[activePage].text3);
-    setAudio(audioUrl);
-    const audioElement = new Audio(audioUrl);
-    audioElement.play();
-  };
-/*   const [isRecording, setIsRecording] = useState(false);
-  const { status, startRecording, stopRecording, mediaBlobUrl } = useReactMediaRecorder({ video: false }); */
-
-  const handleButtonClick = () => {
-    if (isRecording) {
-      stopRecording();
-    } else {
-      startRecording();
-    }
-    setIsRecording(!isRecording);
   };
 
   return (
     <div>
-      {/* {audio && <audio controls src={audio} />} */}
       <Input
           classNames={{
             base: "max-w-full sm:max-w-[10rem] h-10",
@@ -214,7 +204,6 @@ export default function LearnPage() {
               </div>
 
             {/* 페이지네이션 */}
-
               <div>
               {/* <p>Active page: {activePage}</p> */}
                 <ul className="flex gap-2 mt-10 items-center justify-center">
@@ -282,77 +271,24 @@ export default function LearnPage() {
       {/* 음성 녹음 */}
       <CardBody style={{paddingLeft:'100px', paddingRight:'100px'}}>
           <div className="flex flex-col col-span-6 md:col-span-8 item-center">
-                <Button
-                  isIconOnly color="secondary" variant="faded" aria-label="headphone"
-                  onPress={handleTextToSpeech}
-                  className="data-[hover]:bg-foreground/10 listen-button items-center"
-                  radius="full"
-                  >
-                  <VolumeHighBoldIcon className="text-2xl"/>
-                </Button>
               <Button
-                className="w-10 item-center"
+                className="w-20 item-center"
                 radius="full"
                 variant="light"
                 onPress={recording ? stopRecording : startRecording}
               >
                 {recording ? "녹음정지" : "녹음시작"}
               </Button>
-              {/* <div style={{marginLeft:"185px"}}>
-               <Button radius="full"
-                variant="light" onClick={handleButtonClick}>
-                {isRecording ? '녹화 중지' : '음성 녹화'}
-              </Button>
-              </div>
-              {mediaBlobUrl && (
-                <video style={{marginTop:"-150px"}} src={mediaBlobUrl} controls />
-              )} */}
-            {/* <div className="flex flex-col mt-10 gap-1">
-              <Slider
-                aria-label="Record progress"
-                classNames={{
-                  track: 'bg-default-500/30',
-                  thumb: 'w-2 h-2 after:w-2 after:h-2 after:bg-foreground',
-                }}
-                color="foreground"
-                defaultValue={33}
-                size="sm"
-              />
-              <div className="flex justify-between">
-                <p className="text-small">0:04</p>
-                <p className="text-small text-foreground/50">0:10</p>
-              </div>
-            </div>
-
-            <div className="flex w-full items-center justify-center"> */}
-              {/* <Button
-                isIconOnly
-                className="data-[hover]:bg-foreground/10"
-                radius="full"
-                variant="light"
-                onPress={() => handlePageChange(activePage - 1)}
-              >
-                <PreviousIcon />
-              </Button> */}
               <Button
                 isIconOnly
-                className="w-auto h-auto data-[hover]:bg-foreground/10"
+                className="w-20 item-center"
                 radius="full"
                 variant="light"
                 onPress={playRecording}
               >
-                <PauseCircleIcon size={54}/>
+                음성듣기
               </Button>
-              {/* <Button
-                isIconOnly
-                className="data-[hover]:bg-foreground/10"
-                radius="full"
-                variant="light"
-                onPress={() => handlePageChange(activePage + 1)}
-              >
-                <NextIcon />
-              </Button> */}
-            {/* </div> */}        
+              {voice && <audio controls src={voice} />}  
           </div>
         </CardBody>
       </Card>
