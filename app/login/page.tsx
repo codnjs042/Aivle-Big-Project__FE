@@ -55,6 +55,7 @@ export default function LoginPage() {
   }, []);
   const handleSubmit = async () => {
     setLoginLoadingState(true);
+    setCaptchaKey(Date.now());
     //const token = await executeRecaptcha("login");
     rememberMe ? Cookies.set('email', email) : Cookies.remove('email');
     console.log('remember?', rememberMe, 'email value', email, 'email cookie:', Cookies.get('email'));
@@ -63,8 +64,9 @@ export default function LoginPage() {
     if (response.ok) {
       const data = await response.json();
       console.log("token 발급: ", data.access);
-      auth.setToken(data.access);
+      auth.setAccess(data.access);
       console.log("refresh 쿠키설정됨: ", data.refresh);
+      auth.setLogin(true);
       router.replace('/');
     } else if (response.status === 400) {
       setErrorMessage('입력하지 않은 내용이 있습니다.');
@@ -73,7 +75,6 @@ export default function LoginPage() {
     } else if (response.status === 403) {
       setErrorMessage("캡차 인증을 다시 진행하세요.");
     }
-    setCaptchaKey(Date.now());
     setLoginLoadingState(false);
   };
 
