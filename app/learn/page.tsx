@@ -272,62 +272,32 @@ export default function LearnPage() {
       <CardBody style={{paddingLeft:'100px', paddingRight:'100px'}}>
           <div className="flex flex-col col-span-6 md:col-span-8 item-center">
               <Button
-                className="w-20 item-center"
-                radius="full"
-                variant="light"
+                className="w-20 item-center mt-3"
+                color="secondary"
+                variant="ghost"
                 onPress={recording ? stopRecording : startRecording}
               >
                 {recording ? "녹음정지" : "녹음시작"}
               </Button>
               <Button
                 isIconOnly
-                className="w-20 item-center"
-                radius="full"
-                variant="light"
+                className="w-20 item-center mt-3"
+                color="secondary" 
+                variant="ghost"
                 onPress={playRecording}
               >
                 음성듣기
               </Button>
-              {voice && <audio controls src={voice} />}  
+              {voice && <audio controls src={voice} />}
+              <Button 
+                onClick={() => { }}
+                className="w-20 item-center mt-3"
+                color="secondary" 
+                variant="ghost">발음 분석
+              </Button>  
           </div>
         </CardBody>
       </Card>
     </div>
   );
 }
-
-/* 
-"use client";
-import React, { useState } from 'react';
-import { Button } from '@nextui-org/react';
-import { ReactMediaRecorder, useReactMediaRecorder } from 'react-media-recorder';
-
-export default function AudioRecorder() {
-  const [isRecording, setIsRecording] = useState(false);
-  const { status, startRecording, stopRecording, mediaBlobUrl } = useReactMediaRecorder({ video: false });
-
-  const handleButtonClick = () => {
-    if (isRecording) {
-      stopRecording();
-    } else {
-      startRecording();
-    }
-    setIsRecording(!isRecording);
-  };
-
-  return (
-    <div>
-      {status === 'stopped' && <p>녹화를 시작하세요.</p>}
-      {status === 'recording' && <p>녹화 중...</p>}
-
-      <Button onClick={handleButtonClick}>
-        {isRecording ? '녹화 중지' : '녹화 시작'}
-      </Button>
-
-      {mediaBlobUrl && (
-        <video src={mediaBlobUrl} controls />
-      )}
-    </div>
-  );
-};
- */
