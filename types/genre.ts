@@ -1,21 +1,15 @@
-export enum Genre {
-  RomanceMelo = "로맨스/멜로",
-  Comedy = "코미디",
-  Fantasy = "판타지",
-  Historical = "사극",
-  Old7080 = "7080",
-  Horror = "공포",
-  Action = "액션",
-  Drama = "드라마",
-}
+export const Genre = {
+  RomanceMelo: 1 << 0,  // 1
+  Comedy: 1 << 1,       // 2
+  Fantasy: 1 << 2, // 4
+  Historical: 1 << 3, // 8
+  Old7080: 1 << 4,     // 16
+  Horror: 1 << 5,       // 32
+  Action: 1 << 6,   // 64
+  Drama: 1 << 7  // 128
+};
 
-export const genreList: Genre[] = [
-  Genre.RomanceMelo,
-  Genre.Comedy,
-  Genre.Fantasy,
-  Genre.Historical,
-  Genre.Old7080,
-  Genre.Horror,
-  Genre.Action,
-  Genre.Drama,
-];
+export const genreList = Object.entries(Genre).map(([name, value]) => ({
+  name,
+  value
+}));

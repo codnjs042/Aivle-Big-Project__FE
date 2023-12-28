@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useRef } from "react";
+import React, {useState, useRef, useEffect} from "react";
 import dynamic from 'next/dynamic';
 import {Card, CardBody, Image, Button, Slider} from "@nextui-org/react";
 import {HeartIcon, PauseCircleIcon, NextIcon, PreviousIcon} from "@/components/icons";
@@ -15,17 +15,18 @@ export default function PracticePage() {
   const lyrics = lyricsList.find(item => item.title === artist);
   const [liked, setLiked] = React.useState(false);
   const DynamicReactPlayer = dynamic(() => import('react-player'), { ssr: false });
-  const [selectedArtist, setSelectedArtist] = useState<Artist | null>(null);
+  const [selectedArtist, setSelectedArtist] = useState<string>('');
 
   // 음성녹음용 오디오
   const [voice, setVoice] = useState<string | null>(null);
-  const [voiceUrl, setVoiceUrl] = useState(null);
+  const [voiceUrl, setVoiceUrl] = useState<string | null>(null);
   // 녹음 상태 및 녹음된 Blob을 저장할 상태
   const [recording, setRecording] = useState(false);
-  const [recordedBlob, setRecordedBlob] = useState(null);
+  const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
+
   // 미디어 스트림 및 녹음기 참조
-  const mediaStreamRef = useRef(null);
-  const mediaRecorderRef = useRef(null);
+  const mediaStreamRef = useRef<MediaStream | null>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 
   // 음성 녹음 시작 함수
   const startRecording = async () => {
@@ -35,7 +36,7 @@ export default function PracticePage() {
       const recorder = new MediaRecorder(stream);
       mediaRecorderRef.current = recorder;
 
-      const chunks = [];
+      const chunks: BlobPart[] | undefined = [];
 
       recorder.ondataavailable = (event) => {
         if (event.data.size > 0) {
@@ -62,7 +63,7 @@ export default function PracticePage() {
   const stopRecording = () => {
     if (mediaRecorderRef.current && recording) {
       mediaRecorderRef.current.stop();
-      mediaStreamRef.current.getTracks().forEach((track) => track.stop());
+      mediaStreamRef.current?.getTracks().forEach((track: MediaStreamTrack) => track.stop());
       setRecording(false);
     }
   };
@@ -74,6 +75,16 @@ export default function PracticePage() {
       // voice.play();
     }
   };
+
+  useEffect(() => {
+    const artistEntry = artistList.find(entry => entry.name === artist);
+    if (artistEntry) {
+      setSelectedArtist(artistEntry.name);
+    } else {
+      setSelectedArtist('');
+    }
+  }, [artist]);
+
 
   return (
     <div>

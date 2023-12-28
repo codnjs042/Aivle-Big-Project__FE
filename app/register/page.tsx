@@ -1,19 +1,19 @@
 "use client";
 import React, {useCallback, useMemo, useState} from "react";
-import {Button, Checkbox, Input, Progress, Select, SelectItem,} from "@nextui-org/react";
+import {Button, Checkbox, Input, Progress, Select, Selection, SelectItem,} from "@nextui-org/react";
 import {AvatarIcon, EyeFilledIcon, EyeSlashFilledIcon, MailIcon,} from "@nextui-org/shared-icons";
 import PrivacyPolicy from "@/components/modals/privacyPolicy";
 import TermOfUse from "@/components/modals/termOfUse";
 import {emailFetch} from "@/api/user/email";
-import {Artist, artistList} from "@/types/artist";
-import {Genre, genreList} from "@/types/genre";
+import {artistList, Artist} from "@/types/artist";
+import {genreList, Genre} from "@/types/genre";
 import {useRouter} from "next/navigation";
 import ReCAPTCHA from "react-google-recaptcha";
 import {useTheme} from "next-themes";
 
 export default function SignupPage() {
   const router = useRouter();
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(3);
 
   const [agreePrivacy, setAgreePrivacy] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
@@ -30,11 +30,11 @@ export default function SignupPage() {
 
   const [nickname, setNickname] = useState("");
 
-  const [selectedGenres, setSelectedGenres] = useState<Set<Genre>>(new Set([]));
-  const [selectedArtist, setSelectedArtist] = useState<Set<Artist>>(new Set([]));
+  const [selectedGenres, setSelectedGenres] = useState(0);
+  const [selectedArtist, setSelectedArtist] = useState(0);
 
   const [captcha, setCaptcha] = useState<string>("");
-  const { theme, setTheme } = useTheme();
+  const {theme, setTheme} = useTheme();
 
   const nextStep = () => setStep(step + 1);
   const prevStep = () => setStep(step - 1);
@@ -141,15 +141,17 @@ export default function SignupPage() {
               <Progress color="secondary" isStriped size="lg" label="Step 1" radius="lg" value={33}
                         style={{paddingBottom: '10px', textIndent: '10px'}}/>
             </div>
-            <div className="flex w-full justify-between" style={{ marginBottom: '-10px' }}>
+            <div className="flex w-full justify-between" style={{marginBottom: '-10px'}}>
               <PrivacyPolicy/>
-              <Checkbox style={{ marginLeft: '90px' }} color="secondary" isSelected={agreePrivacy} onValueChange={setAgreePrivacy}>
+              <Checkbox style={{marginLeft: '90px'}} color="secondary" isSelected={agreePrivacy}
+                        onValueChange={setAgreePrivacy}>
                 동의합니다.
               </Checkbox>
             </div>
             <div className="flex w-full justify-between">
               <TermOfUse/>
-              <Checkbox style={{ marginLeft: '160px' }} color="secondary" isSelected={agreeTerms} onValueChange={setAgreeTerms}>
+              <Checkbox style={{marginLeft: '160px'}} color="secondary" isSelected={agreeTerms}
+                        onValueChange={setAgreeTerms}>
                 동의합니다.
               </Checkbox>
             </div>
@@ -301,14 +303,32 @@ export default function SignupPage() {
                   label="좋아하는 장르"
                   variant="bordered"
                   placeholder="무응답"
-                  selectedKeys={selectedGenres}
+                  selectedKeys={
+                    genreList
+                    .filter(({value}) => (selectedGenres & value) === value)
+                    .map(({name}) => name)
+                  }
                   labelPlacement="outside"
                   selectionMode="multiple"
-                  onSelectionChange={(keys) => setSelectedGenres(new Set(keys) as Set<Genre>)}
+                  onSelectionChange={
+                    (keys: Selection) => {
+                      if (keys === "all") {
+                        setSelectedGenres(Object.values(Genre).reduce((acc, value) => acc | value, 0));
+                      } else {
+                        const newBitmask = Array.from(keys as Set<string>).reduce((acc, key) => {
+                          if (key in Genre) {
+                            return acc | Genre[key as keyof typeof Genre];
+                          }
+                          return acc;
+                        }, 0);
+                        setSelectedGenres(newBitmask);
+                      }
+                    }
+                  }
               >
                 {genreList.map((item) => (
-                    <SelectItem key={item} value={item}>
-                      {item}
+                    <SelectItem key={item.name} value={item.value}>
+                      {item.name}
                     </SelectItem>
                 ))}
               </Select>
@@ -319,14 +339,32 @@ export default function SignupPage() {
                   label="좋아하는 가수"
                   variant="bordered"
                   placeholder="무응답"
-                  selectedKeys={selectedArtist}
+                  selectedKeys={
+                    artistList
+                    .filter(({value}) => (selectedArtist & value) === value)
+                    .map(({name}) => name)
+                  }
                   labelPlacement="outside"
                   selectionMode="multiple"
-                  onSelectionChange={(keys) => setSelectedArtist(new Set(keys) as Set<Artist>)}
+                  onSelectionChange={
+                    (keys: Selection) => {
+                      if (keys === "all") {
+                        setSelectedArtist(Object.values(Artist).reduce((acc, value) => acc | value, 0));
+                      } else {
+                        const newBitmask = Array.from(keys as Set<string>).reduce((acc, key) => {
+                          if (key in Artist) {
+                            return acc | Artist[key as keyof typeof Artist];
+                          }
+                          return acc;
+                        }, 0);
+                        setSelectedArtist(newBitmask);
+                      }
+                    }
+                  }
               >
                 {artistList.map((item) => (
-                    <SelectItem key={item} value={item}>
-                      {item}
+                    <SelectItem key={item.name} value={item.value}>
+                      {item.name}
                     </SelectItem>
                 ))}
               </Select>

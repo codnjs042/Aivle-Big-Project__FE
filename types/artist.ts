@@ -1,21 +1,16 @@
- export enum Artist {
-  NEWJEANS = 'NEWJEANS',
-  BTS = 'BTS',
-  NCTDREAM = 'NCT DREAM',
-  BLACKPINK = 'BLACKPINK',
-  AESPA = 'AESPA',
-  IVE = 'IVE',
-  NCT127 = 'NCT 127',
-  SEVENTEEN = 'SEVENTEEN'
-}
+export const Artist = {
+  NEWJEANS: 1 << 0,  // 1
+  BTS: 1 << 1,       // 2
+  NCT_DREAM: 1 << 2, // 4
+  BLACKPINK: 1 << 3, // 8
+  AESPA: 1 << 4,     // 16
+  IVE: 1 << 5,       // 32
+  NCT_127: 1 << 6,   // 64
+  SEVENTEEN: 1 << 7  // 128
+};
 
- export const artistList: Artist[] = [
-  Artist.NEWJEANS,
-  Artist.BTS,
-  Artist.NCTDREAM,
-  Artist.BLACKPINK,
-  Artist.AESPA,
-  Artist.IVE,
-  Artist.NCT127,
-  Artist.SEVENTEEN
-];
+// Convert the object to an array for mapping in the JSX
+export const artistList = Object.entries(Artist).map(([name, value]) => ({
+  name,
+  value
+}));
