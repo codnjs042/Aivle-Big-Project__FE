@@ -81,7 +81,7 @@ export default function LearnPage() {
     }
   };
 
-/*   // 음성 녹음 시작 함수
+  // 음성 녹음 시작 함수
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -119,7 +119,7 @@ export default function LearnPage() {
       mediaStreamRef.current.getTracks().forEach((track) => track.stop());
       setRecording(false);
     }
-  }; */
+  };
   const playRecording = () => {
     if (audioUrl) {
       const audio = new Audio(audioUrl);
@@ -134,8 +134,8 @@ export default function LearnPage() {
     const audioElement = new Audio(audioUrl);
     audioElement.play();
   };
-  const [isRecording, setIsRecording] = useState(false);
-  const { status, startRecording, stopRecording, mediaBlobUrl } = useReactMediaRecorder({ video: false });
+/*   const [isRecording, setIsRecording] = useState(false);
+  const { status, startRecording, stopRecording, mediaBlobUrl } = useReactMediaRecorder({ video: false }); */
 
   const handleButtonClick = () => {
     if (isRecording) {
@@ -280,23 +280,23 @@ export default function LearnPage() {
       {/* 음성 녹음 */}
       <CardBody style={{paddingLeft:'100px', paddingRight:'100px'}}>
           <div className="flex flex-col col-span-6 md:col-span-8 item-center">
-            {/* <Button
+              <Button
                 className="w-10 item-center"
                 radius="full"
                 variant="light"
                 onPress={recording ? stopRecording : startRecording}
               >
                 {recording ? "녹음정지" : "녹음시작"}
-              </Button> */}
-              <div style={{marginLeft:"185px"}}>
-              <Button radius="full"
+              </Button>
+              {/* <div style={{marginLeft:"185px"}}>
+               <Button radius="full"
                 variant="light" onClick={handleButtonClick}>
                 {isRecording ? '녹화 중지' : '음성 녹화'}
               </Button>
               </div>
               {mediaBlobUrl && (
                 <video style={{marginTop:"-150px"}} src={mediaBlobUrl} controls />
-              )}
+              )} */}
             {/* <div className="flex flex-col mt-10 gap-1">
               <Slider
                 aria-label="Record progress"
@@ -324,7 +324,7 @@ export default function LearnPage() {
               >
                 <PreviousIcon />
               </Button> */}
-              {/* <Button
+              <Button
                 isIconOnly
                 className="w-auto h-auto data-[hover]:bg-foreground/10"
                 radius="full"
@@ -332,7 +332,7 @@ export default function LearnPage() {
                 onPress={playRecording}
               >
                 <PauseCircleIcon size={54}/>
-              </Button> */}
+              </Button>
               {/* <Button
                 isIconOnly
                 className="data-[hover]:bg-foreground/10"
