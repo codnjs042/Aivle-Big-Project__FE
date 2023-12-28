@@ -116,7 +116,7 @@ export default function LoginPage() {
                   }
                   type={passwordVisible ? "text" : "password"}
                   value={password}
-                  onChange={e => setPassword(e.target.value)}
+                  onValueChange={e => setPassword(e)}
                   onClear={() => setPassword('')}
               />
 
@@ -132,7 +132,7 @@ export default function LoginPage() {
                   sitekey="6Lc5sTspAAAAACJ_kKW6-60V9JOEg7gPMP9g-nC4"
                   onChange={checkReCaptcha}
                   theme={theme === "light" ? "light" : "dark"}
-                  key={theme}
+                  key={`${theme}${errorMessage}`}
               />
             </div>
             <Button color="secondary" onClick={handleSubmit}
@@ -158,7 +158,7 @@ export default function LoginPage() {
                     labelPlacement="outside"
                     endContent={<MailIcon
                         className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onValueChange={(e) => setEmail(e)}
                 />
               </div>
               <div className="w-full flex items-center mb-6 md:mb-0 gap-6 my-6">

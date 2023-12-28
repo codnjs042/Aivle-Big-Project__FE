@@ -5,15 +5,16 @@ import {AvatarIcon, EyeFilledIcon, EyeSlashFilledIcon, MailIcon,} from "@nextui-
 import PrivacyPolicy from "@/components/modals/privacyPolicy";
 import TermOfUse from "@/components/modals/termOfUse";
 import {emailFetch} from "@/api/user/email";
-import {artistList, Artist} from "@/types/artist";
-import {genreList, Genre} from "@/types/genre";
+import {Artist, artistList} from "@/types/artist";
+import {Genre, genreList} from "@/types/genre";
 import {useRouter} from "next/navigation";
 import ReCAPTCHA from "react-google-recaptcha";
 import {useTheme} from "next-themes";
+import {registerFetch} from "@/api/user/register";
 
 export default function SignupPage() {
   const router = useRouter();
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(1);
 
   const [agreePrivacy, setAgreePrivacy] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
@@ -35,6 +36,8 @@ export default function SignupPage() {
 
   const [captcha, setCaptcha] = useState<string>("");
   const {theme, setTheme} = useTheme();
+  const [registerLoadingState, setRegisterLoadingState] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const nextStep = () => setStep(step + 1);
   const prevStep = () => setStep(step - 1);
@@ -119,17 +122,36 @@ export default function SignupPage() {
     setCaptcha(value);
   };
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
+    setRegisterLoadingState(true);
+
     console.log("Signup form submitted:", {
       email,
       nickname,
       password,
       selectedArtist,
       selectedGenres,
+      captcha,
     });
-    alert("회원가입이 완료되었습니다.");
-    router.replace('/login');
+    const response = await registerFetch({
+      email,
+      nickname,
+      password,
+      selectedArtist,
+      selectedGenres,
+      captcha,
+    });
+    console.log(response);
+    if (response.ok) {
+      console.log("회원가입 성공");
+      alert("회원가입이 완료되었습니다. 로그인 화면으로 이동합니다.");
+      router.replace('/login');
+    } else if (response.status === 400) {
+      setErrorMessage("회원가입 도중 문제가 발생했습니다.");
+    } else if (response.status === 403) {
+      setErrorMessage("당신은 봇입니까?");
+    }
+    setRegisterLoadingState(false);
   };
 
   switch (step) {
@@ -374,18 +396,23 @@ export default function SignupPage() {
                   sitekey="6Lc5sTspAAAAACJ_kKW6-60V9JOEg7gPMP9g-nC4"
                   onChange={checkReCaptcha}
                   theme={theme === "light" ? "light" : "dark"}
-                  key={theme}
+                  key={`${theme}${errorMessage}`}
               />
             </div>
             <div
                 className="flex w-full gap-10">
-              <Button color="secondary" fullWidth={true} onClick={prevStep}>
+              <Button color="secondary" fullWidth={true} onClick={prevStep}
+                      isDisabled={registerLoadingState}>
                 이전 단계로
               </Button>
               <Button color="secondary" fullWidth={true} onClick={handleSubmit}
-                      isDisabled={!captcha}>
+                      isLoading={registerLoadingState} isDisabled={!captcha}>
                 회원가입
               </Button>
+            </div>
+            <div
+                className="flex w-full justify-center items-center">
+              {errorMessage && <p className="text-red-500">{errorMessage}</p>}
             </div>
           </>
       );

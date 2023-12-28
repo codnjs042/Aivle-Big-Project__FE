@@ -4,8 +4,8 @@ interface RequestDTO {
   email: string;
   password: string;
   nickname: string;
-  preferGenre: string;
-  preferArtist: number;
+  selectedGenres: number;
+  selectedArtist: number;
   captcha: string;
 }
 
