@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import dynamic from 'next/dynamic';
 import {Card, CardBody, Image, Button, Slider} from "@nextui-org/react";
 import {HeartIcon, PauseCircleIcon, NextIcon, PreviousIcon} from "@/components/icons";
@@ -14,6 +14,64 @@ export default function PracticePage() {
   const [liked, setLiked] = React.useState(false);
   const DynamicReactPlayer = dynamic(() => import('react-player'), { ssr: false });
   const [selectedArtist, setSelectedArtist] = useState<Artist | null>(null);
+
+  // 음성녹음용 오디오
+  const [voice, setVoice] = useState<string | null>(null);
+  const [voiceUrl, setVoiceUrl] = useState(null);
+  // 녹음 상태 및 녹음된 Blob을 저장할 상태
+  const [recording, setRecording] = useState(false);
+  const [recordedBlob, setRecordedBlob] = useState(null);
+  // 미디어 스트림 및 녹음기 참조
+  const mediaStreamRef = useRef(null);
+  const mediaRecorderRef = useRef(null);
+
+  // 음성 녹음 시작 함수
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaStreamRef.current = stream;
+      const recorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = recorder;
+
+      const chunks = [];
+
+      recorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          chunks.push(event.data);
+        }
+      };
+      
+      recorder.onstop = () => {
+        const blob = new Blob(chunks, { type: 'audio/wav' });
+        setRecordedBlob(blob);
+
+        const url = URL.createObjectURL(blob);
+        setVoiceUrl(url);
+      };
+
+      recorder.start();
+      setRecording(true);
+    } catch (error) {
+      console.error('Error starting recording:', error);
+    }
+  };
+
+  // 음성 녹음 종료 함수
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && recording) {
+      mediaRecorderRef.current.stop();
+      mediaStreamRef.current.getTracks().forEach((track) => track.stop());
+      setRecording(false);
+    }
+  };
+  // 음성 녹음 듣기 함수
+  const playRecording = () => {
+    if (voiceUrl) {
+      setVoice(voiceUrl);
+      const voice = new Audio(voiceUrl);
+      // voice.play();
+    }
+  };
 
   useEffect(() => {
 
@@ -77,6 +135,7 @@ export default function PracticePage() {
   };
 
   return (
+    <div>
     <Card
       isBlurred
       className="border-none bg-background/60 dark:bg-default-100/50 max-w-[1000px]"
@@ -163,5 +222,35 @@ export default function PracticePage() {
         </div>
       </CardBody>
     </Card>
+    <Card
+      isBlurred
+      className="border-none bg-background/60 dark:bg-default-100/50 max-w-[1000px] mt-10"
+      shadow="sm"
+    >
+      {/* 음성 녹음 */}
+      <CardBody style={{paddingLeft:'100px', paddingRight:'100px'}}>
+          <div className="flex flex-col col-span-6 md:col-span-8 item-center">
+              <Button
+                className="w-20 item-center"
+                radius="full"
+                variant="light"
+                onPress={recording ? stopRecording : startRecording}
+              >
+                {recording ? "녹음정지" : "녹음시작"}
+              </Button>
+              <Button
+                isIconOnly
+                className="w-20 item-center"
+                radius="full"
+                variant="light"
+                onPress={playRecording}
+              >
+                음성듣기
+              </Button>
+              {voice && <audio controls src={voice} />}  
+          </div>
+        </CardBody>
+      </Card>
+    </div>
   );
 }
