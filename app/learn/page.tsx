@@ -4,6 +4,7 @@ import React, { useState, useRef } from 'react';
 import { textToSpeech } from '@/api/textToSpeech'
 import {Input, Card, CardBody, Image, Button, Slider, Pagination, PaginationItemType, usePagination} from "@nextui-org/react";
 import {HeartIcon, PauseCircleIcon, NextIcon, PreviousIcon, RepeatOneIcon, ShuffleIcon, ChevronIcon, SearchIcon, } from "@/components/icons";
+import {ChevronCircleTopLinearIcon, VolumeLowBoldIcon, VolumeHighBoldIcon, HeadphonesIcon} from "@nextui-org/shared-icons";
 import cn from 'classnames';
 import axios from 'axios';
 import { ReactMediaRecorder, useReactMediaRecorder } from 'react-media-recorder';
@@ -148,14 +149,6 @@ export default function LearnPage() {
 
   return (
     <div>
-      <Button
-        onPress={handleTextToSpeech}
-        className="data-[hover]:bg-foreground/10 listen-button"
-        radius="full"
-        variant="light"
-      >
-        음성 듣기 {/* 혹은 확성기 아이콘 */}
-      </Button>
       {/* {audio && <audio controls src={audio} />} */}
       <Input
           classNames={{
@@ -193,6 +186,15 @@ export default function LearnPage() {
                 </div>
                 {/* 단어 문장 */}
                 <div className="flex flex-col gap-2">
+                <Button
+                  isIconOnly color="secondary" variant="faded" aria-label="headphone"
+                  onPress={handleTextToSpeech}
+                  className="data-[hover]:bg-foreground/10 listen-button items-center"
+                  radius="full"
+                  // variant="light"
+                  >
+                  <HeadphonesIcon className="text-2xl"/>
+                </Button>
                   <h1 className="text-large text-foreground/80 mt-5">{SentenceInfo[activePage].text1}</h1>
                   <h1 className="font-large text-foreground/90 mt-5">{SentenceInfo[activePage].text2}</h1>
                   <h1 className="text-large font-medium mt-5">{SentenceInfo[activePage].text3}</h1>
@@ -280,6 +282,14 @@ export default function LearnPage() {
       {/* 음성 녹음 */}
       <CardBody style={{paddingLeft:'100px', paddingRight:'100px'}}>
           <div className="flex flex-col col-span-6 md:col-span-8 item-center">
+                <Button
+                  isIconOnly color="secondary" variant="faded" aria-label="headphone"
+                  onPress={handleTextToSpeech}
+                  className="data-[hover]:bg-foreground/10 listen-button items-center"
+                  radius="full"
+                  >
+                  <VolumeHighBoldIcon className="text-2xl"/>
+                </Button>
               <Button
                 className="w-10 item-center"
                 radius="full"
