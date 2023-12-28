@@ -25,11 +25,7 @@ const AuthProvider = ({children}: AuthProviderProps) => {
         setLogin(false);
       }
     };
-    fetchUser().then(
-        () => console.log("유저정보를 가져오는데 성공했습니다.")
-    ).catch(
-        () => console.log("유저정보를 가져오는데 실패했습니다.")
-    );
+    fetchUser();
   }
   const deleteUser = () => {
     console.log('유저정보를 삭제합니다.');
