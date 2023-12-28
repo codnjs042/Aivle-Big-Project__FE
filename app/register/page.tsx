@@ -149,9 +149,10 @@ export default function SignupPage() {
       alert("회원가입이 완료되었습니다. 로그인 화면으로 이동합니다.");
       router.replace('/login');
     } else if (response.status === 400) {
-      setErrorMessage("회원가입 도중 문제가 발생했습니다.");
+      alert("회원가입 도중 문제가 발생했습니다. 처음부터 다시 진행해주세요.");
+      setStep(1);
     } else if (response.status === 403) {
-      setErrorMessage("당신은 봇입니까?");
+      setErrorMessage("캡차 인증을 다시 진행하세요.");
     }
     setCaptchaKey(Date.now());
     setRegisterLoadingState(false);

@@ -71,7 +71,7 @@ export default function LoginPage() {
     } else if (response.status === 401) {
       setErrorMessage('이메일 또는 비밀번호가 일치하지 않습니다.');
     } else if (response.status === 403) {
-      setErrorMessage('당신은 봇입니까?');
+      setErrorMessage("캡차 인증을 다시 진행하세요.");
     }
     setCaptchaKey(Date.now());
     setLoginLoadingState(false);
