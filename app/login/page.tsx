@@ -21,7 +21,8 @@ export default function LoginPage() {
   const [loginLoadingState, setLoginLoadingState] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [captcha, setCaptcha] = useState<string>("");
-  const { theme, setTheme } = useTheme();
+  const [captchaKey, setCaptchaKey] = useState(Date.now());
+  const {theme, setTheme } = useTheme();
 
   const [step, setStep] = useState(false);
   const auth = useContext(AuthContext);
@@ -72,6 +73,7 @@ export default function LoginPage() {
     } else if (response.status === 403) {
       setErrorMessage('당신은 봇입니까?');
     }
+    setCaptchaKey(Date.now());
     setLoginLoadingState(false);
   };
 
@@ -132,7 +134,7 @@ export default function LoginPage() {
                   sitekey="6Lc5sTspAAAAACJ_kKW6-60V9JOEg7gPMP9g-nC4"
                   onChange={checkReCaptcha}
                   theme={theme === "light" ? "light" : "dark"}
-                  key={`${theme}${errorMessage}`}
+                  key={`${theme}${captchaKey}`}
               />
             </div>
             <Button color="secondary" onClick={handleSubmit}

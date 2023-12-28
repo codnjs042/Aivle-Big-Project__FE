@@ -35,6 +35,7 @@ export default function SignupPage() {
   const [selectedArtist, setSelectedArtist] = useState(0);
 
   const [captcha, setCaptcha] = useState<string>("");
+  const [captchaKey, setCaptchaKey] = useState(Date.now());
   const {theme, setTheme} = useTheme();
   const [registerLoadingState, setRegisterLoadingState] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -72,6 +73,7 @@ export default function SignupPage() {
       console.log("이미 존재하는 이메일입니다.");
       setEmailDuplication(false);
       setEmailError("이미 가입된 이메일입니다.");
+      setCaptchaKey(Date.now());
       return;
     }
   }
@@ -151,6 +153,7 @@ export default function SignupPage() {
     } else if (response.status === 403) {
       setErrorMessage("당신은 봇입니까?");
     }
+    setCaptchaKey(Date.now());
     setRegisterLoadingState(false);
   };
 
@@ -396,7 +399,7 @@ export default function SignupPage() {
                   sitekey="6Lc5sTspAAAAACJ_kKW6-60V9JOEg7gPMP9g-nC4"
                   onChange={checkReCaptcha}
                   theme={theme === "light" ? "light" : "dark"}
-                  key={`${theme}${errorMessage}`}
+                  key={`${theme}${captchaKey}`}
               />
             </div>
             <div
