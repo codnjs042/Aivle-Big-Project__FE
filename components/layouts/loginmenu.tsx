@@ -5,6 +5,7 @@ import {Link} from "@nextui-org/link";
 import {useContext, useEffect, useState} from "react";
 import AuthContext from "@/context/AuthContext";
 import {logoutFetch} from "@/api/user/logout";
+import {Avatar, AvatarIcon} from "@nextui-org/react";
 
 export default function LoginMenu() {
   const auth = useContext(AuthContext);
@@ -21,6 +22,16 @@ export default function LoginMenu() {
         {auth.login ? (
             <>
               <Link href="/mypage">
+              <div className="flex items-center">
+                <Avatar
+                  icon={<AvatarIcon />}
+                  size="sm"
+                  classNames={{
+                    base: "bg-gradient-to-br from-[#FFB457] to-[#FF705B]",
+                    icon: "text-black/50",
+                  }}
+                />
+              </div>
                 <Button
                     style={{
                       background: 'none',
