@@ -16,6 +16,7 @@ export default function PracticePage() {
   const [liked, setLiked] = React.useState(false);
   const DynamicReactPlayer = dynamic(() => import('react-player'), { ssr: false });
   const [selectedArtist, setSelectedArtist] = useState<string>('');
+  const [selectedPart, setSelectedPart] = useState(1);
 
   // 음성녹음용 오디오
   const [voice, setVoice] = useState<string | null>(null);
@@ -86,85 +87,310 @@ export default function PracticePage() {
   }, [artist]);
 
 
-  return (
-    <div>
-    <Card
-      isBlurred
-      className="border-none bg-background/60 dark:bg-default-100/50 max-w-[1000px]"
-      shadow="sm"
-    >
-      <CardBody style={{paddingTop:'50px', paddingBottom:'50px', paddingLeft:'50px', paddingRight:'50px'}}>
-          <div className="grid grid-cols-6 md:grid-cols-3 gap-6 md:gap-20 items-center justify-center">
-            <div className="flex flex-col col-span-6 md:col-span-8">
-              {/* 사진, 문장, 하트 */}
-              <div className="flex justify-between items-center">
-                <div className="relative col-span-6 md:col-span-4 mr-10 ">
-                <Image
-                  alt="Album cover"
-                  className="object-cover"
-                  height={200}
-                  shadow="md"
-                  src={lyrics?.img}
-                  width="250"
-                />
+  switch(selectedPart){
+    case 1:
+      return (
+        <div>
+          <div className="mt-5 flex justify-center">
+            <Button
+              variant="light"
+              color='secondary'
+              onPress={() => setSelectedPart(1)}
+              disabled
+            >
+              파트 1
+            </Button>
+            <Button
+              variant="light"
+              color='default'
+              onPress={() => setSelectedPart(2)}
+              className="ml-3"
+            >
+              파트 2
+            </Button>
+            <Button
+              variant="light"
+              color='default'
+              onPress={() => setSelectedPart(3)}
+              className="ml-3"
+            >
+              파트 3
+            </Button>
+          </div>
+        <Card
+          isBlurred
+          className="border-none bg-background/60 dark:bg-default-100/50 max-w-[1000px]"
+          shadow="sm"
+        >
+          <CardBody style={{paddingTop:'50px', paddingBottom:'50px', paddingLeft:'50px', paddingRight:'50px'}}>
+              <div className="grid grid-cols-6 md:grid-cols-3 gap-6 md:gap-20 items-center justify-center">
+                <div className="flex flex-col col-span-6 md:col-span-8">
+                  {/* 사진, 문장, 하트 */}
+                  <div className="flex justify-between items-center">
+                    <div className="relative col-span-6 md:col-span-4 mr-10 ">
+                    {lyrics?.part1 ? lyrics.part1[3] : undefined}
+                    </div>
+                    {/* 단어 문장 */}
+                    <div className="flex flex-col gap-2">
+                      <h1 className="text-large text-foreground/80 mt-5">{lyrics?.part1 ? lyrics.part1[1] : undefined}</h1>
+                      <h1 className="font-large text-foreground/90 mt-5">{lyrics?.part1 ? lyrics.part1[2] : undefined}</h1>
+                      <h1 className="text-large font-medium mt-5">{lyrics?.part1 ? lyrics.part1[0] : undefined}</h1>
+                    </div>
+                    <Button
+                      isIconOnly
+                      className="text-default-900/60 data-[hover]:bg-foreground/10 -translate-y-2 translate-x-2"
+                      radius="full"
+                      variant="light"
+                      onPress={() => setLiked((v) => !v)}
+                    >
+                    <HeartIcon
+                        className={liked ? "[&>path]:stroke-transparent" : ""}
+                        fill={liked ? "currentColor" : "none"}
+                      />
+                    </Button>
+                  </div>
                 </div>
-                {/* 단어 문장 */}
-                <div className="flex flex-col gap-2">
-                  <h1 className="text-large text-foreground/80 mt-5">{lyrics?.english}</h1>
-                  <h1 className="font-large text-foreground/90 mt-5">{lyrics?.pronun}</h1>
-                  <h1 className="text-large font-medium mt-5">{lyrics?.contents}</h1>
-                </div>
-                <Button
-                  isIconOnly
-                  className="text-default-900/60 data-[hover]:bg-foreground/10 -translate-y-2 translate-x-2"
-                  radius="full"
-                  variant="light"
-                  onPress={() => setLiked((v) => !v)}
-                >
-                <HeartIcon
-                    className={liked ? "[&>path]:stroke-transparent" : ""}
-                    fill={liked ? "currentColor" : "none"}
-                  />
-                </Button>
               </div>
+          </CardBody>
+        </Card>
+        <Card
+          isBlurred
+          className="border-none bg-background/60 dark:bg-default-100/50 max-w-[1000px] mt-10"
+          shadow="sm"
+        >
+          <CardBody style={{paddingLeft:'100px', paddingRight:'100px'}}>
+              <div className="flex flex-col col-span-6 md:col-span-8 item-center">
+                  <Button
+                    className="w-20 item-center mt-3"
+                    color="secondary"
+                    variant="ghost"
+                    onPress={recording ? stopRecording : startRecording}
+                  >
+                    {recording ? "녹음정지" : "녹음시작"}
+                  </Button>
+                  <Button
+                    isIconOnly
+                    className="w-20 item-center mt-3"
+                    color="secondary" 
+                    variant="ghost"
+                    onPress={playRecording}
+                  >
+                    음성듣기
+                  </Button>
+                  {voice && <audio controls src={voice} />}
+                  <Button 
+                    onClick={() => { }}
+                    className="w-20 item-center mt-3"
+                    color="secondary" 
+                    variant="ghost">발음 분석
+                  </Button>  
+              </div>
+            </CardBody>
+          </Card>
+        </div>
+      );
+      case 2:
+        return (
+          <div>
+            <div className="mt-5 flex justify-center">
+              <Button
+                variant="light"
+                color='default'
+                onPress={() => setSelectedPart(1)}
+              >
+                파트 1
+              </Button>
+              <Button
+                variant="light"
+                color='secondary'
+                onPress={() => setSelectedPart(2)}
+                className="ml-3"
+                disabled
+              >
+                파트 2
+              </Button>
+              <Button
+                variant="light"
+                color='default'
+                onPress={() => setSelectedPart(3)}
+                className="ml-3"
+              >
+                파트 3
+              </Button>
             </div>
+          <Card
+            isBlurred
+            className="border-none bg-background/60 dark:bg-default-100/50 max-w-[1000px]"
+            shadow="sm"
+          >
+            <CardBody style={{paddingTop:'50px', paddingBottom:'50px', paddingLeft:'50px', paddingRight:'50px'}}>
+                <div className="grid grid-cols-6 md:grid-cols-3 gap-6 md:gap-20 items-center justify-center">
+                  <div className="flex flex-col col-span-6 md:col-span-8">
+                    {/* 사진, 문장, 하트 */}
+                    <div className="flex justify-between items-center">
+                      <div className="relative col-span-6 md:col-span-4 mr-10 ">
+                      {lyrics?.part2 ? lyrics.part2[3] : undefined}
+                      </div>
+                      {/* 단어 문장 */}
+                      <div className="flex flex-col gap-2">
+                        <h1 className="text-large text-foreground/80 mt-5">{lyrics?.part2 ? lyrics.part2[1] : undefined}</h1>
+                        <h1 className="font-large text-foreground/90 mt-5">{lyrics?.part2 ? lyrics.part2[2] : undefined}</h1>
+                        <h1 className="text-large font-medium mt-5">{lyrics?.part2 ? lyrics.part2[0] : undefined}</h1>
+                      </div>
+                      <Button
+                        isIconOnly
+                        className="text-default-900/60 data-[hover]:bg-foreground/10 -translate-y-2 translate-x-2"
+                        radius="full"
+                        variant="light"
+                        onPress={() => setLiked((v) => !v)}
+                      >
+                      <HeartIcon
+                          className={liked ? "[&>path]:stroke-transparent" : ""}
+                          fill={liked ? "currentColor" : "none"}
+                        />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+            </CardBody>
+          </Card>
+          <Card
+            isBlurred
+            className="border-none bg-background/60 dark:bg-default-100/50 max-w-[1000px] mt-10"
+            shadow="sm"
+          >
+            <CardBody style={{paddingLeft:'100px', paddingRight:'100px'}}>
+                <div className="flex flex-col col-span-6 md:col-span-8 item-center">
+                    <Button
+                      className="w-20 item-center mt-3"
+                      color="secondary"
+                      variant="ghost"
+                      onPress={recording ? stopRecording : startRecording}
+                    >
+                      {recording ? "녹음정지" : "녹음시작"}
+                    </Button>
+                    <Button
+                      isIconOnly
+                      className="w-20 item-center mt-3"
+                      color="secondary" 
+                      variant="ghost"
+                      onPress={playRecording}
+                    >
+                      음성듣기
+                    </Button>
+                    {voice && <audio controls src={voice} />}
+                    <Button 
+                      onClick={() => { }}
+                      className="w-20 item-center mt-3"
+                      color="secondary" 
+                      variant="ghost">발음 분석
+                    </Button>  
+                </div>
+              </CardBody>
+            </Card>
           </div>
-      </CardBody>
-    </Card>
-    <Card
-      isBlurred
-      className="border-none bg-background/60 dark:bg-default-100/50 max-w-[1000px] mt-10"
-      shadow="sm"
-    >
-      <CardBody style={{paddingLeft:'100px', paddingRight:'100px'}}>
-          <div className="flex flex-col col-span-6 md:col-span-8 item-center">
+        );
+        case 3:
+        return (
+          <div>
+            <div className="mt-5 flex justify-center">
               <Button
-                className="w-20 item-center mt-3"
-                color="secondary"
-                variant="ghost"
-                onPress={recording ? stopRecording : startRecording}
+                variant="light"
+                color='default'
+                onPress={() => setSelectedPart(1)}
               >
-                {recording ? "녹음정지" : "녹음시작"}
+                파트 1
               </Button>
               <Button
-                isIconOnly
-                className="w-20 item-center mt-3"
-                color="secondary" 
-                variant="ghost"
-                onPress={playRecording}
+                variant="light"
+                color='default'
+                onPress={() => setSelectedPart(2)}
+                className="ml-3"
               >
-                음성듣기
+                파트 2
               </Button>
-              {voice && <audio controls src={voice} />}
-              <Button 
-                onClick={() => { }}
-                className="w-20 item-center mt-3"
-                color="secondary" 
-                variant="ghost">발음 분석
-              </Button>  
+              <Button
+                variant="light"
+                color='secondary'
+                onPress={() => setSelectedPart(3)}
+                className="ml-3"
+                disabled
+              >
+                파트 3
+              </Button>
+            </div>
+          <Card
+            isBlurred
+            className="border-none bg-background/60 dark:bg-default-100/50 max-w-[1000px]"
+            shadow="sm"
+          >
+            <CardBody style={{paddingTop:'50px', paddingBottom:'50px', paddingLeft:'50px', paddingRight:'50px'}}>
+                <div className="grid grid-cols-6 md:grid-cols-3 gap-6 md:gap-20 items-center justify-center">
+                  <div className="flex flex-col col-span-6 md:col-span-8">
+                    {/* 사진, 문장, 하트 */}
+                    <div className="flex justify-between items-center">
+                      <div className="relative col-span-6 md:col-span-4 mr-10 ">
+                      {lyrics?.part3 ? lyrics.part3[3] : undefined}
+                      </div>
+                      {/* 단어 문장 */}
+                      <div className="flex flex-col gap-2">
+                        <h1 className="text-large text-foreground/80 mt-5">{lyrics?.part3 ? lyrics.part3[1] : undefined}</h1>
+                        <h1 className="font-large text-foreground/90 mt-5">{lyrics?.part3 ? lyrics.part3[2] : undefined}</h1>
+                        <h1 className="text-large font-medium mt-5">{lyrics?.part3 ? lyrics.part3[0] : undefined}</h1>
+                      </div>
+                      <Button
+                        isIconOnly
+                        className="text-default-900/60 data-[hover]:bg-foreground/10 -translate-y-2 translate-x-2"
+                        radius="full"
+                        variant="light"
+                        onPress={() => setLiked((v) => !v)}
+                      >
+                      <HeartIcon
+                          className={liked ? "[&>path]:stroke-transparent" : ""}
+                          fill={liked ? "currentColor" : "none"}
+                        />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+            </CardBody>
+          </Card>
+          <Card
+            isBlurred
+            className="border-none bg-background/60 dark:bg-default-100/50 max-w-[1000px] mt-10"
+            shadow="sm"
+          >
+            <CardBody style={{paddingLeft:'100px', paddingRight:'100px'}}>
+                <div className="flex flex-col col-span-6 md:col-span-8 item-center">
+                    <Button
+                      className="w-20 item-center mt-3"
+                      color="secondary"
+                      variant="ghost"
+                      onPress={recording ? stopRecording : startRecording}
+                    >
+                      {recording ? "녹음정지" : "녹음시작"}
+                    </Button>
+                    <Button
+                      isIconOnly
+                      className="w-20 item-center mt-3"
+                      color="secondary" 
+                      variant="ghost"
+                      onPress={playRecording}
+                    >
+                      음성듣기
+                    </Button>
+                    {voice && <audio controls src={voice} />}
+                    <Button 
+                      onClick={() => { }}
+                      className="w-20 item-center mt-3"
+                      color="secondary" 
+                      variant="ghost">발음 분석
+                    </Button>  
+                </div>
+              </CardBody>
+            </Card>
           </div>
-        </CardBody>
-      </Card>
-    </div>
-  );
+        );
+  }
+
 }
