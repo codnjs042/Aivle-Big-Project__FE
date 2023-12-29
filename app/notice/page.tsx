@@ -38,9 +38,8 @@ export default function AboutPage() {
   const columns = [
     { key: 'title', label: '제목' },
     { key: 'writer', label: '작성자' },
-    { key: 'comments_count', label: '댓글 수' },
-    { key: 'formatted_created_at', label: '작성일' },
-    { key: 'formatted_updated_at', label: '수정일' },
+    { key: 'comments_count', label: '댓글' },
+    { key: 'formatted_updated_at', label: '최종 수정일' },
   ];
 
   const rowsPerPage = 10;
@@ -54,11 +53,11 @@ export default function AboutPage() {
   return (
       <div className="flex flex-col">
         <div className="text-3xl font-bold primary text-center py-5">
-          <p>공지 및 문의게시판</p>
+          <p>서비스 공지 및 문의</p>
         </div>
         <Table
             className="flex w-full text-center"
-            aria-label="공지 및 문의게시판"
+            aria-label="서비스 공지 및 문의"
             bottomContent={
               pages > 0 ? (
                   <div className="flex w-full justify-center">
@@ -77,31 +76,31 @@ export default function AboutPage() {
         >
           <TableHeader>
             {columns.map((column) => (
-                <TableColumn className="text-center" key={column.key}>
+                <TableColumn className="text-md text-center" key={column.key}>
                   {column.label}
                 </TableColumn>
             ))}
           </TableHeader>
           <TableBody items={data?.results ?? []} loadingContent={<Spinner />} loadingState={loadingState}>
             {(item: ItemType) => (
-                <TableRow key={item.title}>
+                <TableRow key={item.id}>
                   {(columnKey) => {
                     let value = getKeyValue(item, columnKey);
                     const attr = item.is_admin ? "font-bold" : "";
                     if (columnKey == 'title') {
                       if (item.is_admin) {
-                        value = '[공지] ' + value
+                        value = <><span style={{ marginRight: '1em' }}>📢</span>{value}</>;
                       }
                       return (
                           <TableCell className={attr + ""}>
-                            <Link href={`/notice/${item.id}`}>
-                              <a>{value}</a>
+                            <Link href={`/notice/post?id=${item.id}`} className="text-white-500">
+                              {value}
                             </Link>
                           </TableCell>
                       );
                     }
                     if (columnKey == 'writer' && item.is_admin) {
-                      value = '[관리자] ' + value
+                      value = <><span style={{ marginRight: '1em' }}>👑</span>{value}</>;
                     }
                     return <TableCell className={attr}>{value}</TableCell>;
                   }}
