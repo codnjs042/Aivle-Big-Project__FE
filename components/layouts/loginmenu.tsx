@@ -5,7 +5,6 @@ import {Link} from "@nextui-org/link";
 import {useContext, useEffect, useState} from "react";
 import AuthContext from "@/context/AuthContext";
 import {logoutFetch} from "@/api/user/logout";
-import {infoFetch} from "@/api/user/info";
 
 export default function LoginMenu() {
   const auth = useContext(AuthContext);
