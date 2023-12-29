@@ -9,7 +9,10 @@ import {
   Chip,
   CircularProgress,
   Image,
-  Input
+  Input,
+  Accordion,
+  AccordionItem,
+  
 } from "@nextui-org/react";
 import {useRouter} from 'next/navigation';
 import AuthContext from "@/context/AuthContext";
@@ -34,21 +37,20 @@ export default function MyPage() {
             </CardBody>
           </Card>
           <div className="flex flex-col gap-2">
-
-            <Input
-                isReadOnly
-                type="email"
-                label="Email"
-                variant="bordered"
-                defaultValue={auth.user?.email}
-                className="max-w-xs"
-            />
             <Input
                 isReadOnly
                 type="string"
                 label="Nickname"
                 variant="bordered"
-                defaultValue={auth.user?.nickname}
+                value={auth.user?.nickname}
+                className="max-w-xs"
+            />
+            <Input
+                isReadOnly
+                type="email"
+                label="Email"
+                variant="bordered"
+                value={auth.user?.email}
                 className="max-w-xs"
             />
 
@@ -138,7 +140,7 @@ export default function MyPage() {
                     track: "stroke-white/10",
                     value: "text-3xl font-semibold text-white",
                   }}
-                  value={70}
+                  value={88}
                   strokeWidth={4}
                   showValueLabel={true}
               />
@@ -155,6 +157,17 @@ export default function MyPage() {
               </Chip>
             </CardFooter>
           </Card>
+        </div>
+        <div className="flex flex-col gap-2">
+        <Accordion selectionMode="multiple">
+          <AccordionItem key="1" aria-label="즐겨찾는 문장" title="즐겨찾는 문장">
+            안녕하세요
+          </AccordionItem>
+          <AccordionItem key="2" aria-label="자주 틀리는 문장" title="자주 틀리는 문장">
+            안,감,최
+          </AccordionItem>
+        </Accordion>
+
         </div>
       </div>
   );
