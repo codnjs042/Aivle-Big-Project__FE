@@ -47,7 +47,7 @@ export default function RootLayout({children,}: {
         <div className="relative flex flex-col h-screen">
           <Navigator/>
           <main
-              className="container mx-auto max-w-7xl pt-16 px-6 flex-grow flex-shrink overflow-auto">
+              className="container mx-auto max-w-7xl pt-10 px-6 flex-grow flex-shrink overflow-y-auto">
             {children}
           </main>
         </div>
