@@ -27,7 +27,7 @@ export default function LoginMenu() {
                   icon={<AvatarIcon />}
                   size="sm"
                   classNames={{
-                    base: "bg-gradient-to-br from-[#FFB457] to-[#FF705B]",
+                    base: "bg-gradient-to-br from-purple-300 to-purple-500",
                     icon: "text-black/50",
                   }}
                 />
