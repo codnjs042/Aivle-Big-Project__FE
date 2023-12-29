@@ -54,6 +54,11 @@ export default function AboutPage() {
       <div className="flex flex-col">
         <div className="text-3xl font-bold primary text-center py-5">
           <p>서비스 공지 및 문의</p>
+          <button>
+            <Link href="/notice/write">
+              글쓰기
+            </Link>
+          </button>
         </div>
         <Table
             className="flex w-full text-center"

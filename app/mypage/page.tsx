@@ -36,15 +36,7 @@ export default function MyPage() {
               />
             </CardBody>
           </Card>
-          <div className="flex flex-col gap-2 mt-5">
-            <Input
-                isReadOnly
-                type="string"
-                label="Nickname"
-                variant="bordered"
-                value={auth.user?.nickname}
-                className="max-w-xs"
-            />
+          <div className="flex flex-col gap-2">
             <Input
                 isReadOnly
                 type="email"
@@ -53,8 +45,14 @@ export default function MyPage() {
                 value={auth.user?.email}
                 className="max-w-xs"
             />
-
-
+            <Input
+                isReadOnly
+                type="string"
+                label="Nickname"
+                variant="bordered"
+                value={auth.user?.nickname}
+                className="max-w-xs"
+            />
             <Chip
                 variant="shadow"
                 classNames={{
@@ -171,7 +169,6 @@ export default function MyPage() {
         </div>
       </div>
   );
-
 }
 
 

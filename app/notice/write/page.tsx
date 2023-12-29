@@ -3,19 +3,18 @@
 import React, {useContext, useEffect, useState} from "react";
 import {useSearchParams} from "next/navigation";
 import AuthContext from "@/context/AuthContext";
+import Tiptap from "@/components/layouts/tiptap";
 
-export default function PostPage() {
+interface PostType {
+  title: string;
+  content: string;
+}
+
+export default function WritePage() {
   const auth = useContext(AuthContext);
-  const query = useSearchParams().get('id');
-  const [id, setId] = useState(query ? parseInt(query, 10) : 0);
-  const data =
 
-  useEffect(() => {
-  }, [id]);
 
   return (
-    <div>
-      헬
-    </div>
+      <Tiptap />
   );
 }

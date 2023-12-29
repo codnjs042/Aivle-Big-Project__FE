@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function PostLayout({
+export default function WriteLayout({
 	children,
 }: {
 	children: React.ReactNode;
