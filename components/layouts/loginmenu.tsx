@@ -20,10 +20,13 @@ export default function LoginMenu() {
       <div className="flex gap-4 justify-start ml-2">
         {auth.login ? (
             <>
-              <Button style={{
-                background: 'none',
-                border: '2px solid var(--nextui-color-secondary)'
-              }}>{auth.user?.nickname} 님</Button>
+              <Link href="/mypage">
+                <Button
+                    style={{
+                      background: 'none',
+                      border: '2px solid var(--nextui-color-secondary)'
+                    }}>{auth.user?.nickname} 님</Button>
+              </Link>
               <Button
                   style={{
                     background: 'none',
