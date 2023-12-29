@@ -23,7 +23,7 @@ export default function MyPage() {
   return (
       <div className="flex flex-col gap-20">
         <div className="flex flex-row gap-2">
-          <Card className="p-10">
+          <Card className="p-5">
             <CardHeader className="pb-0 pt-0 justify-center">
               <p className="font-bold text-2xl text-center">{auth.user?.nickname} 님</p>
             </CardHeader>
@@ -36,7 +36,7 @@ export default function MyPage() {
               />
             </CardBody>
           </Card>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 mt-5">
             <Input
                 isReadOnly
                 type="string"
