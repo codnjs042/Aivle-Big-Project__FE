@@ -29,7 +29,7 @@ export default function AboutPage() {
 					removeWrapper
 					alt="Card background"
 					className="z-0 w-full h-full object-cover"
-					src="/asset/images/shorts.jpg"
+					src="/asset/images/shorts/shorts.jpg"
 				/>
 				</Card>
 				<Card className="col-span-12 sm:col-span-4 h-[300px]">
@@ -42,7 +42,7 @@ export default function AboutPage() {
 					removeWrapper
 					alt="Card background"
 					className="z-0 w-full h-full object-cover"
-					src="/asset/images/contents2.jpg"
+					src="/asset/images/contents/contents2.jpg"
 				/>
 				</Card>
 				<Card className="col-span-12 sm:col-span-4 h-[300px]">
@@ -55,7 +55,7 @@ export default function AboutPage() {
 					removeWrapper
 					alt="Card background"
 					className="z-0 w-full h-full object-cover"
-					src="/asset/images/idol1.png"
+					src="/asset/images/idol/idol1.png"
 				/>
 				</Card>
 		</div>

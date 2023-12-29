@@ -6,35 +6,35 @@ export default function CulturePage() {
 	const artistList = [
 		{
 			title: "NEWJEANS",
-			img: "/asset/images/idol1.png",
+			img: "/asset/images/idol/idol1.png",
 		},
 		{
 			title: "BTS",
-			img: "/asset/images/idol2.png",
+			img: "/asset/images/idol/idol2.png",
 		},
 		{
 			title: "NCT DREAM",
-			img: "/asset/images/idol3.png",
+			img: "/asset/images/idol/idol3.png",
 		},
 		{
 			title: "BLACKPINK",
-			img: "/asset/images/idol4.png",
+			img: "/asset/images/idol/idol4.png",
 		},
 		{
 			title: "AESPA",
-			img: "/asset/images/idol5.png",
+			img: "/asset/images/idol/idol5.png",
 		},
 		{
 			title: "IVE",
-			img: "/asset/images/idol6.png",
+			img: "/asset/images/idol/idol6.png",
 		},
 		{
 			title: "NCT 127",
-			img: "/asset/images/idol7.png",
+			img: "/asset/images/idol/idol7.png",
 		},
 		{
 			title: "SEVENTEEN",
-			img: "/asset/images/idol8.png",
+			img: "/asset/images/idol/idol8.png",
 		},
 	
 	  ];
