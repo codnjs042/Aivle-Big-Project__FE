@@ -77,6 +77,10 @@ export default function PracticePage() {
     }
   };
 
+  const goToArtistPage = () => {
+    router.push('/artist');
+  };
+
   useEffect(() => {
     const artistEntry = artistList.find(entry => entry.name === artist);
     if (artistEntry) {
@@ -92,6 +96,14 @@ export default function PracticePage() {
       return (
         <div>
           <div className="mt-5 flex justify-center">
+            <Button
+              variant="light"
+              color='default'
+              onPress={goToArtistPage}
+              disabled
+            >
+              홈
+            </Button>
             <Button
               variant="light"
               color='secondary'
@@ -196,6 +208,14 @@ export default function PracticePage() {
               <Button
                 variant="light"
                 color='default'
+                onPress={goToArtistPage}
+                disabled
+              >
+                홈
+              </Button>
+              <Button
+                variant="light"
+                color='default'
                 onPress={() => setSelectedPart(1)}
               >
                 파트 1
@@ -294,6 +314,14 @@ export default function PracticePage() {
         return (
           <div>
             <div className="mt-5 flex justify-center">
+              <Button
+                variant="light"
+                color='default'
+                onPress={goToArtistPage}
+                disabled
+              >
+                홈
+              </Button>
               <Button
                 variant="light"
                 color='default'
