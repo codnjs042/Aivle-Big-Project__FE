@@ -8,6 +8,7 @@ import {ChevronCircleTopLinearIcon, VolumeLowBoldIcon, VolumeHighBoldIcon, Headp
 import cn from 'classnames';
 import axios from 'axios';
 import { ReactMediaRecorder, useReactMediaRecorder } from 'react-media-recorder';
+import { SentenceInfo } from './sentence';
 
 export default function LearnPage() {
   const [liked, setLiked] = useState(false);
@@ -34,51 +35,13 @@ export default function LearnPage() {
     audioElement.play();
   };
 
-  //문장 리스트
-  const SentenceInfo = {
-    "1": {
-      text1: "Hello",
-      text2: "Annyunghaseyo",
-      text3: "안녕하세요",
-      image: "asset/images/sentence/hello.jpg",
-    },
-    "2": {
-      text1: "Thank you",
-      text2: "gamsahapnida",
-      text3: "감사합니다",
-      image: "asset/images/sentence/thanku.jpg",
-    },
-    "3": {
-      text1: "I'm sorry",
-      text2: "joesonghapnida",
-      text3: "죄송합니다",
-      image: "asset/images/sentence/sorry.jpg",
-    },
-    "4": {
-      text1: "Nice to meet you",
-      text2: "bangapseupnida",
-      text3: "반갑습니다",
-      image: "asset/images/sentence/nice.jpg",
-    },
-    "5": {
-      text1: "Goodbye",
-      text2: "annyeonghigyeseyo",
-      text3: "안녕히계세요",
-      image: "asset/images/sentence/bye.jpg",
-    },
-    "6": {
-      text1: "I'm hungry",
-      text2: "baegopeupnida ",
-      text3: "배고픕니다",
-      image: "asset/images/sentence/hungry.jpg",
-    },
-  };
+
 
   const { activePage, range, setPage, onNext, onPrevious,} = usePagination({
-    total: 6,
+    total: 12,
     showControls: true,
-    siblings: 10,
-    boundaries: 10,
+    siblings: 5,
+    boundaries: 5,
   });
   
   // 페이지 변경 시 텍스트 업데이트
@@ -205,7 +168,7 @@ export default function LearnPage() {
 
             {/* 페이지네이션 */}
               <div>
-              {/* <p>Active page: {activePage}</p> */}
+              <p>Active page: {activePage}</p>
                 <ul className="flex gap-2 mt-10 items-center justify-center">
                   {range.map((page) => {
                     if (page === PaginationItemType.NEXT) {

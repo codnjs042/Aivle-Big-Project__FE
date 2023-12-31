@@ -48,7 +48,7 @@ export default function Home() {
             <p className={cardBody()}>한국 일상 대화를 배우고 자주 틀리는 한국어 발음을 교정해보세요.</p>
           </div>
         </Link>
-        <Link isBlock showAnchorIcon href="/culture" color="foreground">
+        <Link isBlock showAnchorIcon href="/genre" color="foreground">
           <div className={card()} style={{ borderRadius: '20px', marginLeft: '10px', marginRight: '10px' }}>
             <h3 className={cardHeader()} style={{ fontWeight: "bold" }}>명대사 연습</h3>
             <p className={cardBody()}>로맨스, 사극, 판타지 등 다양한 장르의 명대사와 좋아하는 가수의 가사를 연습하며 한국어를 배워보세요.</p>
