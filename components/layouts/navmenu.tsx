@@ -8,12 +8,16 @@ import {ChevronDownIcon} from "@/components/icons";
 export default function NavMenu() {
   const pathname = usePathname()
 
+  const isMenuSelected = (menuPath) => {
+    return pathname === menuPath;
+  };
+
   return (
       <div className="flex gap-4 justify-start mt-1 ml-2">
         <Dropdown backdrop="blur">
           <DropdownTrigger>
           <Button
-              className="h-6 pr-2 text-small"
+              className={`h-6 pr-2 text-small ${isMenuSelected("/about") || isMenuSelected("/notice") ? "text-purple-500" : ""}`}
               endContent={<ChevronDownIcon className="text-default-500" />}
               radius="full"
               size="sm"
@@ -41,7 +45,7 @@ export default function NavMenu() {
         <Dropdown backdrop="blur">
           <DropdownTrigger>
           <Button
-              className="h-6 pr-2 text-small"
+              className={`h-6 pr-2 text-small ${isMenuSelected("/learn") ? "text-purple-500" : ""}`}
               endContent={<ChevronDownIcon className="text-default-500" />}
               radius="full"
               size="sm"
@@ -67,7 +71,7 @@ export default function NavMenu() {
         <Dropdown backdrop="blur">
           <DropdownTrigger>
           <Button
-              className="h-6 pr-2 text-small"
+              className={`h-6 pr-2 text-small ${isMenuSelected("/genre") || isMenuSelected("/artist") ? "text-purple-500" : ""}`}
               endContent={<ChevronDownIcon className="text-default-500" />}
               radius="full"
               size="sm"
@@ -95,7 +99,7 @@ export default function NavMenu() {
         <Dropdown backdrop="blur">
           <DropdownTrigger>
           <Button
-              className="h-6 pr-2 text-small"
+              className={`h-6 pr-2 text-small ${isMenuSelected("/shorts") || isMenuSelected("/myshorts") ? "text-purple-500" : ""}`}
               endContent={<ChevronDownIcon className="text-default-500" />}
               radius="full"
               size="sm"

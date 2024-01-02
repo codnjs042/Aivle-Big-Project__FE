@@ -149,9 +149,33 @@ export default function PracticePage() {
           className="border-none bg-background/60 dark:bg-default-100/50 max-w-[1000px] mt-10"
           shadow="sm"
         >
-          <div className="flex flex-col">
+        <div className="flex flex-col">
             <div className="text-3xl font-bold primary text-center py-5">
-              {/* ... (existing code for recording and analysis buttons) */}
+                <Button
+                  isIconOnly
+                  className="w-20 item-center ml-5"
+                  color="secondary" 
+                  variant="ghost"
+                  onPress={recording ? stopRecording : startRecording}
+                  >
+                  {recording ? "녹음정지" : "녹음시작"}
+                </Button>
+                <Button
+                  isIconOnly
+                  className="w-20 item-center ml-5"
+                  color="secondary" 
+                  variant="ghost"
+                  onPress={playRecording}
+                  >
+                  음성듣기
+                </Button>
+                {voice && <audio controls src={voice} />}
+                <Button 
+                    onClick={handleAnalysis}
+                    className="w-20 item-center ml-5"
+                    color="secondary" 
+                    variant="ghost">발음 분석
+              </Button> 
             </div>
           </div>
         </Card>

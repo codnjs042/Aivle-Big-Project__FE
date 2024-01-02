@@ -2,10 +2,12 @@
 
 import {Button} from "@nextui-org/react";
 import {Link} from "@nextui-org/link";
+import {usePathname, useRouter} from 'next/navigation'
 import {useContext, useEffect, useState} from "react";
 import AuthContext from "@/context/AuthContext";
 import {logoutFetch} from "@/api/user/logout";
 import {Avatar, AvatarIcon} from "@nextui-org/react";
+
 
 export default function LoginMenu() {
   const auth = useContext(AuthContext);
@@ -16,6 +18,12 @@ export default function LoginMenu() {
       auth.setLogin(false);
     }
   }
+
+  const pathname = usePathname()
+
+  const isMenuSelected = (menuPath) => {
+    return pathname === menuPath;
+  };
 
   return (
       <div className="flex gap-4 justify-start ml-2">
@@ -33,6 +41,7 @@ export default function LoginMenu() {
                 />
               </div>
                 <Button
+                    className={`h-6 pr-2 text-small ${isMenuSelected("/mypage") ? "text-purple-500" : ""}`}
                     style={{
                       background: 'none',
                       border: '2px solid var(--nextui-color-secondary)'
