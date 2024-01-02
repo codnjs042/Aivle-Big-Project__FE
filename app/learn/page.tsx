@@ -12,20 +12,19 @@ import { SentenceInfo } from './sentence';
 
 export default function LearnPage() {
   const [liked, setLiked] = useState(false);
-  const [currentPageVoice, setCurrentPageVoice] = useState('안녕하세요');
   // 음성듣기용 오디오
   const [audio, setAudio] = useState<string | null>(null);
-  const [audioUrl, setAudioUrl] = useState(null);
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
   // 음성녹음용 오디오
   const [voice, setVoice] = useState<string | null>(null);
-  const [voiceUrl, setVoiceUrl] = useState(null);
+  const [voiceUrl, setVoiceUrl] = useState<string | null>(null);
   const sizes = ['sm']; 
   // 녹음 상태 및 녹음된 Blob을 저장할 상태
   const [recording, setRecording] = useState(false);
-  const [recordedBlob, setRecordedBlob] = useState(null);
+  const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
   // 미디어 스트림 및 녹음기 참조
-  const mediaStreamRef = useRef(null);
-  const mediaRecorderRef = useRef(null);
+  const mediaStreamRef = useRef<MediaStream | null>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 
   const [AnalysisVisible, setAnalysisVisible] = useState(false);
 
@@ -34,8 +33,13 @@ export default function LearnPage() {
   const handleTextToSpeech = async () => {
     const audioUrl = await textToSpeech(SentenceInfo[activePage].text3);
     setAudio(audioUrl);
-    const audioElement = new Audio(audioUrl);
-    audioElement.play();
+    if (audioUrl !== null) {
+      const audioElement = new Audio(audioUrl);
+      audioElement.play();
+    } else {
+      console.error('Audio URL is null');
+      // 또는 다른 처리를 수행하거나 에러를 표시할 수 있습니다.
+    }
   };
 
 
@@ -54,13 +58,13 @@ export default function LearnPage() {
   };
   
   // 페이지 변경 시 텍스트 업데이트
-  const handlePageChange = (page) => {
+  const handlePageChange = (page: number) => {
     setPage(page);
     updatePageText(page);
   };
 
   // 페이지에 따라 문장리스트 호출
-  const updatePageText = (page) => {  };
+  const updatePageText = (page: number) => {  };
 
   // 음성 녹음 시작 함수
   const startRecording = async () => {
@@ -70,7 +74,7 @@ export default function LearnPage() {
       const recorder = new MediaRecorder(stream);
       mediaRecorderRef.current = recorder;
 
-      const chunks = [];
+      const chunks: BlobPart[] | undefined = [];
 
       recorder.ondataavailable = (event) => {
         if (event.data.size > 0) {
@@ -97,7 +101,7 @@ export default function LearnPage() {
   const stopRecording = () => {
     if (mediaRecorderRef.current && recording) {
       mediaRecorderRef.current.stop();
-      mediaStreamRef.current.getTracks().forEach((track) => track.stop());
+      mediaStreamRef.current!.getTracks().forEach((track) => track.stop());
       setRecording(false);
     }
   };

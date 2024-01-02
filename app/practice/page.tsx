@@ -18,13 +18,14 @@ export default function PracticePage() {
   
   // 음성녹음용 오디오
   const [voice, setVoice] = useState<string | null>(null);
-  const [voiceUrl, setVoiceUrl] = useState(null);
+  const [voiceUrl, setVoiceUrl] = useState<string | null>(null);
   // 녹음 상태 및 녹음된 Blob을 저장할 상태
   const [recording, setRecording] = useState(false);
-  const [recordedBlob, setRecordedBlob] = useState(null);
+  const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
+
   // 미디어 스트림 및 녹음기 참조
-  const mediaStreamRef = useRef(null);
-  const mediaRecorderRef = useRef(null);
+  const mediaStreamRef = useRef<MediaStream | null>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 
   const [AnalysisVisible, setAnalysisVisible] = useState(false);
 
@@ -36,7 +37,7 @@ export default function PracticePage() {
       const recorder = new MediaRecorder(stream);
       mediaRecorderRef.current = recorder;
 
-      const chunks = [];
+      const chunks: BlobPart[] | undefined = [];
 
       recorder.ondataavailable = (event) => {
         if (event.data.size > 0) {
@@ -63,7 +64,7 @@ export default function PracticePage() {
   const stopRecording = () => {
     if (mediaRecorderRef.current && recording) {
       mediaRecorderRef.current.stop();
-      mediaStreamRef.current.getTracks().forEach((track) => track.stop());
+      mediaStreamRef.current?.getTracks().forEach((track) => track.stop());
       setRecording(false);
     }
   };

@@ -33,7 +33,7 @@ export default function AboutPage() {
 		},
 		{
 		  title: "김채원",
-		  img: "/asset/images/member/member6.jpg",
+		  img: "/asset/images/member/member6.png",
 		  price: "FE",
 		},
 	  ];
@@ -50,7 +50,7 @@ export default function AboutPage() {
 						<p>저희 서비스는 입모양 및 발음 분석을 통해 외국인에게 발음 교정을 제공하며 원활한 의사소통을 돕는 서비스입니다.</p>
 					</CardBody>
 					<CardBody>
-						<p>K-POP 가사와 K-CONTENTS 명대사를 통해 흥미롭게 한국인의 일상 대화를 배워보세요.</p>
+						<p>K-POP 가사와 K-CONTENTS 명대사를 통해 흥미로운 한국인의 일상 대화를 배워보세요.</p>
 					</CardBody>
 					</Card>
 				</div>

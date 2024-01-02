@@ -8,7 +8,7 @@ import {ChevronDownIcon} from "@/components/icons";
 export default function NavMenu() {
   const pathname = usePathname()
 
-  const isMenuSelected = (menuPath) => {
+  const isMenuSelected = (menuPath: string) => {
     return pathname === menuPath;
   };
 

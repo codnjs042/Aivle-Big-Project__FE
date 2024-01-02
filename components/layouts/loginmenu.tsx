@@ -21,7 +21,7 @@ export default function LoginMenu() {
 
   const pathname = usePathname()
 
-  const isMenuSelected = (menuPath) => {
+  const isMenuSelected = (menuPath: string) => {
     return pathname === menuPath;
   };
 
