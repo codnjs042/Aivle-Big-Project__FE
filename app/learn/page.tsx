@@ -2,8 +2,8 @@
 
 import React, { useState, useRef } from 'react';
 import { textToSpeech } from '@/api/textToSpeech'
-import {Input, Card, CardBody, Image, Button, Slider, Pagination, PaginationItemType, usePagination} from "@nextui-org/react";
-import {HeartIcon, PauseCircleIcon, NextIcon, PreviousIcon, RepeatOneIcon, ShuffleIcon, ChevronIcon, SearchIcon, } from "@/components/icons";
+import {Input, Card, CardBody, CardHeader, CardFooter, Divider, Link, Image, Button, Slider, Pagination, PaginationItemType, usePagination} from "@nextui-org/react";
+import {Logo, HeartIcon, PauseCircleIcon, NextIcon, PreviousIcon, RepeatOneIcon, ShuffleIcon, ChevronIcon, SearchIcon, } from "@/components/icons";
 import {ChevronCircleTopLinearIcon, VolumeLowBoldIcon, VolumeHighBoldIcon, HeadphonesIcon} from "@nextui-org/shared-icons";
 import cn from 'classnames';
 import axios from 'axios';
@@ -27,6 +27,9 @@ export default function LearnPage() {
   const mediaStreamRef = useRef(null);
   const mediaRecorderRef = useRef(null);
 
+  const [AnalysisVisible, setAnalysisVisible] = useState(false);
+
+
   //단어 음성 듣기
   const handleTextToSpeech = async () => {
     const audioUrl = await textToSpeech(SentenceInfo[activePage].text3);
@@ -43,6 +46,12 @@ export default function LearnPage() {
     siblings: 5,
     boundaries: 5,
   });
+
+  // 발음 분석 버튼 클릭 시 호출
+  const handleAnalysis = () => {
+    // 발음 분석 Card가 보이도록 상태 업데이트
+    setAnalysisVisible(true);
+  };
   
   // 페이지 변경 시 텍스트 업데이트
   const handlePageChange = (page) => {
@@ -148,7 +157,7 @@ export default function LearnPage() {
                   >
                   <HeadphonesIcon className="text-2xl"/>
                 </Button>
-                  <h1 className="font-large text-foreground/80 mt-5">{SentenceInfo[activePage].text1}</h1>
+                  <h1 className="font-large text-purple-400 text-foreground/80 mt-5">{SentenceInfo[activePage].text1}</h1>
                   <h1 className="text-large text-foreground/90 mt-5">{SentenceInfo[activePage].text2}</h1>
                   <h1 className="text-large font-medium mt-5">{SentenceInfo[activePage].text3}</h1>
                 </div>
@@ -253,7 +262,7 @@ export default function LearnPage() {
             </Button>
             {voice && <audio controls src={voice} />}
             <Button 
-                onClick={() => { }}
+                onClick={handleAnalysis}
                 className="w-20 item-center ml-5"
                 color="secondary" 
                 variant="ghost">발음 분석
@@ -261,6 +270,38 @@ export default function LearnPage() {
         </div>
       </div>
       </Card>
-    </div>
+      <Card
+        isBlurred
+        className={cn("border-none bg-background/60 dark:bg-default-100/50 max-w-[1000px] mt-10", {
+          hidden: !AnalysisVisible, // 숨겨진 상태
+        })}
+        shadow="sm"
+      >
+        <CardHeader className="flex gap-3">
+          <Logo />
+          <div className="flex flex-col">
+            <p className="text-md font-bold">AI 레포트</p>
+          </div>
+        </CardHeader>
+        <Divider/>
+        <CardBody>
+          <p>원래 발음 : 안녕하세요</p>
+        </CardBody>
+        <CardBody>
+          <p>나의 발음 : 안녕하세요</p>
+        </CardBody>
+        <Divider/>
+        <CardFooter>
+          <Link
+            color="secondary"
+            isExternal
+            showAnchorIcon
+            href="/mypage"
+          >
+            더 자세한 AI 레포트 
+          </Link>
+        </CardFooter>
+      </Card>
+      </div>
   );
 }

@@ -2,11 +2,12 @@
 
 import React, {useState, useRef, useEffect} from "react";
 import dynamic from 'next/dynamic';
-import {Card, CardBody, Image, Button, Slider} from "@nextui-org/react";
-import {HeartIcon, PauseCircleIcon, NextIcon, PreviousIcon} from "@/components/icons";
+import {Card, CardBody, CardHeader, CardFooter, Divider, Link, Image, Button, Slider} from "@nextui-org/react";
+import {Logo, HeartIcon, PauseCircleIcon, NextIcon, PreviousIcon} from "@/components/icons";
 import { useRouter, useSearchParams } from "next/navigation";
 import {Artist, artistList} from "@/types/artist";
 import lyricsList from '../artist/lyrics';
+import cn from 'classnames';
 
 export default function PracticePage() {
   const router = useRouter();
@@ -28,6 +29,9 @@ export default function PracticePage() {
   // 미디어 스트림 및 녹음기 참조
   const mediaStreamRef = useRef<MediaStream | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+
+  
+  const [AnalysisVisible, setAnalysisVisible] = useState(false);
 
   // 음성 녹음 시작 함수
   const startRecording = async () => {
@@ -75,6 +79,12 @@ export default function PracticePage() {
       const voice = new Audio(voiceUrl);
       // voice.play();
     }
+  };
+
+    // 발음 분석 버튼 클릭 시 호출
+  const handleAnalysis = () => {
+      // 발음 분석 Card가 보이도록 상태 업데이트
+      setAnalysisVisible(true);
   };
 
   const goToArtistPage = () => {
@@ -192,13 +202,45 @@ export default function PracticePage() {
             </Button>
             {voice && <audio controls src={voice} />}
             <Button 
-                onClick={() => { }}
+                onClick={handleAnalysis}
                 className="w-20 item-center ml-5"
                 color="secondary" 
                 variant="ghost">발음 분석
           </Button> 
         </div>
       </div>
+      </Card>
+      <Card
+        isBlurred
+        className={cn("border-none bg-background/60 dark:bg-default-100/50 max-w-[1000px] mt-10", {
+          hidden: !AnalysisVisible, // 숨겨진 상태
+        })}
+        shadow="sm"
+      >
+        <CardHeader className="flex gap-3">
+          <Logo />
+          <div className="flex flex-col">
+            <p className="text-md font-bold">AI 레포트</p>
+          </div>
+        </CardHeader>
+        <Divider/>
+        <CardBody>
+          <p>원래 발음 : 안녕하세요</p>
+        </CardBody>
+        <CardBody>
+          <p>나의 발음 : 안녕하세요</p>
+        </CardBody>
+        <Divider/>
+        <CardFooter>
+          <Link
+            color="secondary"
+            isExternal
+            showAnchorIcon
+            href="/mypage"
+          >
+            더 자세한 AI 레포트 
+          </Link>
+        </CardFooter>
       </Card>
       </div>
       );
@@ -302,7 +344,7 @@ export default function PracticePage() {
                 </Button>
                 {voice && <audio controls src={voice} />}
                 <Button 
-                    onClick={() => { }}
+                    onClick={handleAnalysis}
                     className="w-20 item-center ml-5"
                     color="secondary" 
                     variant="ghost">발음 분석
@@ -310,7 +352,39 @@ export default function PracticePage() {
             </div>
           </div>
       </Card>
+      <Card
+        isBlurred
+        className={cn("border-none bg-background/60 dark:bg-default-100/50 max-w-[1000px] mt-10", {
+          hidden: !AnalysisVisible, // 숨겨진 상태
+        })}
+        shadow="sm"
+        >
+        <CardHeader className="flex gap-3">
+          <Logo />
+          <div className="flex flex-col">
+            <p className="text-md font-bold">AI 레포트</p>
           </div>
+        </CardHeader>
+        <Divider/>
+        <CardBody>
+          <p>원래 발음 : 안녕하세요</p>
+        </CardBody>
+        <CardBody>
+          <p>나의 발음 : 안녕하세요</p>
+        </CardBody>
+        <Divider/>
+        <CardFooter>
+          <Link
+            color="secondary"
+            isExternal
+            showAnchorIcon
+            href="/mypage"
+          >
+            더 자세한 AI 레포트 
+          </Link>
+        </CardFooter>
+      </Card>
+      </div>
         );
         case 3:
         return (
@@ -412,13 +486,45 @@ export default function PracticePage() {
                   </Button>
                   {voice && <audio controls src={voice} />}
                   <Button 
-                      onClick={() => { }}
+                      onClick={handleAnalysis}
                       className="w-20 item-center ml-5"
                       color="secondary" 
                       variant="ghost">발음 분석
                 </Button> 
               </div>
             </div>
+            </Card>
+            <Card
+              isBlurred
+              className={cn("border-none bg-background/60 dark:bg-default-100/50 max-w-[1000px] mt-10", {
+                hidden: !AnalysisVisible, // 숨겨진 상태
+              })}
+              shadow="sm"
+            >
+              <CardHeader className="flex gap-3">
+                <Logo />
+                <div className="flex flex-col">
+                  <p className="text-md font-bold">AI 레포트</p>
+                </div>
+              </CardHeader>
+              <Divider/>
+              <CardBody>
+                <p>원래 발음 : 안녕하세요</p>
+              </CardBody>
+              <CardBody>
+                <p>나의 발음 : 안녕하세요</p>
+              </CardBody>
+              <Divider/>
+              <CardFooter>
+                <Link
+                  color="secondary"
+                  isExternal
+                  showAnchorIcon
+                  href="/mypage"
+                >
+                  더 자세한 AI 레포트 
+                </Link>
+              </CardFooter>
             </Card>
           </div>
         );
