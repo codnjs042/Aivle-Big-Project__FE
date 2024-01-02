@@ -144,8 +144,8 @@ export default function PracticePage() {
                     </div>
                     {/* 단어 문장 */}
                     <div className="flex flex-col gap-2">
-                      <h1 className="text-large text-foreground/80 mt-5">{lyrics?.part1 ? lyrics.part1[1] : undefined}</h1>
-                      <h1 className="font-large text-foreground/90 mt-5">{lyrics?.part1 ? lyrics.part1[2] : undefined}</h1>
+                      <h1 className="font-large text-foreground/80 mt-5">{lyrics?.part1 ? lyrics.part1[1] : undefined}</h1>
+                      <h1 className="text-large text-foreground/90 mt-5">{lyrics?.part1 ? lyrics.part1[2] : undefined}</h1>
                       <h1 className="text-large font-medium mt-5">{lyrics?.part1 ? lyrics.part1[0] : undefined}</h1>
                     </div>
                     <Button
@@ -254,8 +254,8 @@ export default function PracticePage() {
                       </div>
                       {/* 단어 문장 */}
                       <div className="flex flex-col gap-2">
-                        <h1 className="text-large text-foreground/80 mt-5">{lyrics?.part2 ? lyrics.part2[1] : undefined}</h1>
-                        <h1 className="font-large text-foreground/90 mt-5">{lyrics?.part2 ? lyrics.part2[2] : undefined}</h1>
+                        <h1 className="font-large text-foreground/80 mt-5">{lyrics?.part2 ? lyrics.part2[1] : undefined}</h1>
+                        <h1 className="text-large text-foreground/90 mt-5">{lyrics?.part2 ? lyrics.part2[2] : undefined}</h1>
                         <h1 className="text-large font-medium mt-5">{lyrics?.part2 ? lyrics.part2[0] : undefined}</h1>
                       </div>
                       <Button
@@ -364,8 +364,8 @@ export default function PracticePage() {
                       </div>
                       {/* 단어 문장 */}
                       <div className="flex flex-col gap-2">
-                        <h1 className="text-large text-foreground/80 mt-5">{lyrics?.part3 ? lyrics.part3[1] : undefined}</h1>
-                        <h1 className="font-large text-foreground/90 mt-5">{lyrics?.part3 ? lyrics.part3[2] : undefined}</h1>
+                        <h1 className="font-large text-foreground/80 mt-5">{lyrics?.part3 ? lyrics.part3[1] : undefined}</h1>
+                        <h1 className="text-large text-foreground/90 mt-5">{lyrics?.part3 ? lyrics.part3[2] : undefined}</h1>
                         <h1 className="text-large font-medium mt-5">{lyrics?.part3 ? lyrics.part3[0] : undefined}</h1>
                       </div>
                       <Button

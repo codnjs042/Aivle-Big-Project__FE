@@ -97,8 +97,8 @@ export default function PracticePage() {
           <div className="flex flex-col col-span-6 md:col-span-7">
             <div className="flex justify-between items-start">
               <div className="flex flex-col gap-0">
-                <h1 className="text-large text-foreground/80 mt-5">{content.english}</h1>
-				        <h1 className="font-large text-foreground/90 mt-5">{content.pronun}</h1>
+                <h1 className="font-large text-foreground/80 mt-5">{content.english}</h1>
+				        <h1 className="text-large text-foreground/90 mt-5">{content.pronun}</h1>
                 <h1 className="text-large font-medium mt-5">{content.contents}</h1>
               </div>
               <Button
