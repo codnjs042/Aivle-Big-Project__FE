@@ -2,6 +2,7 @@
 
 import {useContext, useMemo, useState} from "react";
 import {
+  Button,
   getKeyValue, Link,
   Pagination,
   Spinner,
@@ -54,10 +55,27 @@ export default function AboutPage() {
       <div className="flex flex-col">
         <div className="text-3xl font-bold primary text-center py-5">
           <p>서비스 공지 및 문의</p>
-          <button>
+        </div>
+        <div className="text-3xl font-bold primary text-end py-5">
+        <button>
             <Link href="/notice/write">
-              글쓰기
+            <Button
+              isIconOnly
+              className="w-20 item-center mt-3"
+              color="secondary" 
+              variant="ghost"
+              >
+              글 생성
+            </Button>
             </Link>
+            <Button
+              isIconOnly
+              className="w-20 item-center mt-3 ml-3"
+              color="secondary" 
+              variant="ghost"
+              >
+              글 삭제
+            </Button>
           </button>
         </div>
         <Table
@@ -70,7 +88,7 @@ export default function AboutPage() {
                         isCompact
                         showControls
                         showShadow
-                        color="primary"
+                        color="secondary"
                         page={page}
                         total={pages}
                         onChange={(page) => setPage(page)}
