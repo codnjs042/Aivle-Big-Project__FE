@@ -56,4 +56,33 @@ export const SentenceInfo = {
         text3: "감사합니다",
         image: "asset/images/sentence/thanku.jpg",
     },
+    "9": {
+        id: "9",
+        text1: "I'm sorry",
+        text2: "joesonghapnida",
+        text3: "죄송합니다",
+        image: "asset/images/sentence/sorry.jpg",
+    },
+    "10": {
+        id: "10",
+        text1: "Nice to meet you",
+        text2: "bangapseupnida",
+        text3: "반갑습니다",
+        image: "asset/images/sentence/nice.jpg",
+    },
+    "11": {
+        id: "11",
+        text1: "Goodbye",
+        text2: "annyeonghigyeseyo",
+        text3: "안녕히계세요",
+        image: "asset/images/sentence/bye.jpg",
+    },
+    "12": {
+        id: "12",
+        text1: "I'm hungry",
+        text2: "baegopeupnida ",
+        text3: "배고픕니다",
+        image: "asset/images/sentence/hungry.jpg",
+    },
+    
   };

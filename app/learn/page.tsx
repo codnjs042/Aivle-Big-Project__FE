@@ -105,7 +105,7 @@ export default function LearnPage() {
     <div>
       <Input
           classNames={{
-            base: "max-w-full sm:max-w-[10rem] h-10",
+            base: "max-w-full sm:max-w-[10rem] h-10 mb-3",
             mainWrapper: "h-full",
             input: "text-small",
             inputWrapper: "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
@@ -148,8 +148,8 @@ export default function LearnPage() {
                   >
                   <HeadphonesIcon className="text-2xl"/>
                 </Button>
-                  <h1 className="text-large text-foreground/80 mt-5">{SentenceInfo[activePage].text1}</h1>
-                  <h1 className="font-large text-foreground/90 mt-5">{SentenceInfo[activePage].text2}</h1>
+                  <h1 className="font-large text-foreground/80 mt-5">{SentenceInfo[activePage].text1}</h1>
+                  <h1 className="text-large text-foreground/90 mt-5">{SentenceInfo[activePage].text2}</h1>
                   <h1 className="text-large font-medium mt-5">{SentenceInfo[activePage].text3}</h1>
                 </div>
                 <Button
@@ -231,35 +231,35 @@ export default function LearnPage() {
       className="border-none bg-background/60 dark:bg-default-100/50 max-w-[1000px] mt-10"
       shadow="sm"
     >
-      {/* 음성 녹음 */}
-      <CardBody style={{paddingLeft:'100px', paddingRight:'100px'}}>
-          <div className="flex flex-col col-span-6 md:col-span-8 item-center">
-              <Button
-                className="w-20 item-center mt-3"
-                color="secondary"
-                variant="ghost"
-                onPress={recording ? stopRecording : startRecording}
+     <div className="flex flex-col">
+        <div className="text-3xl font-bold primary text-center py-5">
+            <Button
+              isIconOnly
+              className="w-20 item-center ml-5"
+              color="secondary" 
+              variant="ghost"
+              onPress={recording ? stopRecording : startRecording}
               >
-                {recording ? "녹음정지" : "녹음시작"}
-              </Button>
-              <Button
-                isIconOnly
-                className="w-20 item-center mt-3"
-                color="secondary" 
-                variant="ghost"
-                onPress={playRecording}
+              {recording ? "녹음정지" : "녹음시작"}
+            </Button>
+            <Button
+              isIconOnly
+              className="w-20 item-center ml-5"
+              color="secondary" 
+              variant="ghost"
+              onPress={playRecording}
               >
-                음성듣기
-              </Button>
-              {voice && <audio controls src={voice} />}
-              <Button 
+              음성듣기
+            </Button>
+            {voice && <audio controls src={voice} />}
+            <Button 
                 onClick={() => { }}
-                className="w-20 item-center mt-3"
+                className="w-20 item-center ml-5"
                 color="secondary" 
                 variant="ghost">발음 분석
-              </Button>  
-          </div>
-        </CardBody>
+          </Button> 
+        </div>
+      </div>
       </Card>
     </div>
   );

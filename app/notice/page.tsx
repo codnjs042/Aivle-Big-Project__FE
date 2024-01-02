@@ -65,7 +65,7 @@ export default function AboutPage() {
               color="secondary" 
               variant="ghost"
               >
-              글 생성
+              글 작성
             </Button>
             </Link>
             <Button
