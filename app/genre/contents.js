@@ -77,7 +77,7 @@ const contentsList = [
     },
     {
         id: 4,
-        title: "태양의 후예",
+        title: "태양의후예",
         img: "/asset/images/contents/contents5.jpg",
         scene: "/asset/images/scene/scene5.jpg",
         path: "/practice",
@@ -115,7 +115,7 @@ const contentsList = [
     },
     {
         id: 6,
-        title: "응답하라 1988",
+        title: "응답하라1988",
         img: "/asset/images/contents/contents7.jpg",
         scene: "/asset/images/scene/scene7.jpg",
         path: "/practice",
@@ -134,7 +134,7 @@ const contentsList = [
     },
     {
         id: 7,
-        title: "사랑의 불시착",
+        title: "사랑의불시착",
         img: "/asset/images/contents/contents8.jpg",
         scene: "/asset/images/scene/scene8.jpg",
         contents: "보고 싶은 사람 만날 수 있냐고 묻지 않았소? 만날 수 있소. 사랑하오. 사랑해요.",
