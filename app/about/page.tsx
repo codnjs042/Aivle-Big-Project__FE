@@ -8,7 +8,7 @@ export default function AboutPage() {
 	const list = [
 		{
 		  title: "최정안",
-		  img: "/asset/images/member/member1.jpeg",
+		  img: "/asset/images/member/member1.jpg",
 		  price: "FE",
 		},
 		{
@@ -17,24 +17,24 @@ export default function AboutPage() {
 		  price: "AI",
 		},
 		{
+			title: "신승규",
+			img: "/asset/images/member/member5.jpg",
+			price: "BE",
+		},
+		{
+			title: "김채원",
+			img: "/asset/images/member/member6.png",
+			price: "FE",
+		},
+		{
 		  title: "김민정",
 		  img: "/asset/images/member/member3.png",
 		  price: "AI",
 		},
 		{
 		  title: "조소은",
-		  img: "/asset/images/member/member4.jpg",
+		  img: "/asset/images/member/member4.png",
 		  price: "BE",
-		},
-		{
-		  title: "신승규",
-		  img: "/asset/images/member/member5.jpg",
-		  price: "BE",
-		},
-		{
-		  title: "김채원",
-		  img: "/asset/images/member/member6.png",
-		  price: "FE",
 		},
 	  ];
 
