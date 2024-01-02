@@ -18,7 +18,7 @@ export default function AboutPage() {
 		},
 		{
 		  title: "김민정",
-		  img: "/asset/images/member/member3.jpg",
+		  img: "/asset/images/member/member3.png",
 		  price: "AI",
 		},
 		{
