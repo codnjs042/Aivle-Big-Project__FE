@@ -234,7 +234,6 @@ export default function PracticePage() {
         <CardFooter>
           <Link
             color="secondary"
-            isExternal
             showAnchorIcon
             href="/mypage"
           >
@@ -376,7 +375,6 @@ export default function PracticePage() {
         <CardFooter>
           <Link
             color="secondary"
-            isExternal
             showAnchorIcon
             href="/mypage"
           >
@@ -518,7 +516,6 @@ export default function PracticePage() {
               <CardFooter>
                 <Link
                   color="secondary"
-                  isExternal
                   showAnchorIcon
                   href="/mypage"
                 >

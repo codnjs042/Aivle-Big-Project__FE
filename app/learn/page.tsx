@@ -294,7 +294,6 @@ export default function LearnPage() {
         <CardFooter>
           <Link
             color="secondary"
-            isExternal
             showAnchorIcon
             href="/mypage"
           >
