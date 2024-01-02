@@ -21,7 +21,10 @@ export default function MyPage() {
   const router = useRouter();
   const auth = useContext(AuthContext);
   return (
-      <div className="flex flex-col gap-20">
+      <div className="flex flex-col gap-10">
+          <div className="text-3xl font-bold primary text-center py-5">
+          <p>마이 리포트</p>
+        </div>
         <div className="flex flex-row gap-2">
           <Card className="p-5">
             <CardHeader className="pb-0 pt-0 justify-center">
