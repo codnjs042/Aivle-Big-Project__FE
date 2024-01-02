@@ -1,6 +1,6 @@
 const contentsList = [
     {
-        id: 0,
+        key: 0,
         title: "오징어게임",
         img: "/asset/images/contents/contents1.jpg",
         scene: "/asset/images/scene/scene1.jpg",
@@ -19,7 +19,7 @@ const contentsList = [
         <iframe width="560" height="315" src="https://www.youtube.com/embed/M2iMlk3U9RM?si=CbUnxWAxYJR51GyU&amp;clip=UgkxwJLGR0Y23bcBWUmU36X1pEcMHEgmQNrr&amp;clipt=ENg2GKyYAQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>],
     },
     {   
-        id: 1,
+        key: 1,
         title: "기생충",
         img: "/asset/images/contents/contents2.jpg",
         scene: "/asset/images/scene/scene2.jpg",
@@ -38,7 +38,7 @@ const contentsList = [
         <iframe width="560" height="315" src="https://www.youtube.com/embed/bVVE8vfEFNg?si=r46WENDjvC54HKD6&amp;clip=UgkxIQGO0tCU6mayi-U0NXUsidP9suag6Pt9&amp;clipt=EJQjGMSQAQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>],
     },
     {
-        id: 2,
+        key: 2,
         title: "미스터션샤인",
         img: "/asset/images/contents/contents3.jpg",
         scene: "/asset/images/scene/scene3.jpg",
@@ -57,7 +57,7 @@ const contentsList = [
         <iframe width="560" height="315" src="https://www.youtube.com/embed/I4wVGuVm2HU?si=Zw5-sDYb3RWlnjMG&amp;clip=Ugkxmvx36Iu2mh4G1fjgAtjvBu5sCSlnA1Ud&amp;clipt=EJQjGMSQAQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>],
     },
     {
-        id: 3,
+        key: 3,
         title: "더글로리",
         img: "/asset/images/contents/contents4.jpg",
         scene: "/asset/images/scene/scene4.jpg",
@@ -76,7 +76,7 @@ const contentsList = [
         <iframe width="560" height="315" src="https://www.youtube.com/embed/2U5ZJCDq0UQ?si=CJLtAByC7adrZf0B&amp;clip=UgkxXh8a8oCV6vmKSy6a-bjSQhCJFzfBGJ6i&amp;clipt=EOjABhi8nwg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>],
     },
     {
-        id: 4,
+        key: 4,
         title: "태양의후예",
         img: "/asset/images/contents/contents5.jpg",
         scene: "/asset/images/scene/scene5.jpg",
@@ -95,7 +95,7 @@ const contentsList = [
         <iframe width="560" height="315" src="https://www.youtube.com/embed/FMXwmrDTZgk?si=B554XzfyW_Ok8iM0&amp;clip=UgkxazRgenNnudwTd2JP0mb1Wa7mRPULRc8Z&amp;clipt=EPTLARjUqQI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>],
     },
     {
-        id: 5,
+        key: 5,
         title: "도깨비",
         img: "/asset/images/contents/contents6.jpg",
         scene: "/asset/images/scene/scene6.jpg",
@@ -114,7 +114,7 @@ const contentsList = [
         <iframe width="560" height="315" src="https://www.youtube.com/embed/d4GaQ30slGI?si=XF5igd5o7odq6OoL&amp;clip=UgkxXXkOVMy3DjInPpEWzd1Q4bawQMbAW5X1&amp;clipt=EJDCBBic1AU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>],
     },
     {
-        id: 6,
+        key: 6,
         title: "응답하라1988",
         img: "/asset/images/contents/contents7.jpg",
         scene: "/asset/images/scene/scene7.jpg",
@@ -133,7 +133,7 @@ const contentsList = [
         <iframe width="560" height="315" src="https://www.youtube.com/embed/QWlHfuhinEY?si=Z5InHyVtuLaDskQ5&amp;clip=Ugkxgz_mW7yDMKATiRUJDG_ga_do0qUOwJxi&amp;clipt=EKCWAxj45QM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>],
     },
     {
-        id: 7,
+        key: 7,
         title: "사랑의불시착",
         img: "/asset/images/contents/contents8.jpg",
         scene: "/asset/images/scene/scene8.jpg",

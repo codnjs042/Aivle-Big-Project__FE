@@ -1,6 +1,6 @@
 const lyricsList = [
     {
-        id: 0,
+        key: 0,
         title: "NEWJEANS",
         img: "/asset/images/idol/idol1.png",
         path: "/lyrics",
@@ -18,7 +18,7 @@ const lyricsList = [
         <iframe width="560" height="315" src="https://www.youtube.com/embed/tnGpaZBNBw8?si=HU4A6Aatq3-W_KUD&amp;clip=UgkxbtMuwvpOcarSubxQtagKTslA_t_I3QCk&amp;clipt=EOzKBRiEwAY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>],
     },
     {
-        id: 1,
+        key: 1,
         title: "BTS",
         img: "/asset/images/idol/idol2.png",
         path: "/lyrics",
@@ -36,7 +36,7 @@ const lyricsList = [
         <iframe width="560" height="315" src="https://www.youtube.com/embed/x5ZeAfz4G3s?si=fQxR60_sHJSRZuDo&amp;clip=Ugkx5gqgMAVgZzRbEM6xtOordj5UgdDtnVOL&amp;clipt=EPDuDBjQzA0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>],
     },
     {
-        id: 2,
+        key: 2,
         title: "NCT DREAM",
         img: "/asset/images/idol/idol3.png",
         path: "/lyrics",
@@ -54,7 +54,7 @@ const lyricsList = [
         <iframe width="560" height="315" src="https://www.youtube.com/embed/GIQIdujKOcs?si=8TKsRHnAQI8V0IR3&amp;clip=UgkxMHLaVTJ6Sfr9dRYEQtq7ocMH5KRKj1Kz&amp;clipt=EPTVBhi8iQc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>],
     },
     {
-        id: 3,
+        key: 3,
         title: "BLACKPINK",
         img: "/asset/images/idol/idol4.png",
         path: "/lyrics",
@@ -72,7 +72,7 @@ const lyricsList = [
         <iframe width="560" height="315" src="https://www.youtube.com/embed/gWsYhTLpijA?si=oWs2NUWEHI6J7JCA&amp;clip=Ugkx4eIF7diHG0KIVpcGTfJAn2pMx-eAmxH_&amp;clipt=EJS3Chif_go" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>],
     },
     {
-        id: 4,
+        key: 4,
         title: "AESPA",
         img: "/asset/images/idol/idol5.png",
         path: "/lyrics",
@@ -90,7 +90,7 @@ const lyricsList = [
         <iframe width="560" height="315" src="https://www.youtube.com/embed/k75oGRMiENk?si=yDNxoKdYwzG64PXd&amp;clip=UgkxhvNIBwSn4SU2xEiKpFvSId5kxvsKZWXA&amp;clipt=EPiUBRjEzwU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>],
     },
     {
-        id: 5,
+        key: 5,
         title: "IVE",
         img: "/asset/images/idol/idol6.png",
         path: "/lyrics",
@@ -108,7 +108,7 @@ const lyricsList = [
         <iframe width="560" height="315" src="https://www.youtube.com/embed/dus7C4CTWUk?si=fW6dqH90L9GrvCSs&amp;clip=UgkxNKx_NfqQusDsO1CnbfwYzpO23Re_N01d&amp;clipt=EJzdAhjrngM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>],
     },
     {
-        id: 6,
+        key: 6,
         title: "NCT 127",
         img: "/asset/images/idol/idol7.png",
         path: "/lyrics",
@@ -126,7 +126,7 @@ const lyricsList = [
         <iframe width="560" height="315" src="https://www.youtube.com/embed/n7Q5KyPXGGU?si=XRUueMWFmemAL6FO&amp;clip=UgkxD8RYnbU-KZZ6o13KL7DPqbg_WFNAO_rS&amp;clipt=ELiOAxi_5wM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>],
     },
     {
-        id: 7,
+        key: 7,
         title: "SEVENTEEN",
         img: "/asset/images/idol/idol8.png",
         path: "/lyrics",
