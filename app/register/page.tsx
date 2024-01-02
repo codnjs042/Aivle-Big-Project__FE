@@ -55,7 +55,7 @@ export default function SignupPage() {
     return !value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
   }, []);
 
-  const checkEmail = useMemo(() => validateEmail(email), [email]);
+  const checkEmail = useMemo(() => validateEmail(email), [validateEmail, email]);
   const checkEmailDuplication = async () => {
     console.log("이메일 중복검사 시작");
     if (!email) {
@@ -99,25 +99,25 @@ export default function SignupPage() {
     return false;
   }, []);
 
-  const checkPassword = useMemo(() => validatePassword(password), [password]);
+  const checkPassword = useMemo(() => validatePassword(password), [validatePassword, password]);
 
   const validateRePassword = useCallback((value: string, value2: string) => {
     if (!value) return false;
     return value !== value2;
   }, []);
 
-  const checkRePassword = useMemo(() => validateRePassword(rePassword, password), [password, rePassword]);
+  const checkRePassword = useMemo(() => validateRePassword(rePassword, password), [validateRePassword, password, rePassword]);
 
   const validateNickname = useCallback((value: string) => {
     if (!value) return false;
     return value.length > 30;
   }, []);
 
-  const checkNickname = useMemo(() => validateNickname(nickname), [nickname]);
+  const checkNickname = useMemo(() => validateNickname(nickname), [validateNickname, nickname]);
 
   const checkInfo = useMemo(() => { // step 2 유효성 검사
     return !checkEmail && emailDuplication && !checkPassword && !checkRePassword && email && password && rePassword && nickname && !checkNickname
-  }, [email, emailDuplication, password, rePassword, nickname]);
+  }, [checkEmail, checkNickname, checkPassword, checkRePassword, email, emailDuplication, password, rePassword, nickname]);
 
   const checkReCaptcha = (value: string | null) => {
     if (value === null) return;
