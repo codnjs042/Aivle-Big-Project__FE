@@ -72,6 +72,7 @@ export default function PracticePage() {
       setRecording(false);
     }
   };
+
   // 음성 녹음 듣기 함수
   const playRecording = () => {
     if (voiceUrl) {
@@ -81,10 +82,10 @@ export default function PracticePage() {
     }
   };
 
-    // 발음 분석 버튼 클릭 시 호출
+  // 발음 분석 버튼 클릭 시 호출
   const handleAnalysis = () => {
-      // 발음 분석 Card가 보이도록 상태 업데이트
-      setAnalysisVisible(true);
+    // 발음 분석 Card가 보이도록 상태 업데이트
+    setAnalysisVisible(true);
   };
 
   const goToArtistPage = () => {
@@ -150,66 +151,67 @@ export default function PracticePage() {
           shadow="sm"
         >
         <div className="flex flex-col">
-            <div className="text-3xl font-bold primary text-center py-5">
-                <Button
-                  isIconOnly
-                  className="w-20 item-center ml-5"
-                  color="secondary" 
-                  variant="ghost"
-                  onPress={recording ? stopRecording : startRecording}
-                  >
-                  {recording ? "녹음정지" : "녹음시작"}
-                </Button>
-                <Button
-                  isIconOnly
-                  className="w-20 item-center ml-5"
-                  color="secondary" 
-                  variant="ghost"
-                  onPress={playRecording}
-                  >
-                  음성듣기
-                </Button>
-                {voice && <audio controls src={voice} />}
-                <Button 
-                    onClick={handleAnalysis}
-                    className="w-20 item-center ml-5"
-                    color="secondary" 
-                    variant="ghost">발음 분석
-              </Button> 
-            </div>
+          <div className="text-3xl font-bold primary text-center py-5">
+            <Button
+              isIconOnly
+              className="w-20 item-center ml-5"
+              color="secondary" 
+              variant={recording ? undefined : "ghost"}
+              onPress={recording ? stopRecording : startRecording}
+            >
+              {recording ? "녹음정지" : "녹음시작"}
+            </Button>
+            <Button
+              isIconOnly
+              className="w-20 item-center ml-5"
+              color="secondary" 
+              variant="ghost"
+              onPress={playRecording}
+            >
+              음성듣기
+            </Button>
+            {voice && <audio controls src={voice} />}
+            <Button 
+              onClick={handleAnalysis}
+              className="w-20 item-center ml-5"
+              color="secondary" 
+              variant={AnalysisVisible ? undefined : "ghost"}>
+              발음 분석
+            </Button> 
           </div>
-        </Card>
+        </div>
+      </Card>
 
-        <Card
-          isBlurred
-          className={cn("border-none bg-background/60 dark:bg-default-100/50 max-w-[1500px] mt-10", {
-            hidden: !AnalysisVisible, // 숨겨진 상태
-          })}
-          shadow="sm"
-        >
-          <CardHeader className="flex gap-3">
-            <Logo />
-            <div className="flex flex-col">
-              <p className="text-md font-bold">AI 레포트</p>
-            </div>
-          </CardHeader>
-          <Divider />
-          <CardBody>
-            <p>원래 발음 : {partData ? partData[0] : undefined}</p>
-          </CardBody>
-          <CardBody>
-            <p>나의 발음 : 안녕하세요</p>
-          </CardBody>
-          <Divider />
-          <CardFooter>
-            <Link color="secondary" showAnchorIcon href="/mypage">
-              더 자세한 AI 레포트
-            </Link>
-          </CardFooter>
-        </Card>
-      </div>
-    );
-  };
+      <Card
+        isBlurred
+        className={cn("border-none bg-background/60 dark:bg-default-100/50 max-w-[1500px] mt-10", {
+          hidden: !AnalysisVisible, // 숨겨진 상태
+        })}
+        shadow="sm"
+      >
+        <CardHeader className="flex gap-3">
+        <Logo />
+          <div className="flex flex-col">
+            <p className="text-md font-bold">AI 레포트</p>
+          </div>
+        </CardHeader>
+        <Divider />
+        <CardBody>
+          <p>원래 발음 : {partData ? partData[0] : undefined}</p>
+        </CardBody>
+        <CardBody>
+          <p>나의 발음 : 안녕하세요</p>
+        </CardBody>
+        <Divider />
+        <CardFooter>
+          <Link color="secondary" showAnchorIcon href="/mypage">
+            더 자세한 AI 레포트
+          </Link>
+        </CardFooter>
+      </Card>
+    </div>
+  );
+};
 
   return (
     <div>

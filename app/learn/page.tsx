@@ -45,8 +45,6 @@ export default function LearnPage() {
     }
   };
 
-
-
   const { activePage, range, setPage, onNext, onPrevious,} = usePagination({
     total: 12,
     showControls: true,
@@ -57,7 +55,7 @@ export default function LearnPage() {
   // 발음 분석 버튼 클릭 시 호출
   const handleAnalysis = () => {
     // 발음 분석 Card가 보이도록 상태 업데이트
-    setAnalysisVisible(true);
+    setAnalysisVisible((prevVisible) => !prevVisible);
   };
   
   // 페이지 변경 시 텍스트 업데이트
@@ -135,7 +133,8 @@ export default function LearnPage() {
 
   return (
     <div>
-      <Input
+      <div className="flex items-center gap-2">
+        <Input
           classNames={{
             base: "max-w-full sm:max-w-[10rem] h-10 mb-3",
             mainWrapper: "h-full",
@@ -146,7 +145,15 @@ export default function LearnPage() {
           size="sm"
           startContent={<SearchIcon size={18} />}
           type="search"
-      />
+        />
+        <Button
+          //isIconOnly 
+          //variant="light"
+          variant="faded"
+          className="mb-3">
+          검색
+      </Button>
+      </div>
       <Card
         isBlurred
         className="border-none bg-background/60 dark:bg-default-100/50 max-w-[1000px]"
@@ -269,7 +276,7 @@ export default function LearnPage() {
               isIconOnly
               className="w-20 item-center ml-5"
               color="secondary" 
-              variant="ghost"
+              variant={recording ? undefined : "ghost"}
               onPress={recording ? stopRecording : startRecording}
               >
               {recording ? "녹음정지" : "녹음시작"}
@@ -283,12 +290,13 @@ export default function LearnPage() {
               >
               음성듣기
             </Button>
-            {voice && <audio controls src={voice} />}
+            {/* {voice && <audio controls src={voice} />} */}
             <Button 
                 onClick={handleAnalysis}
                 className="w-20 item-center ml-5"
-                color="secondary" 
-                variant="ghost">발음 분석
+                color="secondary"
+                variant={AnalysisVisible ? undefined : "ghost"}>
+                  발음 분석
           </Button> 
         </div>
       </div>
