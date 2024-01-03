@@ -289,7 +289,7 @@ export default function LearnPage() {
         </CardHeader>
         <Divider/>
         <CardBody>
-          <p>원래 발음 : 안녕하세요</p>
+          <p>원래 발음 : {SentenceInfo[activePage].text3}</p>
         </CardBody>
         <CardBody>
           <p>나의 발음 : 안녕하세요</p>
