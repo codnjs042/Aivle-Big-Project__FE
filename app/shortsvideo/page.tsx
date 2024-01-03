@@ -14,7 +14,6 @@ export default function ShortsvideoPage() {
   const queryParams = useSearchParams();
   const contentTitle = queryParams.get('content');
   const content = contentsList.find(item => item.title === contentTitle);
-  const [liked, setLiked] = React.useState(false);
 
   if (!content) {
     return null;
@@ -23,10 +22,10 @@ export default function ShortsvideoPage() {
   return (
     <div>
       <div>
-        <p>숏츠게시판 db제작 필요</p>
+        <p>{content.title}숏츠게시판</p>
       </div>
       <div>
-        <NextLink href="">{/* <NextLink href="../myshorts/page"> 오류 발생 404: this page could not be found*/} 
+        <NextLink href="/myshorts">
           <Button color="secondary"> 개인 숏츠 제작하기</Button>
         </NextLink>
       </div>
