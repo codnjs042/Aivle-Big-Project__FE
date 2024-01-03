@@ -101,7 +101,7 @@ export default function PracticePage() {
     <div key={partNumber}>
     <Card
       isBlurred
-      className="border-none bg-background/60 dark:bg-default-100/50 max-w-[1000px]"
+      className="border-none bg-background/60 dark:bg-default-100/50 max-w-[1500px]"
       shadow="sm"
     >
       <CardBody style={{ paddingTop: '50px', paddingBottom: '50px', paddingLeft: '50px', paddingRight: '50px' }}>
@@ -120,7 +120,7 @@ export default function PracticePage() {
                   </div>
                   <Button
                     isIconOnly
-                    className="text-default-900/60 data-[hover]:bg-foreground/10 -translate-y-2 translate-x-2"
+                    className="text-default-900/60 data-[hover]:bg-foreground/10 -translate-y-2 translate-x-2 ml-2"
                     radius="full"
                     variant="light"
                     onPress={() => setLiked((v) => !v)}
@@ -138,7 +138,7 @@ export default function PracticePage() {
 
         <Card
           isBlurred
-          className="border-none bg-background/60 dark:bg-default-100/50 max-w-[1000px] mt-10"
+          className="border-none bg-background/60 dark:bg-default-100/50 max-w-[1500px] mt-10"
           shadow="sm"
         >
         <div className="flex flex-col">
@@ -174,7 +174,7 @@ export default function PracticePage() {
 
         <Card
           isBlurred
-          className={cn("border-none bg-background/60 dark:bg-default-100/50 max-w-[1000px] mt-10", {
+          className={cn("border-none bg-background/60 dark:bg-default-100/50 max-w-[1500px] mt-10", {
             hidden: !AnalysisVisible, // 숨겨진 상태
           })}
           shadow="sm"
