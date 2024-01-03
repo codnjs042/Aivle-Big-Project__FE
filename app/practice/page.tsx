@@ -187,7 +187,7 @@ export default function PracticePage() {
           </CardHeader>
           <Divider />
           <CardBody>
-            <p>원래 발음 : 안녕하세요</p>
+            <p>원래 발음 : {partData ? partData[0] : undefined}</p>
           </CardBody>
           <CardBody>
             <p>나의 발음 : 안녕하세요</p>
