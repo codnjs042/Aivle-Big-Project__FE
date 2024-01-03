@@ -71,7 +71,7 @@ export default function Home() {
         </div>
       </div>
       
-      <div className="flex justify-between mt-12 w-full">
+      <div className="flex justify-between mt-16 w-full">
         <Link isBlock showAnchorIcon href="/learn" color="foreground">
           <div className={card()} style={{ borderRadius: '20px', marginLeft: '10px', marginRight: '10px' }}>
             <h3 className={cardHeader()} style={{ fontWeight: "bold" }}>발음 교정 서비스</h3>
@@ -92,7 +92,7 @@ export default function Home() {
         </Link>
       </div>
 
-      <div className="max-w-[800px] gap-20 grid grid-cols-12 grid-rows-8 mt-20 px-20" style={{paddingLeft:'100px', paddingRight:'100px'}}>
+      <div className="max-w-[800px] gap-20 grid grid-cols-12 grid-rows-8 mt-20 px-20 justify-between mx-24">
         {content.map((item, index) => (
           <Card
             key={index}
