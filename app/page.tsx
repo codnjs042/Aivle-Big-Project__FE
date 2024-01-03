@@ -1,8 +1,38 @@
+"use client"
+
+import { useState } from "react";
 import { card, cardBody, cardHeader, subtitle, title } from "@/components/primitives";
 import { Card, CardHeader, Image, Link, Textarea} from "@nextui-org/react";
 import Footer from "@/components/layouts/footer";
 
 export default function Home() {
+  const [selectedCard, setSelectedCard] = useState(null);
+
+  const content = [
+		{
+			category: "SHORTS",
+			title: "숏폼서비스",
+		  	img: "/asset/images/shorts/shorts.jpg",
+			about: "연습한 가사와 명대사를 숏폼으로 제작하고 친구와 공유해보세요.",
+		},
+		{
+			category: "GENRE",
+			title: "다양한 장르",
+		  	img: "/asset/images/contents/contents2.jpg",
+			about: "로맨스, 사극, 판타지 등 다양한 테마별로 30,000개 이상의 K-CONTENTS 명대사를 연습해보세요.",
+		},
+		{
+			category: "ARTIST",
+			title: "다양한 아티스트",
+		  	img: "/asset/images/idol/idol1.png",
+			about: "좋아하는 가수의 가사를 연습하며 한국어를 배워보세요.",
+		},
+	  ];
+    
+    const handleCardClick = (index:any) => {
+      setSelectedCard(selectedCard === index ? null : index);
+      };
+
   return (
     <>
       {/* 그라데이션 적용 */}
@@ -63,45 +93,32 @@ export default function Home() {
       </div>
 
       <div className="max-w-[800px] gap-20 grid grid-cols-12 grid-rows-8 mt-20 px-20" style={{paddingLeft:'100px', paddingRight:'100px'}}>
-      <Card className="col-span-12 sm:col-span-4 h-[300px]">
-        <CardHeader className="absolute z-10 top-1 flex-col !items-start">
-          <p className="text-tiny text-white/60 uppercase font-bold">Shorts</p>
-          <h4 className="text-white font-medium text-large">숏폼 서비스</h4>
-          <p className="text-tiny text-white/60 uppercase font-bold">연습한 가사와 명대사를 숏폼으로 제작하고 친구와 공유해보세요.</p>
-        </CardHeader>
-        <Image
-          removeWrapper
-          alt="Card background"
-          className="z-0 w-full h-full object-cover"
-          src="/asset/images//shorts/shorts.jpg"
-        />
-      </Card>
-      <Card className="col-span-12 sm:col-span-4 h-[300px]">
-          <CardHeader className="absolute z-10 top-1 flex-col !items-start">
-            <p className="text-tiny text-white/60 uppercase font-bold">Genre</p>
-            <h4 className="text-white font-medium text-large">다양한 장르</h4>
-            <p className="text-tiny text-white/60 uppercase font-bold">로맨스, 사극, 판타지 등 다양한 테마별로 30,000개 이상의 K-CONTENTS 명대사를 연습해보세요.</p>
-          </CardHeader>
-          <Image
-            removeWrapper
-            alt="Card background"
-            className="z-0 w-full h-full object-cover"
-            src="/asset/images/contents/contents2.jpg"
-          />
-      </Card>
-      <Card className="col-span-12 sm:col-span-4 h-[300px]">
-          <CardHeader className="absolute z-10 top-1 flex-col !items-start">
-            <p className="text-tiny text-white/60 uppercase font-bold">Artist</p>
-            <h4 className="text-white font-medium text-large">다양한 아티스트</h4>
-          <p className="text-tiny text-white/60 uppercase font-bold">좋아하는 가수의 가사를 연습하며 한국어를 배워보세요.</p>
-          </CardHeader>
-          <Image
-            removeWrapper
-            alt="Card background"
-            className="z-0 w-full h-full object-cover"
-            src="/asset/images/idol/idol1.png"
-          />
-      </Card>
+        {content.map((item, index) => (
+          <Card
+            key={index}
+            isPressable
+            onPress={() => handleCardClick(index)}
+            className={`col-span-12 sm:col-span-4 h-[300px] ${
+              selectedCard === index ? "bg-black text-white" : ""
+            }`}
+          >
+            <CardHeader className="absolute z-10 top-1 flex-col !items-start">
+              <p className="text-tiny text-white/60 uppercase font-bold">{item.category}</p>
+              <h4 className="text-white text-large font-bold">{item.title}</h4>
+			        {selectedCard === index && (
+                <p className="text-center text-base text-purple-200 uppercase py-12 mx-6 tracking-tighter text-shadow-yellow-500">{item.about}</p>
+              )}
+            </CardHeader>
+			      {selectedCard !== index && (
+              <Image
+                removeWrapper
+                alt="Card background"
+                className="z-0 w-full h-full object-cover"
+                src={item.img}
+              />
+            )}
+          </Card>
+        ))}
       </div>
       <Footer/>
     </>
