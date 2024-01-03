@@ -73,7 +73,7 @@ export default function PracticePage() {
   // 음성 녹음 듣기 함수
   const playRecording = () => {
     if (voiceUrl) {
-      setVoice(voiceUrl);
+      setVoice((prevVoice) => (prevVoice === voiceUrl ? null : voiceUrl));
       const voice = new Audio(voiceUrl);
       // voice.play();
     }
@@ -82,7 +82,7 @@ export default function PracticePage() {
   // 발음 분석 버튼 클릭 시 호출
   const handleAnalysis = () => {
     // 발음 분석 Card가 보이도록 상태 업데이트
-    setAnalysisVisible(true);
+    setAnalysisVisible((prevVisible) => !prevVisible);
   };
 
   if (!content) {
@@ -138,10 +138,10 @@ export default function PracticePage() {
 
       <Card
         isBlurred
-        className="border-none bg-background/60 dark:bg-default-100/50 max-w-[1500px] mt-10"
+        className="border-none bg-background/60 dark:bg-default-100/50 max-w-[1500px] mt-10 h-[160px]"
         shadow="sm"
       >
-        <div className="flex flex-col">
+        <div className="flex flex-col items-center">
           <div className="text-3xl font-bold primary text-center py-5">
             <Button
               isIconOnly
@@ -161,7 +161,6 @@ export default function PracticePage() {
             >
               음성듣기
             </Button>
-            {voice && <audio controls src={voice} />}
             <Button 
               onClick={handleAnalysis}
               className="w-20 item-center ml-5"
@@ -170,6 +169,7 @@ export default function PracticePage() {
                 발음 분석
             </Button> 
           </div>
+          {voice && <audio controls src={voice} />}
         </div>
       </Card>
 
