@@ -73,6 +73,25 @@ export default function PracticePage() {
     }
   };
 
+    // 음성 녹음 종료 및 저장 함수
+    const stopRecordingAndSave = () => {
+      stopRecording(); // 녹음 중지
+      if (recordedBlob) {
+        // 녹음된 Blob이 존재하면 WAV 파일로 저장
+        const blob = new Blob([recordedBlob], { type: 'audio/wav' });
+        const url = URL.createObjectURL(blob);
+        setVoiceUrl(url);
+      }
+    };
+  
+    const downloadRecording = (url: string | null, filename: string) => {
+      const anchor = document.createElement('a');
+      if (url!=null)
+        anchor.href = url;
+      anchor.download = filename;
+      anchor.click();
+    };
+
   // 음성 녹음 듣기 함수
   const playRecording = () => {
     if (voiceUrl) {
@@ -157,7 +176,7 @@ export default function PracticePage() {
               className="w-20 item-center ml-5"
               color="secondary" 
               variant={recording ? undefined : "ghost"}
-              onPress={recording ? stopRecording : startRecording}
+              onPress={recording ? stopRecordingAndSave : startRecording}
             >
               {recording ? "녹음정지" : "녹음시작"}
             </Button>
@@ -170,6 +189,15 @@ export default function PracticePage() {
             >
               음성듣기
             </Button>
+            <Button
+              isIconOnly
+              className="w-20 item-center ml-5"
+              color="secondary"
+              variant="ghost"
+              onPress={() => downloadRecording(voiceUrl, 'recorded_audio.wav')}
+            >
+              다운로드
+            </Button>
             <Button 
               onClick={handleAnalysis}
               className="w-20 item-center ml-5"
@@ -178,7 +206,7 @@ export default function PracticePage() {
               발음 분석
             </Button>
           </div>
-          {voice && <audio controls src={voice} />} 
+          {voice && <div className="flex justify-center"><audio controls src={voice} /></div>}
         </div>
       </Card>
 

@@ -102,10 +102,29 @@ export default function LearnPage() {
       setRecording(false);
     }
   };
+
+  // 음성 녹음 종료 및 저장 함수
+  const stopRecordingAndSave = () => {
+    stopRecording(); // 녹음 중지
+    if (recordedBlob) {
+      // 녹음된 Blob이 존재하면 WAV 파일로 저장
+      const blob = new Blob([recordedBlob], { type: 'audio/wav' });
+      const url = URL.createObjectURL(blob);
+      setVoiceUrl(url);
+    }
+  };
+
+  const downloadRecording = (url: string | null, filename: string) => {
+    const anchor = document.createElement('a');
+    if (url!=null)
+      anchor.href = url;
+    anchor.download = filename;
+    anchor.click();
+  };
   
   // 음성 녹음 듣기 함수
   const playRecording = () => {
-    if (voiceUrl) {
+    if (voiceUrl !== null) {
       setVoice(voiceUrl);
       const voice = new Audio(voiceUrl);
       voice.play();
@@ -258,7 +277,7 @@ export default function LearnPage() {
               className="w-20 item-center ml-5"
               color="secondary" 
               variant={recording ? undefined : "ghost"}
-              onPress={recording ? stopRecording : startRecording}
+              onPress={recording ? stopRecordingAndSave : startRecording}
               >
               {recording ? "녹음정지" : "녹음시작"}
             </Button>
@@ -271,14 +290,24 @@ export default function LearnPage() {
               >
               음성듣기
             </Button>
-            {/* {voice && <audio controls src={voice} />} */}
+            
+            <Button
+              isIconOnly
+              className="w-20 item-center ml-5"
+              color="secondary"
+              variant="ghost"
+              onPress={() => downloadRecording(voiceUrl, 'recorded_audio.wav')}
+            >
+              다운로드
+            </Button>
             <Button 
                 onClick={handleAnalysis}
                 className="w-20 item-center ml-5"
                 color="secondary"
                 variant={AnalysisVisible ? undefined : "ghost"}>
                   발음 분석
-          </Button> 
+          </Button>
+          {voice && <div className="flex justify-center mt-5"><audio controls src={voice} /></div>}
         </div>
       </div>
       </Card>
