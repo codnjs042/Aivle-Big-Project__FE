@@ -19,7 +19,7 @@ function useWebcamRecording() {
     facingMode: "user",
   };
   const startRecording = () => {
-    if (recorder !== null) {
+    if (typeof window !== 'undefined' && recorder !== null) {
       recorder.stopRecording(() => {
         setRecordedBlob(recorder.getBlob());
         setRecording(false);
@@ -32,7 +32,6 @@ function useWebcamRecording() {
         type: "video",
       });
 
-      newRecorder.ondataavailable = (event: { data: Blob }) => handleDataAvailable(event);
       newRecorder.stopRecording = () => {
         newRecorder.stopRecording();
       };
@@ -45,7 +44,7 @@ function useWebcamRecording() {
   };
 
   const stopRecording = () => {
-    if (recorder && recording) {
+    if (typeof window !== 'undefined' && recorder && recording) {
       recorder.stopRecording(() => {
         setRecordedBlob(recorder.getBlob());
         setRecording(false);
