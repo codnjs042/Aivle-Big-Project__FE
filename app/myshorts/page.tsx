@@ -68,36 +68,96 @@ const VideoRecorder = () => {
   }, []);
 
 
+  const [isRecording, setIsRecording] = useState(false);
+  const [showReRecordButtons, setShowReRecordButtons] = useState(false);
+
+  const startRecording = () => {
+    mediaRecorder.current?.start();
+    setIsRecording(true);
+    setShowReRecordButtons(false);
+  };
+
+  const stopRecording = () => {
+    mediaRecorder.current?.stop();
+    setIsRecording(false);
+    setShowReRecordButtons(true);
+  };
+
+  const handleReRecord = () => {
+    videoChunks.current = []; // 재녹화 시에 이전 녹화 데이터 초기화
+    setShowReRecordButtons(false);
+    startRecording(); // 녹화 시작
+  };
+
+  const handleUpload = async () => {
+    // 업로드 로직...
+  };
+
+  const handleDownload = () => {
+    const videoBlob = new Blob(videoChunks.current, { type: 'video/webm' });
+    const videoUrl = URL.createObjectURL(videoBlob);
+    const link = document.createElement('a');
+    link.download = `My video.webm`;
+    link.href = videoUrl;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div>
       <video ref={videoRef} autoPlay />
-      <Button
-        onClick={() => mediaRecorder.current?.start()}
-        color="secondary"
-        variant="ghost"
-      >
-        녹화 시작
-      </Button>
-      <Button
-        onClick={() => mediaRecorder.current?.stop()}
-        color="secondary"
-        variant="ghost"
-      >
-        녹화 종료
-      </Button>
-      <Button
-        onClick={downloadVideo}
-        color="secondary"
-        variant="ghost"
-      >
-        다운로드
-      </Button>
+      
+      {isRecording ? (
+        <Button
+          onClick={stopRecording}
+          color="secondary"
+          variant="ghost"
+        >
+          녹화 종료
+        </Button>
+      ) : (
+        <>
+          {showReRecordButtons ? (
+            <>
+              <Button
+                onClick={handleReRecord}
+                color="secondary"
+                variant="ghost"
+              >
+                재녹화
+              </Button>
+              <Button
+                onClick={handleUpload}
+                color="secondary"
+                variant="ghost"
+              >
+                업로드
+              </Button>
+              <Button
+                onClick={handleDownload}
+                color="secondary"
+                variant="ghost"
+              >
+                다운로드
+              </Button>
+            </>
+          ) : (
+            <Button
+              onClick={startRecording}
+              color="secondary"
+              variant="ghost"
+            >
+              녹화 시작
+            </Button>
+          )}
+        </>
+      )}
     </div>
   );
 };
 
 export default VideoRecorder;
-
 
 function dayjs() {
   throw new Error("Function not implemented.");
