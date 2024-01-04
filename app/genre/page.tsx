@@ -6,12 +6,15 @@ import {Card, CardHeader, CardBody, CardFooter, Image, Link, Tabs, Tab, Chip} fr
 import contentsList from '../../public/data/contents';
 
 export default function CulturePage() {
+  const [selected, setSelected] = React.useState("all");
       return (
         <div className="justify-between">
           <h2 className="text-2xl text-center font-bold mb-4 col-span-full">컨텐츠 선택</h2>
           <div className="flex w-full flex-col my-5">
       <Tabs 
-        aria-label="Options" 
+        aria-label="Options"
+        selectedKey={selected}
+        onSelectionChange={(key) => setSelected(String(key))}
         color="primary" 
         variant="underlined"
         classNames={{
@@ -22,27 +25,17 @@ export default function CulturePage() {
         }}
       >
         <Tab
-          key="music"
+          key="all"
           title={
             <div className="flex items-center space-x-2">
               
               <span>모든 콘텐츠</span>
               <Chip size="sm" variant="faded">8</Chip>
+              
             </div>
           }
-        />
-        <Tab
-          key="videos"
-          title={
-            <div className="flex items-center space-x-2">
-              <span>추천 콘텐츠</span>
-              <Chip size="sm" variant="faded">?</Chip>
-            </div>
-          }
-        />
-      </Tabs>
-    </div>
-    <div className="justify-between gap-10 grid grid-cols-4">
+        >
+          <div className="justify-between gap-10 grid grid-cols-4">
           {contentsList.map((item, index) => (
             <NextLink href={`/practice?content=${item.title}`} key={index}>
                 <Card shadow="sm" isPressable onPress={() => console.log("item pressed")}>
@@ -51,7 +44,7 @@ export default function CulturePage() {
                       shadow="sm"
                       radius="lg"
                       alt={item.title}
-                      className="w-full h-full object-contain"
+                      className="w-full h-60 object-contain"
                       src={item.img}
                     />
                   </CardBody>
@@ -62,6 +55,20 @@ export default function CulturePage() {
                 </NextLink> 
           ))}
           </div>
+        </Tab>
+        <Tab
+          key="recommend"
+          title={
+            <div className="flex items-center space-x-2">
+              <span>추천 콘텐츠</span>
+              <Chip size="sm" variant="faded">?</Chip>
+            </div>
+          }
+        >
+        </Tab>
+      </Tabs>
+    </div>
+    
         </div>
       );
 }
