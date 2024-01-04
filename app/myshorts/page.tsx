@@ -1,16 +1,9 @@
 "use client"
 
-<<<<<<< HEAD
 import { useState, useRef,useEffect } from "react";
 import { Button } from "@nextui-org/react";
 import Webcam from "react-webcam";
 import { useReactMediaRecorder } from "react-media-recorder";
-=======
-import {useEffect, useRef, useState} from "react";
-import {Button} from "@nextui-org/react";
-import Webcam from "react-webcam";
-import {useReactMediaRecorder} from "react-media-recorder";
->>>>>>> 02729b4 (a)
 import RecordRTC from "recordrtc";
 
 function useWebcamRecording() {
