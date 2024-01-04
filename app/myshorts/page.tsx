@@ -7,11 +7,11 @@ import { useReactMediaRecorder } from "react-media-recorder";
 import RecordRTC from "recordrtc";
 
 function useWebcamRecording() {
-  const webcamRef = useRef<HTMLVideoElement | null>(null);
+  const webcamRef = useRef<HTMLVideoElement>(null);
   const [recording, setRecording] = useState<boolean>(false);
   const [recordedChunks, setRecordedChunks] = useState<Array<Blob>>([]);
   const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
-  const [recorder, setRecorder] = useState<MediaRecorder | null>(null);
+  const [recorder, setRecorder] = useState<RecordRTC | null>(null);
 
   const videoConstraints = {
     width: 1280,
@@ -32,9 +32,9 @@ function useWebcamRecording() {
         type: "video",
       });
 
-      newRecorder.ondataavailable = handleDataAvailable;
-      newRecorder.onstop = () => {
-        newRecorder.stop();
+      newRecorder.ondataavailable = (event: { data: Blob }) => handleDataAvailable(event);
+      newRecorder.stopRecording = () => {
+        newRecorder.stopRecording();
       };
 
       newRecorder.startRecording();
@@ -64,7 +64,7 @@ function useWebcamRecording() {
       const url = URL.createObjectURL(recordedBlob);
       const a = document.createElement("a");
       document.body.appendChild(a);
-      a.style = "display: none";
+      a.setAttribute("style", "display: none");
       a.href = url;
       a.download = "recorded-video.webm";
       a.click();
@@ -74,11 +74,11 @@ function useWebcamRecording() {
   };
   useEffect(() => {
     if (recording && webcamRef.current && recorder) {
-      const mediaRecorder = new MediaRecorder(webcamRef.current.stream, {
+      const mediaRecorder = new MediaRecorder(webcamRef.current!.srcObject as MediaStream, {
         mimeType: "video/webm",
       });
 
-      mediaRecorder.ondataavailable = handleDataAvailable;
+      mediaRecorder.ondataavailable = (event: { data: Blob }) => handleDataAvailable(event);
       mediaRecorder.onstop = () => {
         mediaRecorder.stop();
       };
@@ -146,7 +146,7 @@ export default function MyshortsPage() {
           <div className="space-y-4">
             <p className="text-2xl">촬영중..</p>
             <Webcam
-                audio={false}
+                audio={true}
                 screenshotFormat="image/jpeg"
                 videoConstraints={videoConstraints}
             />
@@ -167,7 +167,7 @@ export default function MyshortsPage() {
           <div className="space-y-4">
             <p className="text-2xl">촬영 완료!</p>
             <Webcam
-                audio={false}
+                audio={true}
                 screenshotFormat="image/jpeg"
                 videoConstraints={videoConstraints}
             />
