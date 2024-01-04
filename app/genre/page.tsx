@@ -1,12 +1,48 @@
 "use client"
+
+import React from "react";
 import NextLink from "next/link";
-import {Card, CardHeader, CardBody, CardFooter, Image, Link} from "@nextui-org/react";
+import {Card, CardHeader, CardBody, CardFooter, Image, Link, Tabs, Tab, Chip} from "@nextui-org/react";
 import contentsList from './contents';
 
 export default function CulturePage() {
       return (
-        <div className="justify-between gap-10 grid grid-cols-4">
+        <div className="justify-between">
           <h2 className="text-2xl text-center font-bold mb-4 col-span-full">컨텐츠 선택</h2>
+          <div className="flex w-full flex-col my-5">
+      <Tabs 
+        aria-label="Options" 
+        color="primary" 
+        variant="underlined"
+        classNames={{
+          tabList: "gap-6 w-full relative rounded-none p-0 border-b border-divider",
+          cursor: "w-full bg-purple-500",
+          tab: "max-w-fit px-0 h-12",
+          tabContent: "group-data-[selected=true]:text-purple-500"
+        }}
+      >
+        <Tab
+          key="music"
+          title={
+            <div className="flex items-center space-x-2">
+              
+              <span>모든 콘텐츠</span>
+              <Chip size="sm" variant="faded">8</Chip>
+            </div>
+          }
+        />
+        <Tab
+          key="videos"
+          title={
+            <div className="flex items-center space-x-2">
+              <span>추천 콘텐츠</span>
+              <Chip size="sm" variant="faded">?</Chip>
+            </div>
+          }
+        />
+      </Tabs>
+    </div>
+    <div className="justify-between gap-10 grid grid-cols-4">
           {contentsList.map((item, index) => (
             <NextLink href={`/practice?content=${item.title}`} key={index}>
                 <Card shadow="sm" isPressable onPress={() => console.log("item pressed")}>
@@ -15,7 +51,7 @@ export default function CulturePage() {
                       shadow="sm"
                       radius="lg"
                       alt={item.title}
-                      className="w-full object-cover"
+                      className="w-full h-60 object-contain"
                       src={item.img}
                     />
                   </CardBody>
@@ -25,6 +61,7 @@ export default function CulturePage() {
                 </Card>
                 </NextLink> 
           ))}
+          </div>
         </div>
       );
 }

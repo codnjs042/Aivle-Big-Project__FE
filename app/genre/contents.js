@@ -2,6 +2,7 @@ const contentsList = [
     {
         key: 0,
         title: "오징어게임",
+        genre:["Comedy", "Thriller", "Action", "Drama"],
         img: "/asset/images/contents/contents1.jpg",
         scene: "/asset/images/scene/scene1.jpg",
         path: "/practice",
@@ -21,6 +22,7 @@ const contentsList = [
     {   
         key: 1,
         title: "기생충",
+        genre:["Comedy", "Thiller", "Action", "Drama"],
         img: "/asset/images/contents/contents2.jpg",
         scene: "/asset/images/scene/scene2.jpg",
         path: "/practice",
@@ -40,6 +42,7 @@ const contentsList = [
     {
         key: 2,
         title: "미스터션샤인",
+        genre:["RomanceMelo", "Comedy", "Historical", "Revenge", "Action", "Drama"],
         img: "/asset/images/contents/contents3.jpg",
         scene: "/asset/images/scene/scene3.jpg",
         path: "/practice",
@@ -59,6 +62,7 @@ const contentsList = [
     {
         key: 3,
         title: "더글로리",
+        genre:["RomanceMelo", "Thiller", "Revenge", "Drama"],
         img: "/asset/images/contents/contents4.jpg",
         scene: "/asset/images/scene/scene4.jpg",
         path: "/practice",
@@ -78,6 +82,7 @@ const contentsList = [
     {
         key: 4,
         title: "태양의후예",
+        genre:["RomanceMelo", "Comedy", "Action", "Drama"],
         img: "/asset/images/contents/contents5.jpg",
         scene: "/asset/images/scene/scene5.jpg",
         path: "/practice",
@@ -97,6 +102,7 @@ const contentsList = [
     {
         key: 5,
         title: "도깨비",
+        genre:["RomanceMelo", "Comedy", "Fantasy", "Drama"],
         img: "/asset/images/contents/contents6.jpg",
         scene: "/asset/images/scene/scene6.jpg",
         path: "/practice",
@@ -116,6 +122,7 @@ const contentsList = [
     {
         key: 6,
         title: "응답하라1988",
+        genre:["RomanceMelo", "Comedy", "Historical", "Drama"],
         img: "/asset/images/contents/contents7.jpg",
         scene: "/asset/images/scene/scene7.jpg",
         path: "/practice",
@@ -135,6 +142,7 @@ const contentsList = [
     {
         key: 7,
         title: "사랑의불시착",
+        genre:["RomanceMelo", "Comedy", "Action", "Drama"],
         img: "/asset/images/contents/contents8.jpg",
         scene: "/asset/images/scene/scene8.jpg",
         path: "/practice",
