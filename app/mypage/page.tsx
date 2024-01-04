@@ -27,7 +27,7 @@ export default function MyPage() {
           <div className="text-3xl font-bold primary text-center py-5">
           <p>마이 리포트</p>
         </div>
-        <div className="flex flex-row gap-2">
+        <div className="flex flex-row gap-10">
           <Card className="p-5">
             <CardHeader className="pb-0 pt-0 justify-center">
               <p className="font-bold text-2xl text-center">{auth.user?.nickname} 님</p>
@@ -41,7 +41,7 @@ export default function MyPage() {
               />
             </CardBody>
           </Card>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-wrap gap-y-5">
             <Input
                 isReadOnly
                 type="email"
