@@ -71,17 +71,27 @@ const VideoRecorder = () => {
   return (
     <div>
       <video ref={videoRef} autoPlay />
-      <button
+      <Button
         onClick={() => mediaRecorder.current?.start()}
+        color="secondary"
+        variant="ghost"
       >
         녹화 시작
-      </button>
-      <button
+      </Button>
+      <Button
         onClick={() => mediaRecorder.current?.stop()}
+        color="secondary"
+        variant="ghost"
       >
         녹화 종료
-      </button>
-      <button onClick={downloadVideo}>다운로드</button>
+      </Button>
+      <Button
+        onClick={downloadVideo}
+        color="secondary"
+        variant="ghost"
+      >
+        다운로드
+      </Button>
     </div>
   );
 };
