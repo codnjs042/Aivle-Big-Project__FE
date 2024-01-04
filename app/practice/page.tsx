@@ -5,7 +5,7 @@ import ReactPlayer from 'react-player';
 import {Card, CardBody,  CardHeader, CardFooter, Divider, Link, Image, Button, Slider} from "@nextui-org/react";
 import {Logo, HeartIcon, PauseCircleIcon, NextIcon, PreviousIcon} from "@/components/icons";
 import { useRouter, useSearchParams } from "next/navigation";
-import contentsList from '../genre/contents';
+import contentsList from '../../public/data/contents';
 import CulturePage from '../genre/page';
 import cn from 'classnames';
 

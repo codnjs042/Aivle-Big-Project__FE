@@ -3,7 +3,7 @@
 import React from "react";
 import NextLink from "next/link";
 import {Card, CardHeader, CardBody, CardFooter, Image, Link, Tabs, Tab, Chip} from "@nextui-org/react";
-import contentsList from './contents';
+import contentsList from '../../public/data/contents';
 
 export default function CulturePage() {
       return (

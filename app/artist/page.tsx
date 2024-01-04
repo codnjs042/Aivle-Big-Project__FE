@@ -1,7 +1,7 @@
 "use client"
 import NextLink from "next/link";
 import {Card, CardHeader, CardBody, CardFooter, Image, Link} from "@nextui-org/react";
-import lyricsList from '../artist/lyrics';
+import lyricsList from '../../public/data/lyrics';
 
 export default function CulturePage() {
 	return (

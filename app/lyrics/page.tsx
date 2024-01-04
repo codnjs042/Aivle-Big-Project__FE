@@ -6,7 +6,7 @@ import {Card, CardBody, CardHeader, CardFooter, Divider, Link, Image, Button, Sl
 import {Logo, HeartIcon, PauseCircleIcon, NextIcon, PreviousIcon} from "@/components/icons";
 import { useRouter, useSearchParams } from "next/navigation";
 import {Artist, artistList} from "@/types/artist";
-import lyricsList from '../artist/lyrics';
+import lyricsList from '../../public/data/lyrics';
 import cn from 'classnames';
 
 export default function PracticePage() {

@@ -8,7 +8,7 @@ import {ChevronCircleTopLinearIcon, VolumeLowBoldIcon, VolumeHighBoldIcon, Headp
 import cn from 'classnames';
 import axios from 'axios';
 import { ReactMediaRecorder, useReactMediaRecorder } from 'react-media-recorder';
-import { SentenceInfo } from './sentence';
+import { SentenceInfo } from '../../public/data/sentence';
 
 export default function LearnPage() {
   const [liked, setLiked] = useState(false);

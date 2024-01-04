@@ -2,7 +2,7 @@
 import {useState} from "react";
 import {Card, CardHeader, CardBody, CardFooter, Image, Link} from "@nextui-org/react";
 import NextLink from "next/link";
-import contentsList from "../genre/contents";
+import contentsList from "../../public/data/contents";
 
 export default function ShortsPage() {
 	return (
