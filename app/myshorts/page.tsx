@@ -3,7 +3,107 @@
 import { useState } from "react";
 import { Button } from "@nextui-org/react";
 import Webcam from "react-webcam";
+<<<<<<< HEAD
 import { useReactMediaRecorder } from "react-media-recorder";
+=======
+import RecordRTC from "recordrtc";
+
+function useWebcamRecording() {
+	const webcamRef = useRef<HTMLVideoElement | null>(null);
+	const [recording, setRecording] = useState<boolean>(false);
+	const [recordedChunks, setRecordedChunks] = useState<Array<Blob>>([]);
+	const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
+	const [recorder, setRecorder] = useState<MediaRecorder | null>(null);
+	
+	const videoConstraints = {
+		width: 1280,
+		height: 720,
+		facingMode: "user",
+	  };
+
+	  const startRecording = () => {
+		if (recorder !== null) {
+		  recorder.stopRecording(() => {
+			setRecordedBlob(recorder.getBlob());
+			setRecording(false);
+			setRecordedChunks([]);
+			recorder.clearRecordedData();
+		  });
+		}
+		navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
+			const newRecorder = RecordRTC(stream, {
+			  type: "video",
+			});
+		
+			newRecorder.ondataavailable = handleDataAvailable;
+      		newRecorder.onstop = () => {
+        		newRecorder.stop();
+      		};
+
+			newRecorder.startRecording();
+			setRecorder(newRecorder);
+			setRecording(true);
+			setRecordedChunks([]);
+		});
+	};
+  
+	const stopRecording = () => {
+	  	if (recorder && recording) {
+			recorder.stopRecording(() => {
+		  		setRecordedBlob(recorder.getBlob());
+		  		setRecording(false);
+			});
+	  	}
+	};
+  
+	const handleDataAvailable = (event) => {
+		if (event.data.size > 0) {
+		  	setRecordedChunks((prev) => [...prev, event.data]);
+		}
+	};
+  
+	const downloadRecording = () => {
+		if (recordedBlob) {
+		  	const url = URL.createObjectURL(recordedBlob);
+		  	const a = document.createElement("a");
+		  	document.body.appendChild(a);
+		  	a.style = "display: none";
+		  	a.href = url;
+		  	a.download = "recorded-video.webm";
+		  	a.click();
+		  	window.URL.revokeObjectURL(url);
+		  	setRecordedChunks([]);
+		}
+	};
+	useEffect(() => {
+		if (recording && webcamRef.current && recorder) {
+		  	const mediaRecorder = new MediaRecorder(webcamRef.current.stream, {
+				mimeType: "video/webm",
+			});
+	  
+		  	mediaRecorder.ondataavailable = handleDataAvailable;
+		  	mediaRecorder.onstop = () => {
+				mediaRecorder.stop();
+		  	};
+	  
+		  	mediaRecorder.start();
+	  
+		  	return () => {
+				mediaRecorder.stop();
+		  	};
+		}
+	}, [recording, recorder]);
+  
+	return {
+	  	webcamRef,
+		videoConstraints,
+	  	recording,
+	  	startRecording,
+	  	stopRecording,
+	  	downloadRecording,
+	};
+}
+>>>>>>> 7bd7005 (fix: fix)
 
 export default function MyshortsPage() {
   const [step, setStep] = useState(0);
