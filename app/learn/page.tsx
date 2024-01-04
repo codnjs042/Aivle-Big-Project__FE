@@ -2,7 +2,6 @@
 
 import React, { useState, useRef } from 'react';
 import { textToSpeech } from '@/api/textToSpeech'
-import { speechToText } from '@/api/speechToText'
 import {Input, Card, CardBody, CardHeader, CardFooter, Divider, Link, Image, Button, Slider, Pagination, PaginationItemType, usePagination} from "@nextui-org/react";
 import {Logo, HeartIcon, PauseCircleIcon, NextIcon, PreviousIcon, RepeatOneIcon, ShuffleIcon, ChevronIcon, SearchIcon, } from "@/components/icons";
 import {ChevronCircleTopLinearIcon, VolumeLowBoldIcon, VolumeHighBoldIcon, HeadphonesIcon} from "@nextui-org/shared-icons";
@@ -28,9 +27,6 @@ export default function LearnPage() {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 
   const [AnalysisVisible, setAnalysisVisible] = useState(false);
-
-  // 발음 텍스트
-  const [myPronunciation, setMyPronunciation] = useState<string>('');
 
   //단어 음성 듣기
   const handleTextToSpeech = async () => {
@@ -99,26 +95,11 @@ export default function LearnPage() {
   };
 
   // 음성 녹음 종료 함수
-  const stopRecording = async () => {
+  const stopRecording = () => {
     if (mediaRecorderRef.current && recording) {
       mediaRecorderRef.current.stop();
       mediaStreamRef.current!.getTracks().forEach((track) => track.stop());
       setRecording(false);
-      
-      /* // 녹음된 Blob을 Base64로 인코딩
-      const recordedBlobBase64 = await new Promise<string>((resolve) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result as string);
-        reader.readAsDataURL(recordedBlob!);
-      });
-
-      // 녹화된 오디오를 텍스트로 변환
-      const transcription = await speechToText(recordedBlobBase64);
-
-      // 나의 발음 부분에 텍스트 설정
-      if (transcription !== null) {
-        setMyPronunciation(transcription);
-      } */
     }
   };
   
@@ -319,7 +300,7 @@ export default function LearnPage() {
           <p>원래 발음 : {SentenceInfo[activePage].text3}</p>
         </CardBody>
         <CardBody>
-          <p>나의 발음 : {myPronunciation}</p>
+          <p>나의 발음 : </p>
         </CardBody>
         <Divider/>
         <CardFooter>
