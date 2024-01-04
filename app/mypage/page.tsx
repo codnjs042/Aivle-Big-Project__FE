@@ -11,11 +11,13 @@ import {
   Image,
   Input,
   Accordion,
-  AccordionItem,
-  
+  AccordionItem, Select, Selection, SelectItem,
+
 } from "@nextui-org/react";
 import {useRouter} from 'next/navigation';
 import AuthContext from "@/context/AuthContext";
+import {artistList, getArtistsFromValue} from "@/types/artist";
+import {Genre, genreList, getGenresFromValue} from "@/types/genre";
 
 export default function MyPage() {
   const router = useRouter();
@@ -56,24 +58,34 @@ export default function MyPage() {
                 value={auth.user?.nickname}
                 className="max-w-xs"
             />
-            <Chip
-                variant="shadow"
-                classNames={{
-                  base: "bg-gradient-to-br from-indigo-500 to-pink-500 border-small border-white/50 shadow-pink-500/30",
-                  content: "drop-shadow shadow-black text-white",
-                }}
-            >
-              {auth.user?.selectedGenres} {/* 장르로 수정 */}
-            </Chip>
-            <Chip
-                variant="shadow"
-                classNames={{
-                  base: "bg-gradient-to-br from-indigo-500 to-pink-500 border-small border-white/50 shadow-pink-500/30",
-                  content: "drop-shadow shadow-black text-white",
-                }}
-            >
-              {auth.user?.selectedArtist} {/* 아티스트로 수정 */}
-            </Chip>
+            <div
+                className="flex w-full">
+              <Select
+                  label="좋아하는 장르"
+                  variant="bordered"
+                  placeholder="무응답"
+                  selectedKeys={
+                    genreList
+                    .filter(({value}) => (auth.user?.selectedGenres ?? 0 & value) === value)
+                    .map(({name}) => name)
+                  }
+              >
+              </Select>
+            </div>
+            <div
+                className="flex w-full">
+              <Select
+                  label="좋아하는 가수"
+                  variant="bordered"
+                  placeholder="무응답"
+                  selectedKeys={
+                    artistList
+                    .filter(({value}) => (auth.user?.selectedArtist ?? 0 & value) === value)
+                    .map(({name}) => name)
+                  }
+              >
+              </Select>
+            </div>
           </div>
         </div>
         <div className="flex flex-row gap-10">
