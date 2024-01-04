@@ -13,3 +13,7 @@ export const genreList = Object.entries(Genre).map(([name, value]) => ({
   name,
   value
 }));
+
+export const getGenresFromValue = (value: number) => {
+  return genreList.filter(genre => genre.value & value);
+}

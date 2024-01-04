@@ -110,13 +110,13 @@ export default function NavMenu() {
           </DropdownTrigger>
           <DropdownMenu variant="faded" aria-label="Shorts Actions">
             <DropdownItem key="watch">
-              <NextLink href="/shorts"
+              <NextLink href="/shortsvideo"
                 className="flex">
                 쇼츠 게시판
               </NextLink>
               </DropdownItem>
             <DropdownItem key="generate">
-              <NextLink href="/myshorts"
+              <NextLink href="/shorts"
                 className="flex">
                 쇼츠 제작
               </NextLink>

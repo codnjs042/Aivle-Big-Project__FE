@@ -7,10 +7,10 @@ import contentsList from "../genre/contents";
 export default function ShortsPage() {
 	return (
 			<div className="justify-between gap-10 grid grid-cols-4">
-				<h2 className="text-2xl text-center font-bold mb-4 col-span-full">쇼츠 게시판</h2>
+				<h2 className="text-2xl text-center font-bold mb-4 col-span-full">콘텐츠 선택</h2>
 				{contentsList.map((item, index) => (
 					<div className="my-2 ml-2">
-						<NextLink href={`/shortsvideo?content=${item.title}`} key={index}>
+						<NextLink href={`/myshorts?content=${item.title}`} key={index}>
 							<Card shadow="sm" isPressable onPress={() => console.log("item pressed")}>
 								<CardBody className="p-0">
 									<Image 

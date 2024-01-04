@@ -9,8 +9,11 @@ export const Artist = {
   SEVENTEEN: 1 << 7  // 128
 };
 
-// Convert the object to an array for mapping in the JSX
 export const artistList = Object.entries(Artist).map(([name, value]) => ({
   name,
   value
 }));
+
+export const getArtistsFromValue = (value: number) => {
+  return artistList.filter(artist => artist.value & value);
+}
