@@ -51,7 +51,7 @@ export default function CulturePage() {
                       shadow="sm"
                       radius="lg"
                       alt={item.title}
-                      className="w-full h-60 object-contain"
+                      className="w-full h-full object-contain"
                       src={item.img}
                     />
                   </CardBody>
