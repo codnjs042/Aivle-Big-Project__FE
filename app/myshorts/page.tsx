@@ -1,11 +1,9 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useRef,useEffect } from "react";
 import { Button } from "@nextui-org/react";
 import Webcam from "react-webcam";
-<<<<<<< HEAD
 import { useReactMediaRecorder } from "react-media-recorder";
-=======
 import RecordRTC from "recordrtc";
 
 function useWebcamRecording() {
@@ -56,7 +54,7 @@ function useWebcamRecording() {
 	  	}
 	};
   
-	const handleDataAvailable = (event) => {
+	const handleDataAvailable = (event: { data: Blob; }) => {
 		if (event.data.size > 0) {
 		  	setRecordedChunks((prev) => [...prev, event.data]);
 		}
@@ -103,7 +101,6 @@ function useWebcamRecording() {
 	  	downloadRecording,
 	};
 }
->>>>>>> 7bd7005 (fix: fix)
 
 export default function MyshortsPage() {
   const [step, setStep] = useState(0);
