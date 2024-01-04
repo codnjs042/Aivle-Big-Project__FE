@@ -130,7 +130,15 @@ export default function PracticePage() {
               {/* 사진, 문장, 하트 */}
               <div className="flex justify-between items-center">
                 <div className="relative col-span-6 md:col-span-4 mr-10 ">
-                  {partData ? partData[3] : undefined}
+                {partData && partData[3] ? (
+                  <iframe
+                  width="560"
+                  height="315"
+                  src={partData[3]}
+                  title="YouTube video player"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                ></iframe>
+              ) : undefined}
                 </div>
                 {/* 단어 문장 */}
                 <div className="flex flex-col gap-2">
