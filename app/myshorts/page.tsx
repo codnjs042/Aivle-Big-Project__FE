@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef,useEffect, useCallback } from "react";
-import { Button } from "@nextui-org/react";
+import { Button, Link } from "@nextui-org/react";
 import Webcam from "react-webcam";
 import { useReactMediaRecorder } from "react-media-recorder";
 import RecordRTC from "recordrtc";
@@ -111,6 +111,7 @@ const VideoRecorder = () => {
       
       {isRecording ? (
         <Button
+          className="mt-5"
           onClick={stopRecording}
           color="secondary"
           variant="ghost"
@@ -120,32 +121,39 @@ const VideoRecorder = () => {
       ) : (
         <>
           {showReRecordButtons ? (
-            <>
-              <Button
-                className="mt-5"
+          <div className="flex flex-row ml-20 gap-2 mt-5">
+            <Button
                 onClick={handleReRecord}
                 color="secondary"
                 variant="ghost"
-              >
+            >
                 재녹화
-              </Button>
+            </Button>
+            <Link href="/shortsvideo">
               <Button
-                className="mt-5"
-                onClick={handleUpload}
-                color="secondary"
-                variant="ghost"
+                  onClick={handleUpload}
+                  color="secondary"
+                  variant="ghost"
               >
-                업로드
+                  업로드
               </Button>
-              <Button
-                className="mt-5"
+            </Link>
+            <Button
                 onClick={handleDownload}
                 color="secondary"
                 variant="ghost"
-              >
+            >
                 다운로드
+            </Button>
+            <Link href="/shorts">
+              <Button
+                  color="secondary"
+                  variant="ghost"
+              >
+                  종료
               </Button>
-            </>
+            </Link>
+          </div>
           ) : (
             <Button
               className="mt-5"

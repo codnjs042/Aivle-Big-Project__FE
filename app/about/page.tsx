@@ -83,7 +83,7 @@ export default function AboutPage() {
 						<p>K-POP 가사와 K-CONTENTS 명대사를 통해 쉽고 즐겁게 한국인의 일상 대화를 배울 수 있습니다.</p>
 					</CardBody>
 					<CardBody className="text-center">
-						<p>회원가입을 하시면 AI 레포트, 발음 분석 등 더 많은 기능을 즐겨실수 있습니다.</p>
+						<p>회원가입을 하시면 AI 레포트, 발음 분석 등 더 많은 기능을 즐겨실 수 있습니다.</p>
 					</CardBody>
 					</Card>
 				</div>
