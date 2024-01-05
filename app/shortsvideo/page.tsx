@@ -13,6 +13,8 @@ export default function ShortsvideoPage() {
 
   const handleUploadClick = () => {
     if (fileInputRef.current) {
+      // 기존의 선택된 파일 초기화
+      fileInputRef.current.value = '';
       fileInputRef.current.click();
     }
   };
@@ -67,7 +69,19 @@ export default function ShortsvideoPage() {
                 }
               }}
             />
-            <ReactPlayer url={video.url} width="300px" height="200px" controls />
+            <ReactPlayer
+              url={video.url}
+              width="300px"
+              height="200px"
+              controls
+              onReady={(e) => {
+                const duration = e.getDuration().toFixed(2);
+                if (+duration > 10) {
+                  alert("10초 이내 영상만 업로드 가능합니다.");
+                  setVideos((prevVideos) => prevVideos.filter((v) => v.id !== video.id));
+              }
+              }}
+            />
           </div>
         ))}
         <Button
