@@ -1,6 +1,7 @@
 "use client"
 
-import React, { useState, useRef } from 'react';
+import React, { useContext, useState, useRef } from 'react';
+import AuthContext from "@/context/AuthContext";
 import { textToSpeech } from '@/api/textToSpeech'
 import {Input, Card, CardBody, CardHeader, CardFooter, Divider, Link, Image, Button, Slider, Pagination, PaginationItemType, usePagination} from "@nextui-org/react";
 import {Logo, HeartIcon, PauseCircleIcon, NextIcon, PreviousIcon, RepeatOneIcon, ShuffleIcon, ChevronIcon, SearchIcon, } from "@/components/icons";
@@ -11,6 +12,9 @@ import { ReactMediaRecorder, useReactMediaRecorder } from 'react-media-recorder'
 import { SentenceInfo } from '../../public/data/sentence';
 
 export default function LearnPage() {
+
+  const auth = useContext(AuthContext);
+
   const [liked, setLiked] = useState(false);
   // 음성듣기용 오디오
   const [audio, setAudio] = useState<string | null>(null);
@@ -50,9 +54,13 @@ export default function LearnPage() {
 
   // 발음 분석 버튼 클릭 시 호출
   const handleAnalysis = () => {
-    // 발음 분석 Card가 보이도록 상태 업데이트
-    setAnalysisVisible((prevVisible) => !prevVisible);
+    if (auth.login) {
+      setAnalysisVisible((prevVisible) => !prevVisible);
+    } else {
+      alert("로그인이 필요합니다.");
+    }
   };
+
   
   // 페이지 변경 시 텍스트 업데이트
   const handlePageChange = (page: number) => {

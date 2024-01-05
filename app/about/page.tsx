@@ -79,6 +79,9 @@ export default function AboutPage() {
 					<CardBody className="text-center">
 						<p>K-POP 가사와 K-CONTENTS 명대사를 통해 흥미로운 한국인의 일상 대화를 배워보세요.</p>
 					</CardBody>
+					<CardBody className="text-center">
+						<p>회원가입을 하고 더 많은 기능을 즐겨보세요.</p>
+					</CardBody>
 					</Card>
 				</div>
 				{content.map((item, index) => (
