@@ -106,6 +106,7 @@ const VideoRecorder = () => {
 
   return (
     <div>
+      <p className="mb-5">10초 이내로 제작해주세요 ! </p>
       <video ref={videoRef} autoPlay />
       
       {isRecording ? (
@@ -121,6 +122,7 @@ const VideoRecorder = () => {
           {showReRecordButtons ? (
             <>
               <Button
+                className="mt-5"
                 onClick={handleReRecord}
                 color="secondary"
                 variant="ghost"
@@ -128,6 +130,7 @@ const VideoRecorder = () => {
                 재녹화
               </Button>
               <Button
+                className="mt-5"
                 onClick={handleUpload}
                 color="secondary"
                 variant="ghost"
@@ -135,6 +138,7 @@ const VideoRecorder = () => {
                 업로드
               </Button>
               <Button
+                className="mt-5"
                 onClick={handleDownload}
                 color="secondary"
                 variant="ghost"
@@ -144,6 +148,7 @@ const VideoRecorder = () => {
             </>
           ) : (
             <Button
+              className="mt-5"
               onClick={startRecording}
               color="secondary"
               variant="ghost"

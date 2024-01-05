@@ -7,7 +7,7 @@ import contentsList from "../../public/data/contents";
 export default function ShortsPage() {
 	return (
 			<div className="justify-between gap-10 grid grid-cols-4">
-				<h2 className="text-2xl text-center font-bold mb-4 col-span-full">콘텐츠 선택</h2>
+				<h2 className="text-2xl text-center font-bold mb-4 col-span-full">마음에 드는 콘텐츠를 쇼츠로 찍어보세요 !</h2>
 				{contentsList.map((item, index) => (
 					<div className="my-2 ml-2" key={index}>
 						<NextLink href={`/myshorts?content=${item.title}`}>
