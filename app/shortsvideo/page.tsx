@@ -30,13 +30,15 @@ export default function ShortsvideoPage() {
   const auth = useContext(AuthContext);
   const wrapper = (url: string) => postListFetch(auth.access, auth.setAccess).then((res) => res.json());
 
-  const {data, isLoading} = useSWR(`${backendConfig.serverUrl}/api/shortsvideo/post/?page=${page}`, wrapper, {
+  const {data, isLoading} = useSWR(`${backendConfig.serverUrl}/api/shorts/?page=${page}`, wrapper, {
     keepPreviousData: true,
   });
 
   const columns = [
     { key: 'title', label: '제목' },
-    { key: 'id', label: '작성자' },
+    { key: 'author_name', label: '작성자' },
+    { key: 'view', label: '조회수' },
+    { key: 'created_at', label: '작성일' },
   ];
 
   const rowsPerPage = 10;
