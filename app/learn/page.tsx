@@ -139,6 +139,29 @@ export default function LearnPage() {
     }
   };
 
+  // LearnPage 컴포넌트 내에서 새로운 state 추가
+const [searchQuery, setSearchQuery] = useState('');
+
+// 검색어를 업데이트하는 핸들러
+const handleSearchInputChange = (e:any) => {
+  setSearchQuery(e.target.value);
+};
+
+// 검색 버튼을 눌렀을 때 처리하는 함수
+const handleSearch = () => {
+  // 페이지를 검색 결과 중 첫 번째 페이지로 설정
+  const firstMatchingPage = SentenceInfo.findIndex((sentence) =>
+    Object.values(sentence).some((value) =>
+      value.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  );
+
+  // 검색 결과에 해당하는 페이지가 있을 경우에만 페이지를 변경
+  if (firstMatchingPage !== -1) {
+    setPage(firstMatchingPage);
+  }
+};
+
   return (
     <div>
       <div className="flex items-center gap-2">
@@ -153,12 +176,15 @@ export default function LearnPage() {
           size="sm"
           startContent={<SearchIcon size={18} />}
           type="search"
+          value={searchQuery}
+          onChange={handleSearchInputChange}
         />
         <Button
           //isIconOnly 
           //variant="light"
           variant="faded"
-          className="mb-3">
+          className="mb-3"
+          onPress={handleSearch}>
           검색
       </Button>
       </div>
