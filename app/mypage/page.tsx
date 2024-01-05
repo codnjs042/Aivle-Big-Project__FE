@@ -177,7 +177,7 @@ export default function MyPage() {
             안녕하세요
           </AccordionItem>
           <AccordionItem key="2" aria-label="자주 틀리는 문장" title="자주 틀리는 문장">
-            안,감,최
+            죄송합니다
           </AccordionItem>
         </Accordion>
 

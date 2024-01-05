@@ -30,18 +30,15 @@ export default function LoginMenu() {
         {auth.login ? (
             <>
               <Link href="/mypage">
-              <div className="flex items-center">
-                <Avatar
+                <Button startContent={<Avatar
                   icon={<AvatarIcon />}
                   size="sm"
                   classNames={{
                     base: "bg-gradient-to-br from-indigo-500 to-pink-500",
                     icon: "text-white/90",
                   }}
-                />
-              </div>
-                <Button
-                    className={`h-6 pr-2 text-small ${isMenuSelected("/mypage") ? "text-purple-500" : ""}`}
+                />}
+                    className={`h-10 pr-2 text-small ${isMenuSelected("/mypage") ? "text-purple-500" : ""}`}
                     style={{
                       background: 'none',
                       border: '2px solid var(--nextui-color-secondary)'
