@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useRef,useEffect, useCallback } from "react";
+import { useContext, useState, useRef,useEffect, useCallback } from "react";
+import AuthContext from "@/context/AuthContext";
 import { Button, Link } from "@nextui-org/react";
 import Webcam from "react-webcam";
 import { useReactMediaRecorder } from "react-media-recorder";
@@ -67,6 +68,7 @@ const VideoRecorder = () => {
     getMediaPermission();
   }, []);
 
+  const auth = useContext(AuthContext);
 
   const [isRecording, setIsRecording] = useState(false);
   const [showReRecordButtons, setShowReRecordButtons] = useState(false);
@@ -90,7 +92,10 @@ const VideoRecorder = () => {
   };
 
   const handleUpload = async () => {
-    // 업로드 로직...
+    if (auth.login) {
+    } else {
+      alert("로그인이 필요합니다.");
+    }
   };
 
   const handleDownload = () => {
@@ -116,7 +121,7 @@ const VideoRecorder = () => {
           color="secondary"
           variant="ghost"
         >
-          녹화 종료
+          쇼츠 종료
         </Button>
       ) : (
         <>
@@ -127,7 +132,7 @@ const VideoRecorder = () => {
                 color="secondary"
                 variant="ghost"
             >
-                재녹화
+                재촬영
             </Button>
             <Link href="/shortsvideo">
               <Button
@@ -161,7 +166,7 @@ const VideoRecorder = () => {
               color="secondary"
               variant="ghost"
             >
-              녹화 시작
+              쇼츠 시작
             </Button>
           )}
         </>
