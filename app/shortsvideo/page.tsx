@@ -1,25 +1,35 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Button } from "@nextui-org/react";
 import NextLink from "next/link";
+import ReactPlayer from "react-player";
 
 export default function ShortsvideoPage() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [videos, setVideos] = useState<Array<{ id: number; url: string }>>([]);
+  const [selectedVideos, setSelectedVideos] = useState<number[]>([]);
+  const [videoUrl, setVideoUrl] = useState<string | null>(null);
+
   const handleUploadClick = () => {
-    // 파일 업로드 input 엘리먼트 클릭
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
 
-  const handleFileChange = (event:any) => {
-    // 선택한 파일 정보 확인
+  const handleFileChange = (event: any) => {
+    event.preventDefault(); // 기본 동작 방지
+  
     const selectedFile = event.target.files[0];
-    console.log("Selected File:", selectedFile);
+    const videoId = Date.now();
+    const videoBlobUrl = URL.createObjectURL(selectedFile);
+    setVideos((prevVideos) => [...prevVideos, { id: videoId, url: videoBlobUrl }]);
+  };
 
-    // 여기서 서버로 파일을 업로드하는 로직을 추가해야 합니다.
-    // fetch 또는 axios를 사용하여 서버로 파일 전송
+  const handleDeleteClick = () => {
+    const remainingVideos = videos.filter((video) => !selectedVideos.includes(video.id));
+    setSelectedVideos([]);
+    setVideos(remainingVideos);
   };
 
   return (
@@ -37,7 +47,6 @@ export default function ShortsvideoPage() {
         >
           업로드
         </Button>
-        {/* 숨겨진 파일 업로드 input 엘리먼트 */}
         <input
           ref={fileInputRef}
           type="file"
@@ -45,26 +54,41 @@ export default function ShortsvideoPage() {
           style={{ display: "none" }}
           onChange={handleFileChange}
         />
-            
-            <Button
-              isIconOnly
-              className="w-20 item-center mt-3 ml-3"
-              color="secondary" 
-              variant="ghost"
-              >
-              삭제
-            </Button>
-            <NextLink href="/shorts">
-            <Button
-              
-              className="w-30 item-center mt-3 ml-3"
-              color="secondary" 
-              variant="ghost"
-              >
-              쇼츠 제작
-            </Button>
-            </NextLink>
-        </div>
+        {videos.map((video) => (
+          <div key={video.id} className="mb-3">
+            <input
+              type="checkbox"
+              checked={selectedVideos.includes(video.id)}
+              onChange={() => {
+                if (selectedVideos.includes(video.id)) {
+                  setSelectedVideos((prevSelected) => prevSelected.filter((id) => id !== video.id));
+                } else {
+                  setSelectedVideos((prevSelected) => [...prevSelected, video.id]);
+                }
+              }}
+            />
+            <ReactPlayer url={video.url} width="300px" height="200px" controls />
+          </div>
+        ))}
+        <Button
+          isIconOnly
+          className="w-20 item-center mt-3 ml-3"
+          color="secondary"
+          variant="ghost"
+          onClick={handleDeleteClick}
+        >
+          삭제
+        </Button>
+        <NextLink href="/shorts">
+          <Button
+            className="w-30 item-center mt-3 ml-3"
+            color="secondary"
+            variant="ghost"
+          >
+            쇼츠 제작
+          </Button>
+        </NextLink>
+      </div>
     </div>
   );
 }
