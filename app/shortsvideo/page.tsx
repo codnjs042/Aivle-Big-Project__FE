@@ -1,43 +1,77 @@
 "use client";
 
-import React, { useRef, useState } from "react";
-import { Button } from "@nextui-org/react";
-import NextLink from "next/link";
+import {useContext, useMemo, useState, useRef} from "react";
+import {
+  Button,
+  getKeyValue, Link,
+  Pagination,
+  Spinner,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow
+} from "@nextui-org/react";
+import useSWR from 'swr';
+import {backendConfig} from "@/api/apiconfig";
+import AuthContext from "@/context/AuthContext";
+import {postListFetch} from "@/api/shortsvideo/postList";
 import ReactPlayer from "react-player";
 
+interface VideoType {
+  id: number;
+  title: string;
+  file_path: string;
+}
+
 export default function ShortsvideoPage() {
+  const [page, setPage] = useState(1);
+  const auth = useContext(AuthContext);
+  const wrapper = (url: string) => postListFetch(auth.access, auth.setAccess).then((res) => res.json());
+
+  const {data, isLoading} = useSWR(`${backendConfig.serverUrl}/api/shortsvideo/post/?page=${page}`, wrapper, {
+    keepPreviousData: true,
+  });
+
+  const columns = [
+    { key: 'title', label: '제목' },
+    { key: 'id', label: '작성자' },
+  ];
+
+  const rowsPerPage = 10;
+
+  const pages = useMemo(() => {
+    return data?.count ? Math.ceil(data.count / rowsPerPage) : 0;
+  }, [data?.count, rowsPerPage]);
+
+  const loadingState = isLoading || data?.results.length === 0 ? "loading" : "idle";
+  
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [videos, setVideos] = useState<Array<{ id: number; url: string }>>([]);
-  const [selectedVideos, setSelectedVideos] = useState<number[]>([]);
-  const [videoUrl, setVideoUrl] = useState<string | null>(null);
 
   const handleUploadClick = () => {
     if (fileInputRef.current) {
-      // 기존의 선택된 파일 초기화
       fileInputRef.current.value = '';
       fileInputRef.current.click();
     }
   };
 
-  const handleFileChange = (event: any) => {
-    event.preventDefault(); // 기본 동작 방지
-  
-    const selectedFile = event.target.files[0];
-    const videoId = Date.now();
-    const videoBlobUrl = URL.createObjectURL(selectedFile);
-    setVideos((prevVideos) => [...prevVideos, { id: videoId, url: videoBlobUrl }]);
-  };
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
 
-  const handleDeleteClick = () => {
-    const remainingVideos = videos.filter((video) => !selectedVideos.includes(video.id));
-    setSelectedVideos([]);
-    setVideos(remainingVideos);
+    const selectedFile = event.target.files?.[0];
+    if (selectedFile) {
+      const videoId = Date.now();
+      const videoBlobUrl = URL.createObjectURL(selectedFile);
+      const videoTitle = selectedFile.name;
+      // 여기에서 서버로 업로드할 수 있도록 API 호출이나 상태 업데이트 등이 필요합니다.
+    }
   };
 
   return (
-    <div>
-      <div>
-        <p className="font-bold text-3xl">쇼츠게시판</p>
+    <div className="flex flex-col">
+      <div className="text-3xl font-bold primary text-center py-5">
+        <p>쇼츠 게시판</p>
       </div>
       <div className="text-3xl font-bold primary text-end py-5">
         <Button
@@ -56,52 +90,54 @@ export default function ShortsvideoPage() {
           style={{ display: "none" }}
           onChange={handleFileChange}
         />
-        {videos.map((video) => (
-          <div key={video.id} className="mb-3">
-            <input
-              type="checkbox"
-              checked={selectedVideos.includes(video.id)}
-              onChange={() => {
-                if (selectedVideos.includes(video.id)) {
-                  setSelectedVideos((prevSelected) => prevSelected.filter((id) => id !== video.id));
-                } else {
-                  setSelectedVideos((prevSelected) => [...prevSelected, video.id]);
-                }
-              }}
-            />
-            <ReactPlayer
-              url={video.url}
-              width="300px"
-              height="200px"
-              controls
-              onReady={(e) => {
-                const duration = e.getDuration().toFixed(2);
-                if (+duration > 10) {
-                  alert("10초 이내 영상만 업로드 가능합니다.");
-                  setVideos((prevVideos) => prevVideos.filter((v) => v.id !== video.id));
-              }
-              }}
-            />
-          </div>
-        ))}
-        <Button
-          isIconOnly
-          className="w-20 item-center mt-3 ml-3"
-          color="secondary"
-          variant="ghost"
-          onClick={handleDeleteClick}
+        <Table
+          className="flex w-full text-center"
+          aria-label="쇼츠 게시판"
+          bottomContent={
+            pages > 0 ? (
+              <div className="flex w-full justify-center">
+                <Pagination
+                  isCompact
+                  showControls
+                  showShadow
+                  color="secondary"
+                  page={page}
+                  total={pages}
+                  onChange={(page) => setPage(page)}
+                />
+              </div>
+            ) : null
+          }
         >
-          삭제
-        </Button>
-        <NextLink href="/shorts">
-          <Button
-            className="w-30 item-center mt-3 ml-3"
-            color="secondary"
-            variant="ghost"
-          >
-            쇼츠 제작
-          </Button>
-        </NextLink>
+          <TableHeader>
+            {columns.map((column) => (
+              <TableColumn className="text-md text-center" key={column.key}>
+                {column.label}
+              </TableColumn>
+            ))}
+          </TableHeader>
+          <TableBody items={data?.results ?? []} loadingContent={<Spinner />} loadingState={loadingState}>
+  {(item: VideoType) => (
+    <TableRow key={item.id}>
+      {columns.map((column) => {
+        const columnKey = column.key as keyof VideoType;
+        let value = item[columnKey];
+        return (
+          <TableCell key={columnKey}>
+            {columnKey === 'title' ? (
+              <Link href={`/videos/${item.id}`} className="text-white-500">
+                {value}
+              </Link>
+            ) : (
+              value
+            )}
+          </TableCell>
+        );
+      })}
+    </TableRow>
+  )}
+</TableBody>
+        </Table>
       </div>
     </div>
   );
