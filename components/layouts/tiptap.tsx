@@ -1,10 +1,18 @@
 'use client'
 
-import { useEditor, EditorContent } from '@tiptap/react'
+import {EditorContent, useEditor} from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
+import {Button} from "@nextui-org/react";
 
 const Tiptap = () => {
-  const editor = useEditor({
+  const editorTitle = useEditor({
+    extensions: [
+      StarterKit,
+    ],
+    content: '<h1>Title</h1>',
+  })
+
+  const editorContent = useEditor({
     extensions: [
       StarterKit,
     ],
@@ -12,7 +20,14 @@ const Tiptap = () => {
   })
 
   return (
-      <EditorContent editor={editor} />
+      <>
+        <div className="flex flex-col">
+          <EditorContent editor={editorTitle}/>
+          <EditorContent editor={editorContent}/>
+        </div>
+        <Button>작성</Button>
+        <Button>취소</Button>
+      </>
   )
 }
 
