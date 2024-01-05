@@ -85,6 +85,15 @@ export default function ShortsvideoPage() {
         >
           업로드
         </Button>
+        <Button
+          isIconOnly
+          className="w-20 item-center mt-3 ml-2"
+          color="secondary"
+          variant="ghost"
+          onClick={handleUploadClick}
+        >
+          삭제
+        </Button>
         <input
           ref={fileInputRef}
           type="file"
@@ -113,7 +122,7 @@ export default function ShortsvideoPage() {
         >
           <TableHeader>
             {columns.map((column) => (
-              <TableColumn className="text-md text-center" key={column.key}>
+              <TableColumn className="text-sm text-center" key={column.key}>
                 {column.label}
               </TableColumn>
             ))}
