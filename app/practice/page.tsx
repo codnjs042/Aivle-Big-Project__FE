@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
+import React, { useContext, useState, useRef } from 'react';
+import AuthContext from "@/context/AuthContext";
 import ReactPlayer from 'react-player';
 import {Card, CardBody,  CardHeader, CardFooter, Divider, Link, Image, Button, Slider} from "@nextui-org/react";
 import {Logo, HeartIcon, PauseCircleIcon, NextIcon, PreviousIcon} from "@/components/icons";
@@ -10,6 +11,7 @@ import CulturePage from '../genre/page';
 import cn from 'classnames';
 
 export default function PracticePage() {
+  const auth = useContext(AuthContext);
   const router = useRouter();
   const queryParams = useSearchParams();
   const contentTitle = queryParams.get('content');
@@ -101,8 +103,11 @@ export default function PracticePage() {
 
   // 발음 분석 버튼 클릭 시 호출
   const handleAnalysis = () => {
-    // 발음 분석 Card가 보이도록 상태 업데이트
-    setAnalysisVisible((prevVisible) => !prevVisible);
+    if (auth.login) {
+      setAnalysisVisible((prevVisible) => !prevVisible);
+    } else {
+      alert("로그인이 필요합니다.");
+    }
   };
 
   if (!content) {
