@@ -57,7 +57,8 @@ export default function Home() {
           <h1 className={title()} style={{fontSize: "2.5rem", position: "relative", zIndex: 1}}>제작해보세요.&nbsp;</h1>
           <h2 className={subtitle({class: "mt-4"})}style={{fontSize: "0.7rem"}}>
               로맨스, 사극, 판타지 등 다양한 테마별로 30,000개 이상의 K-CONTENTS 명대사를 연습해보세요.<br/>
-              방탄소년단, 블랙핑크, 뉴진스 등 좋아하는 K-POP 가수의 노래 가사를 연습해보세요.
+              방탄소년단, 블랙핑크, 뉴진스 등 좋아하는 K-POP 가수의 노래 가사를 연습해보세요.<br/>
+              회원 가입을 하고 나의 발음 분석 및 AI 레포트를 받아보세요.
           </h2>
         </div>
 

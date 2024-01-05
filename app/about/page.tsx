@@ -73,14 +73,17 @@ export default function AboutPage() {
 				<div className="col-span-12 text-center mb-8">
 					<Card>
 					<CardBody className="text-center gap-2">
-						<p>바름은 입모양과 발음 분석을 통해 외국인에게 정확한 발음 교정을 제공하여</p>
-						<p>자연스럽고 원활한 의사소통을 돕는 서비스입니다.</p>
+					<p>안녕하세요. 바름을 찾아주셔서 감사합니다.</p>
+					</CardBody>
+					<CardBody className="text-center gap-2">
+						<p>바름은 AI 발음 분석을 통해 외국인에게 정확한 발음 교정 및 AI 레포트를 제공하여 </p>
+						<p> 자연스럽고 원활한 의사소통을 돕는 서비스입니다.</p>
 					</CardBody>
 					<CardBody className="text-center">
-						<p>K-POP 가사와 K-CONTENTS 명대사를 통해 흥미로운 한국인의 일상 대화를 배워보세요.</p>
+						<p>K-POP 가사와 K-CONTENTS 명대사를 통해 쉽고 즐겁게 한국인의 일상 대화를 배울 수 있습니다.</p>
 					</CardBody>
 					<CardBody className="text-center">
-						<p>회원가입을 하고 더 많은 기능을 즐겨보세요.</p>
+						<p>회원가입을 하시면 AI 레포트, 발음 분석 등 더 많은 기능을 즐겨실수 있습니다.</p>
 					</CardBody>
 					</Card>
 				</div>
