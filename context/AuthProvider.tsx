@@ -33,7 +33,7 @@ const AuthProvider = ({children}: AuthProviderProps) => {
     setUser(null);
   }
 
-  useDidMountEffect(() => {
+  useEffect(() => {
     if (login) {
       getUser();
     } else {

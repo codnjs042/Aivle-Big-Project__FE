@@ -1,3 +1,3 @@
 export const backendConfig = {
-  serverUrl: "http://localhost:8000",
+  serverUrl: "http://1.245.237.91:8000",
 };
