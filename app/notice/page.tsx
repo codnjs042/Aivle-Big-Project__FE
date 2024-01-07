@@ -18,6 +18,8 @@ import useSWR from 'swr';
 import {backendConfig} from "@/api/apiconfig";
 import AuthContext from "@/context/AuthContext";
 import {postListFetch} from "@/api/notice/postList";
+import needLogin from "@/components/layouts/needLogin";
+import NeedLogin from "@/components/layouts/needLogin";
 
 interface ItemType {
   id: number;
@@ -32,8 +34,9 @@ interface ItemType {
 export default function AboutPage() {
   const [page, setPage] = useState(1);
   const auth = useContext(AuthContext);
-  const wrapper = (url: string) => postListFetch(auth.access, auth.setAccess).then((res) => res.json());
   const [mounted, setMounted] = useState<boolean>(false);
+
+  const wrapper = (url: string) => postListFetch(auth.access, auth.setAccess).then((res) => res.json());
 
   const {
     data,
@@ -55,11 +58,17 @@ export default function AboutPage() {
     return data?.count ? Math.ceil(data.count / rowsPerPage) : 0;
   }, [data?.count, rowsPerPage]);
 
-  const loadingState = isLoading || data?.results.length === 0 ? "loading" : "idle";
+  const loadingState = isLoading || (data?.results?.length ?? 0) === 0 ? "loading" : "idle";
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  if (!auth.login) {
+    return (
+        <NeedLogin />
+    );
+  }
 
   return (mounted && (
       <div className="flex flex-col">
@@ -67,7 +76,7 @@ export default function AboutPage() {
           <p>서비스 공지 및 문의</p>
         </div>
         <div className="text-3xl font-bold primary text-end py-5">
-          <Link href="/notice/post">
+          <Link href="/notice/new">
             <a>
               <Button
                   isIconOnly
