@@ -1,9 +1,10 @@
 "use client";
 
-import {useContext, useMemo, useState} from "react";
+import {useContext, useEffect, useMemo, useState} from "react";
 import {
   Button,
-  getKeyValue, Link,
+  getKeyValue,
+  Link,
   Pagination,
   Spinner,
   Table,
@@ -17,6 +18,7 @@ import useSWR from 'swr';
 import {backendConfig} from "@/api/apiconfig";
 import AuthContext from "@/context/AuthContext";
 import {postListFetch} from "@/api/notice/postList";
+
 interface ItemType {
   id: number;
   title: string;
@@ -31,16 +33,20 @@ export default function AboutPage() {
   const [page, setPage] = useState(1);
   const auth = useContext(AuthContext);
   const wrapper = (url: string) => postListFetch(auth.access, auth.setAccess).then((res) => res.json());
+  const [mounted, setMounted] = useState<boolean>(false);
 
-  const {data, isLoading} = useSWR(`${backendConfig.serverUrl}/api/introduce/post/?page=${page}`, wrapper, {
+  const {
+    data,
+    isLoading
+  } = useSWR(`${backendConfig.serverUrl}/api/introduce/post/?page=${page}`, wrapper, {
     keepPreviousData: true,
   });
 
   const columns = [
-    { key: 'title', label: '제목' },
-    { key: 'writer', label: '작성자' },
-    { key: 'comments_count', label: '댓글' },
-    { key: 'formatted_updated_at', label: '최종 수정일' },
+    {key: 'title', label: '제목'},
+    {key: 'writer', label: '작성자'},
+    {key: 'comments_count', label: '댓글'},
+    {key: 'formatted_updated_at', label: '최종 수정일'},
   ];
 
   const rowsPerPage = 10;
@@ -51,32 +57,27 @@ export default function AboutPage() {
 
   const loadingState = isLoading || data?.results.length === 0 ? "loading" : "idle";
 
-  return (
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  return (mounted && (
       <div className="flex flex-col">
-        <div className="text-3xl font-bold primary text-center py-5">
+        <div className="text-3xl font-bold primary text-center">
           <p>서비스 공지 및 문의</p>
         </div>
         <div className="text-3xl font-bold primary text-end py-5">
-        <button>
-            <Link href="/notice/write">
-            <Button
-              isIconOnly
-              className="w-20 item-center mt-3"
-              color="secondary" 
-              variant="ghost"
+          <Link href="/notice/post">
+            <a>
+              <Button
+                  isIconOnly
+                  className="w-28 item-center mt-3"
+                  color="secondary"
               >
-              글 작성
-            </Button>
-            </Link>
-            <Button
-              isIconOnly
-              className="w-20 item-center mt-3 ml-3"
-              color="secondary" 
-              variant="ghost"
-              >
-              글 삭제
-            </Button>
-          </button>
+                글 작성
+              </Button>
+            </a>
+          </Link>
         </div>
         <Table
             className="flex w-full text-center"
@@ -104,7 +105,8 @@ export default function AboutPage() {
                 </TableColumn>
             ))}
           </TableHeader>
-          <TableBody items={data?.results ?? []} loadingContent={<Spinner />} loadingState={loadingState}>
+          <TableBody items={data?.results ?? []} loadingContent={<Spinner/>}
+                     loadingState={loadingState}>
             {(item: ItemType) => (
                 <TableRow key={item.id}>
                   {(columnKey) => {
@@ -112,7 +114,7 @@ export default function AboutPage() {
                     const attr = item.is_admin ? "font-bold" : "";
                     if (columnKey == 'title') {
                       if (item.is_admin) {
-                        value = <><span style={{ marginRight: '1em' }}>📢</span>{value}</>;
+                        value = <><span style={{marginRight: '1em'}}>📢</span>{value}</>;
                       }
                       return (
                           <TableCell className={attr + ""}>
@@ -123,7 +125,7 @@ export default function AboutPage() {
                       );
                     }
                     if (columnKey == 'writer' && item.is_admin) {
-                      value = <><span style={{ marginRight: '1em' }}>👑</span>{value}</>;
+                      value = <><span style={{marginRight: '1em'}}>👑</span>{value}</>;
                     }
                     return <TableCell className={attr}>{value}</TableCell>;
                   }}
@@ -132,5 +134,5 @@ export default function AboutPage() {
           </TableBody>
         </Table>
       </div>
-  );
+  ));
 }
