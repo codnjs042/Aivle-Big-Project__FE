@@ -1,13 +1,25 @@
 "use client"
 
-import { useContext, useState, useRef,useEffect, useCallback } from "react";
+import React, { useContext, useState, useRef, useEffect, useCallback } from "react";
 import AuthContext from "@/context/AuthContext";
 import { Button, Link } from "@nextui-org/react";
 import Webcam from "react-webcam";
 import { useReactMediaRecorder } from "react-media-recorder";
 import RecordRTC from "recordrtc";
+import { useRouter, useSearchParams } from "next/navigation";
+import contentsList from '../../public/data/contents';
+import CulturePage from '../genre/page';
 
 const VideoRecorder = () => {
+  const auth = useContext(AuthContext);
+  const router = useRouter();
+  const queryParams = useSearchParams();
+  const contentTitle = queryParams.get('content');
+  const content = contentsList.find(item => item.title === contentTitle);
+  const [liked, setLiked] = React.useState(false);
+  const [selectedGenre, setSelectedGenre] = useState<string>('');
+  const [selectedPart, setSelectedPart] = useState(1);
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const mediaRecorder = useRef<MediaRecorder | null>(null);
   const videoChunks = useRef<Blob[]>([]);
@@ -20,34 +32,32 @@ const VideoRecorder = () => {
         video: true,
       };
 
-      const audioStream = await navigator.mediaDevices.getUserMedia(
-          audioConstraints
-      );
-      const videoStream = await navigator.mediaDevices.getUserMedia(
-          videoConstraints
-      );
+      const audioStream = await navigator.mediaDevices.getUserMedia(audioConstraints);
+      const videoStream = await navigator.mediaDevices.getUserMedia(videoConstraints);
 
       if (videoRef.current) {
-          videoRef.current.srcObject = videoStream;
+        videoRef.current.srcObject = videoStream;
       }
 
-      // MediaRecorder 추가
+      // MediaRecorder 초기화
       const combinedStream = new MediaStream([
-          ...videoStream.getVideoTracks(),
+        ...videoStream.getVideoTracks(),
         ...audioStream.getAudioTracks(),
       ]);
 
-      const recorder = new MediaRecorder(combinedStream, {
+      if (!mediaRecorder.current) {
+        const recorder = new MediaRecorder(combinedStream, {
           mimeType: 'video/webm',
-      });
+        });
 
-      recorder.ondataavailable = (e) => {
+        recorder.ondataavailable = (e) => {
           if (typeof e.data === 'undefined') return;
-        if (e.data.size === 0) return;
-        videoChunks.current.push(e.data);
-      };
+          if (e.data.size === 0) return;
+          videoChunks.current.push(e.data);
+        };
 
-      mediaRecorder.current = recorder;
+        mediaRecorder.current = recorder;
+      }
     } catch (err) {
       console.log(err);
     }
@@ -63,37 +73,48 @@ const VideoRecorder = () => {
     link.click();
     document.body.removeChild(link);
   };
-
-  useEffect(() => {
-    getMediaPermission();
-  }, []);
-
-  const auth = useContext(AuthContext);
-
   const [isRecording, setIsRecording] = useState(false);
   const [showReRecordButtons, setShowReRecordButtons] = useState(false);
 
+  useEffect(() => {
+    // 컴포넌트가 처음 마운트될 때 한 번만 호출
+    getMediaPermission();
+  }, [getMediaPermission]);
+
   const startRecording = () => {
-    mediaRecorder.current?.start();
+    videoChunks.current = []; // 녹화 데이터 초기화
     setIsRecording(true);
     setShowReRecordButtons(false);
+
+    // getMediaPermission 함수를 호출하여 웹캠 권한을 확인
+    getMediaPermission();
+
+    // 녹화 시작
+    mediaRecorder.current?.start();
   };
 
   const stopRecording = () => {
-    mediaRecorder.current?.stop();
-    setIsRecording(false);
+    if (mediaRecorder.current) {
+      mediaRecorder.current.stop();
+    }
     setShowReRecordButtons(true);
+    setIsRecording(false);
   };
 
-  const handleReRecord = () => {
-    videoChunks.current = []; // 재녹화 시에 이전 녹화 데이터 초기화
-    setShowReRecordButtons(false);
-    startRecording(); // 녹화 시작
+  const displayRecordedVideo = () => {
+    const videoBlob = new Blob(videoChunks.current, { type: 'video/webm' });
+    const videoUrl = URL.createObjectURL(videoBlob);
+
+    // 녹화된 비디오 표시
+    if (videoRef.current) {
+      videoRef.current.src = videoUrl;
+    }
   };
 
-  const handleUpload = async () => {
+  const handleUpload = async (e:any) => {
     if (auth.login) {
     } else {
+      e.preventDefault();
       alert("로그인이 필요합니다.");
     }
   };
@@ -101,6 +122,8 @@ const VideoRecorder = () => {
   const handleDownload = () => {
     const videoBlob = new Blob(videoChunks.current, { type: 'video/webm' });
     const videoUrl = URL.createObjectURL(videoBlob);
+  
+    // 다운로드 트리거
     const link = document.createElement('a');
     link.download = `My video.webm`;
     link.href = videoUrl;
@@ -109,266 +132,114 @@ const VideoRecorder = () => {
     document.body.removeChild(link);
   };
 
+  const renderPart = (partNumber: any) => {
+    type practice = /*unresolved*/ any
+    const partData = (content as practice)[`part${partNumber}`];
+  
+    return (
+      <div key={partNumber}>
+        {isRecording || videoChunks.current.length > 0 ? (
+          <>
+            <video ref={videoRef} autoPlay />
+            {isRecording && (
+              <Button
+                className="mt-5"
+                onClick={stopRecording}
+                color="secondary"
+                variant="ghost"
+              >
+                쇼츠 종료
+              </Button>
+            )}
+          </>
+        ) : (
+          <>
+            {showReRecordButtons ? (
+              <div className="flex flex-row ml-20 gap-2 mt-5">
+                <Button
+                  onClick={startRecording}
+                  color="secondary"
+                  variant="ghost"
+                >
+                  재촬영
+                </Button>
+                <Link href="/shortsvideo">
+                  <Button
+                    onClick={handleUpload}
+                    color="secondary"
+                    variant="ghost"
+                  >
+                    업로드
+                  </Button>
+                </Link>
+                <Button
+                  onClick={handleDownload}
+                  color="secondary"
+                  variant="ghost"
+                >
+                  다운로드
+                </Button>
+                <Link href="/shorts">
+                  <Button
+                    color="secondary"
+                    variant="ghost"
+                  >
+                    종료
+                  </Button>
+                </Link>
+              </div>
+            ) : (
+              <>
+                {/* Display the iframe for the part's video only on the initial screen */}
+                {!isRecording && !showReRecordButtons && (
+                  partData && partData[3] && (
+                  <iframe
+                    width="560"
+                    height="315"
+                    src={partData[3]}
+                    title="YouTube video player"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  ></iframe>
+                ))}
+                <Button
+                  className="mt-5"
+                  onClick={startRecording}
+                  color="secondary"
+                  variant="ghost"
+                >
+                  쇼츠 시작
+                </Button>
+              </>
+            )}
+          </>
+        )}
+      </div>
+    );
+  };
+  
+
   return (
     <div>
       <p className="mb-5">10초 이내로 제작해주세요 ! </p>
-      <video ref={videoRef} autoPlay />
-      
-      {isRecording ? (
+      {[1, 2, 3].map(partNumber => (
         <Button
-          className="mt-5"
-          onClick={stopRecording}
-          color="secondary"
-          variant="ghost"
+          key={partNumber}
+          onClick={() => {
+            setSelectedPart(partNumber);
+            setShowReRecordButtons(false);
+            setIsRecording(false);
+          }}
+          variant="light"
+          color={selectedPart === partNumber ? "secondary" : "default"}
+          className="mx-2 my-4"
         >
-          쇼츠 종료
+          파트 {partNumber}
         </Button>
-      ) : (
-        <>
-          {showReRecordButtons ? (
-          <div className="flex flex-row ml-20 gap-2 mt-5">
-            <Button
-                onClick={handleReRecord}
-                color="secondary"
-                variant="ghost"
-            >
-                재촬영
-            </Button>
-            <Link href="/shortsvideo">
-              <Button
-                  onClick={handleUpload}
-                  color="secondary"
-                  variant="ghost"
-              >
-                  업로드
-              </Button>
-            </Link>
-            <Button
-                onClick={handleDownload}
-                color="secondary"
-                variant="ghost"
-            >
-                다운로드
-            </Button>
-            <Link href="/shorts">
-              <Button
-                  color="secondary"
-                  variant="ghost"
-              >
-                  종료
-              </Button>
-            </Link>
-          </div>
-          ) : (
-            <Button
-              className="mt-5"
-              onClick={startRecording}
-              color="secondary"
-              variant="ghost"
-            >
-              쇼츠 시작
-            </Button>
-          )}
-        </>
-      )}
+      ))}
+
+      {renderPart(selectedPart)}
     </div>
   );
 };
 
 export default VideoRecorder;
-
-function dayjs() {
-  throw new Error("Function not implemented.");
-}
-// function useWebcamRecording() {
-//   const webcamRef = useRef<HTMLVideoElement>(null);
-//   const [recording, setRecording] = useState<boolean>(false);
-//   const [recordedChunks, setRecordedChunks] = useState<Array<Blob>>([]);
-//   const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
-//   const [recorder, setRecorder] = useState<RecordRTC | null>(null);
-
-//   const videoConstraints = {
-//     width: 1280,
-//     height: 720,
-//     facingMode: "user",
-//   };
-//   const startRecording = () => {
-//     if (recorder !== null) {
-//       recorder.stopRecording(() => {
-//         setRecordedBlob(recorder.getBlob());
-//         setRecording(false);
-//         setRecordedChunks([]);
-//         recorder.destroy();
-//       });
-//     }
-//     navigator.mediaDevices.getUserMedia({video: true, audio: true}).then((stream) => {
-//       const newRecorder = new RecordRTC(stream, {
-//         type: "video",
-//       });
-
-//       newRecorder.ondataavailable = (event: { data: Blob }) => handleDataAvailable(event);
-//       newRecorder.stopRecording = () => {
-//         newRecorder.stopRecording();
-//       };
-
-//       newRecorder.startRecording();
-//       setRecorder(newRecorder);
-//       setRecording(true);
-//       setRecordedChunks([]);
-//     });
-//   };
-
-//   const stopRecording = () => {
-//     if (recorder && recording) {
-//       recorder.stopRecording(() => {
-//         setRecordedBlob(recorder.getBlob());
-//         setRecording(false);
-//       });
-//     }
-//   };
-
-//   const handleDataAvailable = (event: { data: Blob; }) => {
-//     if (event.data.size > 0) {
-//       setRecordedChunks((prev) => [...prev, event.data]);
-//     }
-//   };
-
-//   const downloadRecording = () => {
-//     if (recordedBlob) {
-//       const url = URL.createObjectURL(recordedBlob);
-//       const a = document.createElement("a");
-//       document.body.appendChild(a);
-//       a.setAttribute("style", "display: none");
-//       a.href = url;
-//       a.download = "recorded-video.webm";
-//       a.click();
-//       window.URL.revokeObjectURL(url);
-//       setRecordedChunks([]);
-//     }
-//   };
-//   useEffect(() => {
-//     if (recording && webcamRef.current && recorder) {
-//       const mediaRecorder = new MediaRecorder(webcamRef.current!.srcObject as MediaStream, {
-//         mimeType: "video/webm",
-//       });
-
-//       mediaRecorder.ondataavailable = (event: { data: Blob }) => handleDataAvailable(event);
-//       mediaRecorder.onstop = () => {
-//         mediaRecorder.stop();
-//       };
-
-//       mediaRecorder.start();
-
-//       return () => {
-//         mediaRecorder.stop();
-//       };
-//     }
-//   }, [recording, recorder]);
-
-//   return {
-//     webcamRef,
-//     videoConstraints,
-//     recording,
-//     startRecording,
-//     stopRecording,
-//     downloadRecording,
-//   };
-// }
-
-// export default function MyshortsPage() {
-//   const [step, setStep] = useState(0);
-//   const NextStep = () => setStep((step) => step + 1);
-//   const ResetStep = () => setStep(0);
-
-//   const videoConstraints = {
-//     width: 1280,
-//     height: 720,
-//     facingMode: "user",
-//   };
-
-//   const {
-//     status,
-//     startRecording,
-//     stopRecording,
-//     mediaBlobUrl,
-//   } = useReactMediaRecorder({video: true, audio: true});
-
-//   switch (step) {
-//     case 0:
-//       return (
-//           <div className="space-y-4">
-//             <p className="text-2xl">직접 쇼츠를 만들어 보세요!</p>
-//             <Webcam
-//                 audio={false}
-//                 screenshotFormat="image/jpeg"
-//                 videoConstraints={videoConstraints}
-//             />
-//             <Button
-//                 onClick={() => {
-//                   NextStep();
-//                   startRecording();
-//                 }}
-//                 color="secondary"
-//                 variant="ghost"
-//             >
-//               촬영 시작
-//             </Button>
-//           </div>
-//       );
-//     case 1:
-//       return (
-//           <div className="space-y-4">
-//             <p className="text-2xl">촬영중..</p>
-//             <Webcam
-//                 audio={true}
-//                 screenshotFormat="image/jpeg"
-//                 videoConstraints={videoConstraints}
-//             />
-//             <Button
-//                 onClick={() => {
-//                   NextStep();
-//                   stopRecording();
-//                 }}
-//                 color="secondary"
-//                 variant="ghost"
-//             >
-//               촬영 중지
-//             </Button>
-//           </div>
-//       );
-//     case 2:
-//       return (
-//           <div className="space-y-4">
-//             <p className="text-2xl">촬영 완료!</p>
-//             <Webcam
-//                 audio={true}
-//                 screenshotFormat="image/jpeg"
-//                 videoConstraints={videoConstraints}
-//             />
-//             <div className="space-x-4">
-//               <Button onClick={ResetStep} color="secondary" variant="ghost">
-//                 다시 촬영
-//               </Button>
-//               {status === "stopped" && (
-//                   <Button
-//                       onClick={() => {
-//                         // Download the recorded video using the blob URL
-//                         const a = document.createElement("a");
-//                         a.href = mediaBlobUrl!;
-//                         a.download = "recorded-video.webm";
-//                         a.click();
-//                       }}
-//                       color="secondary"
-//                       variant="ghost"
-//                   >
-//                     저장
-//                   </Button>
-//               )}
-//               <Button onClick={ResetStep} color="secondary" variant="ghost">
-//                 업로드
-//               </Button>
-//             </div>
-//           </div>
-//       );
-//   }
-// }
