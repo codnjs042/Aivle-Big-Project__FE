@@ -17,7 +17,7 @@ import {
 } from "@nextui-org/react";
 import {useRouter} from 'next/navigation';
 import AuthContext from "@/context/AuthContext";
-import {artistList} from "@/types/artist";
+import {artistList, getArtistsFromValue} from "@/types/artist";
 import {genreList, getGenresFromValue} from "@/types/genre";
 
 export default function MyPage() {
@@ -84,9 +84,7 @@ export default function MyPage() {
                   variant="bordered"
                   placeholder="무응답"
                   selectedKeys={
-                    artistList
-                    .filter(({value}) => ((auth.user?.selectedArtist ?? 0) & value) === value)
-                    .map(({name}) => name)
+                    getArtistsFromValue(auth.user?.selectedArtist ?? 0).map(({name}) => name)
                   }
                   isDisabled
               >
