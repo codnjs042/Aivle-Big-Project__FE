@@ -1,19 +1,7 @@
 "use client";
 
 import React, {useContext} from "react";
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Chip,
-  CircularProgress,
-  Image,
-  Input,
-  Accordion,
-  AccordionItem, Select, Selection, SelectItem,
-
-} from "@nextui-org/react";
+import {Chip, CircularProgress, Accordion, AccordionItem, Select, Selection, SelectItem, Input, Card, CardBody, CardHeader, CardFooter, Divider, Link, Image, Button, Slider, Pagination, PaginationItemType, usePagination} from "@nextui-org/react";
 import {useRouter} from 'next/navigation';
 import AuthContext from "@/context/AuthContext";
 import {artistList, getArtistsFromValue} from "@/types/artist";

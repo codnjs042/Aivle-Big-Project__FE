@@ -3,7 +3,7 @@
 import React, { useContext, useState, useRef } from 'react';
 import AuthContext from "@/context/AuthContext";
 import { textToSpeech } from '@/api/textToSpeech'
-import {Input, Card, CardBody, CardHeader, CardFooter, Divider, Link, Image, Button, Slider, Pagination, PaginationItemType, usePagination} from "@nextui-org/react";
+import {Input, Card, CardBody, CardHeader, CardFooter, Divider, Link, Image, Button, Slider, Pagination, PaginationItemType, usePagination, Chip, CircularProgress, Accordion, AccordionItem, Select, Selection, SelectItem, } from "@nextui-org/react";
 import {Logo, HeartIcon, PauseCircleIcon, NextIcon, PreviousIcon, RepeatOneIcon, ShuffleIcon, ChevronIcon, SearchIcon, } from "@/components/icons";
 import {ChevronCircleTopLinearIcon, VolumeLowBoldIcon, VolumeHighBoldIcon, HeadphonesIcon} from "@nextui-org/shared-icons";
 import cn from 'classnames';
@@ -358,6 +358,90 @@ const handleSearch = () => {
             <p className="text-md font-bold">AI 레포트</p>
           </div>
         </CardHeader>
+        <Divider/>
+        <div className="flex flex-row gap-10 mt-5 mb-5">
+          <Card
+              className="w-[200px] h-[200px] border-none bg-gradient-to-br from-violet-500 to-fuchsia-500">
+            <CardBody className="justify-center items-center pb-0 ">
+              <CircularProgress
+                  classNames={{
+                    svg: "w-36 h-36 drop-shadow-md",
+                    indicator: "stroke-white",
+                    track: "stroke-white/10",
+                    value: "text-3xl font-semibold text-white",
+                  }}
+                  value={68}
+                  strokeWidth={4}
+                  showValueLabel={true}
+              />
+            </CardBody>
+            <CardFooter className="justify-center items-center pt-0">
+              <Chip
+                  classNames={{
+                    base: "border-1 border-white/30",
+                    content: "text-white/90 text-small font-semibold",
+                  }}
+                  variant="bordered"
+              >
+                발음 유창성
+              </Chip>
+            </CardFooter>
+          </Card>
+          <Card
+              className="w-[200px] h-[200px] border-none bg-gradient-to-br from-violet-500 to-fuchsia-500">
+            <CardBody className="justify-center items-center pb-0">
+              <CircularProgress
+                  classNames={{
+                    svg: "w-36 h-36 drop-shadow-md",
+                    indicator: "stroke-white",
+                    track: "stroke-white/10",
+                    value: "text-3xl font-semibold text-white",
+                  }}
+                  value={88}
+                  strokeWidth={4}
+                  showValueLabel={true}
+              />
+            </CardBody>
+            <CardFooter className="justify-center items-center pt-0">
+              <Chip
+                  classNames={{
+                    base: "border-1 border-white/30",
+                    content: "text-white/90 text-small font-semibold",
+                  }}
+                  variant="bordered"
+              >
+                발음 숙련도
+              </Chip>
+            </CardFooter>
+          </Card>
+          <Card
+              className="w-[200px] h-[200px] border-none bg-gradient-to-br from-violet-500 to-fuchsia-500">
+            <CardBody className="justify-center items-center pb-0">
+              <CircularProgress
+                  classNames={{
+                    svg: "w-36 h-36 drop-shadow-md",
+                    indicator: "stroke-white",
+                    track: "stroke-white/10",
+                    value: "text-3xl font-semibold text-white",
+                  }}
+                  value={88}
+                  strokeWidth={4}
+                  showValueLabel={true}
+              />
+            </CardBody>
+            <CardFooter className="justify-center items-center pt-0">
+              <Chip
+                  classNames={{
+                    base: "border-1 border-white/30",
+                    content: "text-white/90 text-small font-semibold",
+                  }}
+                  variant="bordered"
+              >
+                이해 가능도
+              </Chip>
+            </CardFooter>
+          </Card>
+        </div>
         <Divider/>
         <CardBody>
           <p>원래 발음 : {SentenceInfo[activePage].text3}</p>
