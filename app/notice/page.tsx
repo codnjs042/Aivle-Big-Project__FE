@@ -18,7 +18,6 @@ import useSWR from 'swr';
 import {backendConfig} from "@/api/apiconfig";
 import AuthContext from "@/context/AuthContext";
 import {postListFetch} from "@/api/notice/postList";
-import needLogin from "@/components/layouts/needLogin";
 import NeedLogin from "@/components/layouts/needLogin";
 
 interface ItemType {
@@ -36,12 +35,12 @@ export default function AboutPage() {
   const auth = useContext(AuthContext);
   const [mounted, setMounted] = useState<boolean>(false);
 
-  const wrapper = (url: string) => postListFetch(auth.access, auth.setAccess).then((res) => res.json());
+  const wrapper = (page: number) => postListFetch(auth.access, auth.setAccess, page).then((res) => res.json());
 
   const {
     data,
     isLoading
-  } = useSWR(`${backendConfig.serverUrl}/api/introduce/post/?page=${page}`, wrapper, {
+  } = useSWR(page.toString(), wrapper, {
     keepPreviousData: true,
   });
 
@@ -62,7 +61,7 @@ export default function AboutPage() {
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+  }, [page]);
 
   if (!auth.login) {
     return (
@@ -72,15 +71,15 @@ export default function AboutPage() {
 
   return (mounted && (
       <div className="flex flex-col">
-        <div className="text-3xl font-bold primary text-center">
+        <div className="text-2xl font-bold primary text-center">
           <p>서비스 공지 및 문의</p>
         </div>
-        <div className="text-3xl font-bold primary text-end py-5">
+        <div className="primary text-end pb-3">
           <Link href="/notice/new">
             <a>
               <Button
                   isIconOnly
-                  className="w-28 item-center mt-3"
+                  className="w-28 item-center"
                   color="secondary"
               >
                 글 작성
@@ -101,20 +100,20 @@ export default function AboutPage() {
                         color="secondary"
                         page={page}
                         total={pages}
-                        onChange={(page) => setPage(page)}
+                        onChange={(value) => setPage(value)}
                     />
                   </div>
               ) : null
             }
         >
-          <TableHeader>
+          <TableHeader className="justify-evenly">
             {columns.map((column) => (
                 <TableColumn className="text-md text-center" key={column.key}>
                   {column.label}
                 </TableColumn>
             ))}
           </TableHeader>
-          <TableBody items={data?.results ?? []} loadingContent={<Spinner/>}
+          <TableBody style={{height: '400px', verticalAlign: 'top'}} items={data?.results ?? []} loadingContent={<Spinner/>}
                      loadingState={loadingState}>
             {(item: ItemType) => (
                 <TableRow key={item.id}>
@@ -126,7 +125,7 @@ export default function AboutPage() {
                         value = <><span style={{marginRight: '1em'}}>📢</span>{value}</>;
                       }
                       return (
-                          <TableCell className={attr + ""}>
+                          <TableCell style={{ verticalAlign: 'top' }} className={attr + ""}>
                             <Link href={`/notice/post?id=${item.id}`} className="text-white-500">
                               {value}
                             </Link>
@@ -136,7 +135,7 @@ export default function AboutPage() {
                     if (columnKey == 'writer' && item.is_admin) {
                       value = <><span style={{marginRight: '1em'}}>👑</span>{value}</>;
                     }
-                    return <TableCell className={attr}>{value}</TableCell>;
+                    return <TableCell style={{ verticalAlign: 'top' }} className={attr}>{value}</TableCell>;
                   }}
                 </TableRow>
             )}

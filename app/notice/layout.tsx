@@ -7,8 +7,7 @@ export default function AboutLayout({
 }) {
 	return (
 		<section className="flex flex-col justify-center" >
-			<div className="inline-block max-w-full text-start justify-center"
-					 style={{minWidth: "800px"}}>
+			<div className="w-full" style={{minWidth: "800px"}}>
 				{children}
 			</div>
 		</section>

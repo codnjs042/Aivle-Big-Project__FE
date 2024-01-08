@@ -1,20 +1,40 @@
 "use client";
 
-import React, {useContext, useEffect} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import AuthContext from "@/context/AuthContext";
 import NeedLogin from "@/components/layouts/needLogin";
 import {Button, Textarea} from "@nextui-org/react";
 import Link from "next/link";
+import {newPost} from "@/api/notice/newPost";
+import {useRouter} from "next/navigation";
 
 export default function NewPostPage() {
   const auth = useContext(AuthContext);
+  const router = useRouter();
+  const [submitLoadingState, setSubmitLoadingState] = useState(false);
+
   const [title, setTitle] = React.useState("");
   const [content, setContent] = React.useState("");
   const [error, setError] = React.useState(false);
 
-  useEffect(() => {
+  async function handleSubmit() {
+    setSubmitLoadingState(true);
+    if (!title || !content) {
+      setError(true);
+    } else {
+      setError(false);
+      try {
+        const response = await newPost(auth.access, auth.setAccess, { title, content });
+        if (response.ok) {
+          router.replace("/notice")
+        }
+      } catch (error) {
+        alert("글 작성에 문제가 생겼습니다.")
+      }
+    }
+    setSubmitLoadingState(false);
+  }
 
-  }, []);
   if (!auth.login) {
     return (
         <NeedLogin/>
@@ -49,9 +69,9 @@ export default function NewPostPage() {
               onValueChange={setContent}
           />
           <div className="flex gap-10">
-            <Button color="secondary">작성</Button>
+            <Button color="secondary" isLoading={submitLoadingState} onClick={handleSubmit}>작성</Button>
             <Link href="/notice">
-              <Button color="secondary">취소</Button>
+              <Button color="secondary" isLoading={submitLoadingState}>취소</Button>
             </Link>
           </div>
         </div>
