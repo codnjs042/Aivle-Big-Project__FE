@@ -10,12 +10,12 @@ export default function NeedLogin() {
         <div className="flex justify-between gap-5">
           <Button color="secondary">
             <Link href="/login">
-              <p>로그인으로 이동</p>
+              <p>로그인</p>
             </Link>
           </Button>
           <Button color="secondary">
             <Link href="/register">
-              <p>회원가입으로 이동</p>
+              <p>회원가입</p>
             </Link>
           </Button>
         </div>
