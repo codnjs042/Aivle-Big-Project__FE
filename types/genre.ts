@@ -6,7 +6,6 @@ export const Genre = {
   Revenge: 1 << 4,     // 16
   Thiller: 1 << 5,       // 32
   Action: 1 << 6,   // 64
-  Drama: 1 << 7  // 128
 };
 
 export const genreList = Object.entries(Genre).map(([name, value]) => ({
