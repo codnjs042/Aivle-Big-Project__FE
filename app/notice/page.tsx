@@ -113,7 +113,7 @@ export default function AboutPage() {
                 </TableColumn>
             ))}
           </TableHeader>
-          <TableBody style={{height: '400px', verticalAlign: 'top'}} items={data?.results ?? []} loadingContent={<Spinner/>}
+          <TableBody items={data?.results ?? []} loadingContent={<Spinner/>}
                      loadingState={loadingState}>
             {(item: ItemType) => (
                 <TableRow key={item.id}>

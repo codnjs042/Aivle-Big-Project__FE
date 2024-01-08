@@ -2,6 +2,8 @@
 
 import React, {useContext} from "react";
 import {
+  Accordion,
+  AccordionItem,
   Card,
   CardBody,
   CardFooter,
@@ -10,21 +12,20 @@ import {
   CircularProgress,
   Image,
   Input,
-  Accordion,
-  AccordionItem, Select, Selection, SelectItem,
-
+  Select,
+  SelectItem,
 } from "@nextui-org/react";
 import {useRouter} from 'next/navigation';
 import AuthContext from "@/context/AuthContext";
-import {artistList, getArtistsFromValue} from "@/types/artist";
-import {Genre, genreList, getGenresFromValue} from "@/types/genre";
+import {artistList} from "@/types/artist";
+import {genreList, getGenresFromValue} from "@/types/genre";
 
 export default function MyPage() {
   const router = useRouter();
   const auth = useContext(AuthContext);
   return (
       <div className="flex flex-col gap-10">
-          <div className="text-3xl font-bold primary text-center py-5">
+        <div className="text-3xl font-bold primary text-center py-5">
           <p>마이 리포트</p>
         </div>
         <div className="flex flex-row gap-10">
@@ -65,11 +66,15 @@ export default function MyPage() {
                   variant="bordered"
                   placeholder="무응답"
                   selectedKeys={
-                    genreList
-                    .filter(({value}) => (auth.user?.selectedGenres ?? 0 & value) === value)
-                    .map(({name}) => name)
+                    getGenresFromValue(auth.user?.selectedGenres ?? 0).map(({name}) => name)
                   }
+                  isDisabled
               >
+                {genreList.map((item) => (
+                    <SelectItem key={item.name} value={item.value}>
+                      {item.name}
+                    </SelectItem>
+                ))}
               </Select>
             </div>
             <div
@@ -80,10 +85,16 @@ export default function MyPage() {
                   placeholder="무응답"
                   selectedKeys={
                     artistList
-                    .filter(({value}) => (auth.user?.selectedArtist ?? 0 & value) === value)
+                    .filter(({value}) => ((auth.user?.selectedArtist ?? 0) & value) === value)
                     .map(({name}) => name)
                   }
+                  isDisabled
               >
+                {artistList.map((item) => (
+                    <SelectItem key={item.name} value={item.value}>
+                      {item.name}
+                    </SelectItem>
+                ))}
               </Select>
             </div>
           </div>
@@ -172,14 +183,14 @@ export default function MyPage() {
           </Card>
         </div>
         <div className="flex flex-col gap-2">
-        <Accordion selectionMode="multiple">
-          <AccordionItem key="1" aria-label="즐겨찾는 문장" title="즐겨찾는 문장">
-            안녕하세요
-          </AccordionItem>
-          <AccordionItem key="2" aria-label="자주 틀리는 문장" title="자주 틀리는 문장">
-            죄송합니다
-          </AccordionItem>
-        </Accordion>
+          <Accordion selectionMode="multiple">
+            <AccordionItem key="1" aria-label="즐겨찾는 문장" title="즐겨찾는 문장">
+              안녕하세요
+            </AccordionItem>
+            <AccordionItem key="2" aria-label="자주 틀리는 문장" title="자주 틀리는 문장">
+              죄송합니다
+            </AccordionItem>
+          </Accordion>
 
         </div>
       </div>

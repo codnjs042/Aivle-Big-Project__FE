@@ -46,7 +46,7 @@ export default function NewPostPage() {
         <div className="flex flex-col items-center justify-center gap-4 text-3xl font-bold primary text-center py-10">
           <p>새 문의</p>
           <Textarea
-              className="w-2/3 placeholder-gray-300 rounded-md focus:outline-none focus:bg-white"
+              className="w-3/4 placeholder-gray-300 rounded-md focus:outline-none focus:bg-white"
               label="제목"
               labelPlacement="outside"
               isRequired={true}
@@ -57,7 +57,7 @@ export default function NewPostPage() {
               onValueChange={setTitle}
           />
           <Textarea
-              className="w-2/3 placeholder-gray-300 rounded-md focus:outline-none focus:bg-white"
+              className="w-3/4 placeholder-gray-300 rounded-md focus:outline-none focus:bg-white"
               label="내용"
               labelPlacement="outside"
               placeholder="내용을 작성하세요"
