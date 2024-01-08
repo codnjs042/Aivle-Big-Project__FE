@@ -10,6 +10,7 @@ import cn from 'classnames';
 import axios from 'axios';
 import { ReactMediaRecorder, useReactMediaRecorder } from 'react-media-recorder';
 import { SentenceInfo } from '../../public/data/sentence';
+import {audioPost} from "@/api/study/post";
 
 export default function LearnPage() {
 
@@ -53,14 +54,18 @@ export default function LearnPage() {
   });
 
   // 발음 분석 버튼 클릭 시 호출
-  const handleAnalysis = () => {
+  const handleAnalysis = async () => {
     if (auth.login) {
-      setAnalysisVisible((prevVisible) => !prevVisible);
+      if (voiceUrl) {
+        await audioPost(auth.access, auth.setAccess, { audio_path: voiceUrl }, 1);
+        setAnalysisVisible((prevVisible) => !prevVisible);
+      } else {
+        alert("음성을 녹음해주세요.");
+      }
     } else {
       alert("로그인이 필요합니다.");
     }
   };
-
   
   // 페이지 변경 시 텍스트 업데이트
   const handlePageChange = (page: number) => {
