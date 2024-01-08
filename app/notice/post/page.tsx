@@ -1,29 +1,134 @@
 "use client";
 
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {useSearchParams} from "next/navigation";
 import AuthContext from "@/context/AuthContext";
 import {Button, Textarea} from "@nextui-org/react";
 import Link from "next/link";
 import {EditIcon} from "@nextui-org/shared-icons";
+import {postFetch} from "@/api/notice/post";
 
 export default function PostPage() {
   const auth = useContext(AuthContext);
   const query = useSearchParams().get('id');
   const [id, setId] = useState(query ? parseInt(query, 10) : 0);
+
+  const [originTitle, setOriginTitle] = useState<string>('');
+  const [title, setTitle] = useState<string>('');
+  const [originContent, setOriginContent] = useState<string>('');
+  const [content, setContent] = useState<string>('');
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [writer, setWriter] = useState<string>('');
+  const [writeDate, setWriteDate] = useState<string>('');
+  const [updateDate, setUpdateDate] = useState<string>('');
+
+  const [commentList, setCommentList] = useState<{ [key: number]: string }[]>([]);
+  const [editMode, setEditMode] = useState<boolean>(false);
+
   const [comment, setComment] = useState<{ [key: number]: string }>({});
   const [commentSetting, setCommentSetting] = useState<{ [key: number]: boolean }>({});
+
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    setLoading(true);
+    const fetchData = async () => {
+      try {
+        const response = await postFetch(auth.access, auth.setAccess, id);
+        const data = await response.json();
+        console.log(data);
+        setOriginTitle(data.title);
+        setTitle(data.title);
+        setOriginContent(data.content);
+        setContent(data.content);
+        setIsAdmin(data.is_admin)
+        setWriter(data.writer);
+        setWriteDate(data.formatted_created_at);
+        setUpdateDate(data.formatted_updated_at);
+        setCommentList(data.comments);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    fetchData();
+    setLoading(false);
+  }, [id]);
+
+  const handlePostFix = (id: number) => async () => {
+    setLoading(true);
+
+    setLoading(false);
+  };
+  const handlePostDelete = (id: number) => async () => {
+    setLoading(true);
+    setLoading(false);
+  };
+  const handleCommentFix = (id: number) => async () => {
+    setLoading(true);
+    setLoading(false);
+  };
+  const handleCommentDelete = (id: number) => async () => {
+    setLoading(true);
+    setLoading(false);
+  };
 
   return (
       <>
         <div
             className="flex flex-col items-center justify-center gap-4 text-3xl font-bold primary text-center py-10">
+          <div className="primary flex w-3/4 justify-between pb-3 gap-5">
+            <div className="flex">
+              <Link href="/notice">
+                <Button color="secondary" isLoading={loading}>목록으로</Button>
+              </Link>
+            </div>
+            <div className="flex gap-5">
+              {auth.user?.nickname === writer &&
+                  <><Button color="warning" isLoading={loading} onClick={() => {
+                    if (editMode) {
+                      if (confirm('게시글을 수정하시겠습니까?')) {
+                        handlePostFix(id);
+                        setEditMode(!editMode);
+                      }
+                    } else {
+                      setEditMode(!editMode);
+                    }
+                  }}
+                  >
+                    {editMode ? '수정완료' : '수정하기'}
+                  </Button><Button color="danger" isLoading={loading} onClick={
+                    () => {
+                      if (editMode) {
+                        setEditMode(false);
+                        setTitle(originTitle);
+                        setContent(originContent);
+                      } else {
+                        if (confirm('게시글을 삭제하시겠습니까?')) {
+                          handlePostDelete(id);
+                        }
+                      }
+                    }
+                  }>
+                    {editMode ? '수정취소' : '삭제하기'}
+                  </Button></>}
+            </div>
+          </div>
+          <div className="primary flex w-3/4 justify-end text-sm">
+            <p>최초 작성 : {writeDate}</p>
+          </div>
+          <div className="primary flex w-3/4 justify-end text-sm">
+            <p>최종 수정 : {updateDate}</p>
+          </div>
           <Textarea
               className="w-3/4 placeholder-gray-300 rounded-md focus:outline-none focus:bg-white"
-              label="제목"
+              label={isAdmin ? <><span style={{marginRight: '1em'}}>👑</span>제목</> : '제목'}
               labelPlacement="outside"
               maxRows={1}
               size="lg"
+              value={editMode ? title : originTitle}
+              onValueChange={(value) => setTitle(value)}
+              disabled={!editMode}
           />
           <Textarea
               className="w-3/4 placeholder-gray-300 rounded-md focus:outline-none focus:bg-white"
@@ -32,65 +137,57 @@ export default function PostPage() {
               minRows={10}
               maxRows={10}
               size="lg"
+              value={editMode ? content : originContent}
+              onValueChange={(value) => setContent(value)}
+              disabled={!editMode}
           />
           <div className="flex flex-col w-3/4">
             {[
-              {id: 1, author: 'hwcho123', text: 'This is a comment.'},
-              {id: 2, author: 'User2', text: 'This is another comment.'},
-              // ...
-            ].map((comment) => (
-                <div className="flex flex-w justify-between items-center gap-5 py-5">
+              {id: 1, author: 'hwcho123', text: 'This is a comment.', date: '2023-12-31'},
+              {id: 2, author: 'User2', text: 'This is another comment.', date: '2024-1-3'},
+            ].map((data) => (
+                <div key={data.id} className="flex flex-w justify-between items-center gap-5 py-2">
                   <Textarea
-                      key={comment.id}
-                      label={comment.author}
+                      label={`${data.author} (${data.date})`}
                       minRows={1}
                       maxRows={1}
                       size="lg"
-                      defaultValue={comment.text}
+                      value={
+                        commentSetting[data.id] ? comment[data.id] : data.text
+                      }
+                      onValueChange={(value) => {
+                        setComment({...comment, [data.id]: value});
+                      }}
                       endContent={
-                        auth.login && auth.user?.nickname === comment.author
+                        auth.login && auth.user?.nickname === data.author
                             ? (
                                 <EditIcon
                                     className="text-2xl"
                                     onClick={() => {
-                                      setComment({
-                                        ...comment,
-                                        [comment.id]: comment.text
-                                      });
+                                      setComment({...comment, [data.id]: data.text});
                                       setCommentSetting({
                                         ...commentSetting,
-                                        [comment.id]: !commentSetting[comment.id]
+                                        [data.id]: !commentSetting[data.id]
                                       });
                                     }}
                                 />
                             )
                             : null
                       }
-                      readOnly={!commentSetting[comment.id]}
+                      readOnly={!commentSetting[data.id]}
                   />
-                  {commentSetting[comment.id] && (
+                  {commentSetting[data.id] && (
                       <div className="flex gap-5">
-                        <Button color="warning">
+                        <Button color="warning" isLoading={loading} onClick={handleCommentFix(data.id)}>
                           수정
                         </Button>
-                        <Button color="danger">
+                        <Button color="danger" isLoading={loading} onClick={handleCommentDelete(data.id)}>
                           삭제
                         </Button>
                       </div>
                   )}
                 </div>
             ))}
-          </div>
-          <div className="flex w-full justify-around">
-            <Link href="/notice">
-              <Button color="secondary">이전 글</Button>
-            </Link>
-            <Link href="/notice">
-              <Button color="secondary">목록으로</Button>
-            </Link>
-            <Link href="/notice">
-              <Button color="secondary">다음 글</Button>
-            </Link>
           </div>
         </div>
       </>
