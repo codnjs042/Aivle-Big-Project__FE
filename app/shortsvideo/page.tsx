@@ -1,6 +1,6 @@
 "use client";
 
-import {useContext, useMemo, useState, useRef} from "react";
+import {useContext, useEffect, useMemo, useState, useRef} from "react";
 import {
   Button,
   getKeyValue, Link,
@@ -17,6 +17,7 @@ import useSWR from 'swr';
 import {backendConfig} from "@/api/apiconfig";
 import AuthContext from "@/context/AuthContext";
 import {postListFetch} from "@/api/shortsvideo/postList";
+import NeedLogin from "@/components/layouts/needLogin";
 import ReactPlayer from "react-player";
 
 interface VideoType {
@@ -28,6 +29,8 @@ interface VideoType {
 export default function ShortsvideoPage() {
   const [page, setPage] = useState(1);
   const auth = useContext(AuthContext);
+  const [mounted, setMounted] = useState<boolean>(false);
+
   const wrapper = (url: string) => postListFetch(auth.access, auth.setAccess).then((res) => res.json());
 
   const {data, isLoading} = useSWR(`${backendConfig.serverUrl}/api/shorts/?page=${page}`, wrapper, {
@@ -47,8 +50,18 @@ export default function ShortsvideoPage() {
     return data?.count ? Math.ceil(data.count / rowsPerPage) : 0;
   }, [data?.count, rowsPerPage]);
 
-  const loadingState = isLoading || data?.results.length === 0 ? "loading" : "idle";
+  const loadingState = isLoading || (data?.results?.length ?? 0) === 0 ? "loading" : "idle";
   
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!auth.login) {
+    return (
+        <NeedLogin />
+    );
+  }
+
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleUploadClick = () => {
@@ -70,7 +83,9 @@ export default function ShortsvideoPage() {
     }
   };
 
-  return (
+
+
+  return (mounted&&(
     <div className="flex flex-col">
       <div className="text-3xl font-bold primary text-center py-5">
         <p>쇼츠 게시판</p>
@@ -136,7 +151,7 @@ export default function ShortsvideoPage() {
         return (
           <TableCell key={columnKey}>
             {columnKey === 'title' ? (
-              <Link href={`/videos/${item.id}`} className="text-white-500">
+              <Link href={`/shortsvideo/post?id=${item.id}`} className="text-white-500">
                 {value}
               </Link>
             ) : (
@@ -151,5 +166,5 @@ export default function ShortsvideoPage() {
         </Table>
       </div>
     </div>
-  );
+  ));
 }

@@ -3,6 +3,7 @@
 import React, {useContext, useEffect, useState} from "react";
 import {useSearchParams} from "next/navigation";
 import AuthContext from "@/context/AuthContext";
+import NeedLogin from "@/components/layouts/needLogin";
 
 export default function PostPage() {
   const auth = useContext(AuthContext);
@@ -11,7 +12,13 @@ export default function PostPage() {
   const data =
 
   useEffect(() => {
-  }, [id]);
+
+  }, []);
+  if (!auth.login) {
+    return (
+        <NeedLogin/>
+    );
+  }
 
   return (
     <div>
