@@ -7,6 +7,7 @@ import {Button, Textarea} from "@nextui-org/react";
 import Link from "next/link";
 import {EditIcon} from "@nextui-org/shared-icons";
 import {postFetch} from "@/api/notice/post";
+import NeedLogin from "@/components/layouts/needLogin";
 
 export default function PostPage() {
   const auth = useContext(AuthContext);
@@ -19,7 +20,6 @@ export default function PostPage() {
   const [content, setContent] = useState<string>('');
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [writer, setWriter] = useState<string>('');
-  const [writeDate, setWriteDate] = useState<string>('');
   const [updateDate, setUpdateDate] = useState<string>('');
 
   const [commentList, setCommentList] = useState<{ [key: number]: string }[]>([]);
@@ -43,7 +43,6 @@ export default function PostPage() {
         setContent(data.content);
         setIsAdmin(data.is_admin)
         setWriter(data.writer);
-        setWriteDate(data.formatted_created_at);
         setUpdateDate(data.formatted_updated_at);
         setCommentList(data.comments);
       } catch (e) {
@@ -72,6 +71,12 @@ export default function PostPage() {
     setLoading(true);
     setLoading(false);
   };
+
+  if (!auth.login) {
+    return (
+        <NeedLogin />
+    );
+  }
 
   return (
       <>
@@ -115,14 +120,14 @@ export default function PostPage() {
             </div>
           </div>
           <div className="primary flex w-3/4 justify-end text-sm">
-            <p>최초 작성 : {writeDate}</p>
+            {updateDate}
           </div>
           <div className="primary flex w-3/4 justify-end text-sm">
-            <p>최종 수정 : {updateDate}</p>
+            {isAdmin ? <><span style={{marginRight: '1em'}}>👑</span>{writer}</> : `${writer}`}
           </div>
           <Textarea
               className="w-3/4 placeholder-gray-300 rounded-md focus:outline-none focus:bg-white"
-              label={isAdmin ? <><span style={{marginRight: '1em'}}>👑</span>제목</> : '제목'}
+              label={isAdmin ? <><span style={{marginRight: '1em'}}>📢</span>제목</> : '제목'}
               labelPlacement="outside"
               maxRows={1}
               size="lg"
@@ -178,10 +183,12 @@ export default function PostPage() {
                   />
                   {commentSetting[data.id] && (
                       <div className="flex gap-5">
-                        <Button color="warning" isLoading={loading} onClick={handleCommentFix(data.id)}>
+                        <Button color="warning" isLoading={loading}
+                                onClick={handleCommentFix(data.id)}>
                           수정
                         </Button>
-                        <Button color="danger" isLoading={loading} onClick={handleCommentDelete(data.id)}>
+                        <Button color="danger" isLoading={loading}
+                                onClick={handleCommentDelete(data.id)}>
                           삭제
                         </Button>
                       </div>

@@ -76,7 +76,6 @@ export default function AboutPage() {
         </div>
         <div className="primary text-end pb-3">
           <Link href="/notice/new">
-            <a>
               <Button
                   isIconOnly
                   className="w-28 item-center"
@@ -84,7 +83,6 @@ export default function AboutPage() {
               >
                 글 작성
               </Button>
-            </a>
           </Link>
         </div>
         <Table
