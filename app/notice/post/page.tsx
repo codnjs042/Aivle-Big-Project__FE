@@ -1,15 +1,18 @@
 "use client";
 
 import React, {useContext, useEffect, useState} from "react";
-import {useSearchParams} from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
 import AuthContext from "@/context/AuthContext";
 import {Button, Textarea} from "@nextui-org/react";
 import Link from "next/link";
 import {EditIcon} from "@nextui-org/shared-icons";
 import {postFetch} from "@/api/notice/post";
 import NeedLogin from "@/components/layouts/needLogin";
+import {postFix} from "@/api/notice/postFix";
+import {postDelete} from "@/api/notice/postDelete";
 
 export default function PostPage() {
+  const router = useRouter();
   const auth = useContext(AuthContext);
   const query = useSearchParams().get('id');
   const [id, setId] = useState(query ? parseInt(query, 10) : 0);
@@ -21,7 +24,7 @@ export default function PostPage() {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [writer, setWriter] = useState<string>('');
   const [updateDate, setUpdateDate] = useState<string>('');
-
+  const [error, setError] = useState<boolean>(false);
   const [commentList, setCommentList] = useState<{ [key: number]: string }[]>([]);
   const [editMode, setEditMode] = useState<boolean>(false);
 
@@ -54,13 +57,37 @@ export default function PostPage() {
     setLoading(false);
   }, [id]);
 
-  const handlePostFix = (id: number) => async () => {
+  const handlePostFix = async (id: number) => {
     setLoading(true);
-
+    if (!title || !content) {
+      setError(true);
+    } else {
+      setError(false);
+      try {
+        const response = await postFix(auth.access, auth.setAccess, id, {title, content});
+        // if (response.ok) {
+        //   router.replace("/notice")
+        // }
+        setOriginTitle(title);
+        setOriginContent(content);
+        setEditMode(!editMode);
+      } catch (error) {
+        alert("글 작성에 문제가 생겼습니다.")
+      }
+    }
     setLoading(false);
   };
-  const handlePostDelete = (id: number) => async () => {
+
+  const handlePostDelete = async (id: number) => {
     setLoading(true);
+    try {
+      const response = await postDelete(auth.access, auth.setAccess, id);
+      if (response.ok) {
+        router.replace("/notice")
+      }
+    } catch (error) {
+      alert("글 삭제에 문제가 생겼습니다.")
+    }
     setLoading(false);
   };
   const handleCommentFix = (id: number) => async () => {
@@ -74,7 +101,7 @@ export default function PostPage() {
 
   if (!auth.login) {
     return (
-        <NeedLogin />
+        <NeedLogin/>
     );
   }
 
@@ -90,11 +117,10 @@ export default function PostPage() {
             </div>
             <div className="flex gap-5">
               {auth.user?.nickname === writer &&
-                  <><Button color="warning" isLoading={loading} onClick={() => {
+                  <><Button color="warning" isLoading={loading} onClick={async () => {
                     if (editMode) {
                       if (confirm('게시글을 수정하시겠습니까?')) {
-                        handlePostFix(id);
-                        setEditMode(!editMode);
+                        await handlePostFix(id);
                       }
                     } else {
                       setEditMode(!editMode);
@@ -102,18 +128,17 @@ export default function PostPage() {
                   }}
                   >
                     {editMode ? '수정완료' : '수정하기'}
-                  </Button><Button color="danger" isLoading={loading} onClick={
-                    () => {
-                      if (editMode) {
-                        setEditMode(false);
-                        setTitle(originTitle);
-                        setContent(originContent);
-                      } else {
-                        if (confirm('게시글을 삭제하시겠습니까?')) {
-                          handlePostDelete(id);
-                        }
+                  </Button><Button color="danger" isLoading={loading} onClick={async () => {
+                    if (editMode) {
+                      setEditMode(false);
+                      setTitle(originTitle);
+                      setContent(originContent);
+                    } else {
+                      if (confirm('게시글을 삭제하시겠습니까?')) {
+                        await handlePostDelete(id);
                       }
                     }
+                  }
                   }>
                     {editMode ? '수정취소' : '삭제하기'}
                   </Button></>}
@@ -133,6 +158,7 @@ export default function PostPage() {
               size="lg"
               value={editMode ? title : originTitle}
               onValueChange={(value) => setTitle(value)}
+              isInvalid={editMode && error && !title}
               disabled={!editMode}
           />
           <Textarea
@@ -144,6 +170,7 @@ export default function PostPage() {
               size="lg"
               value={editMode ? content : originContent}
               onValueChange={(value) => setContent(value)}
+              isInvalid={editMode && error && !content}
               disabled={!editMode}
           />
           <div className="flex flex-col w-3/4">
