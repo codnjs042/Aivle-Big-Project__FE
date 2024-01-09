@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useContext, useState, useRef } from 'react';
+import React, { useEffect, useContext, useState, useRef } from 'react';
 import AuthContext from "@/context/AuthContext";
 import { textToSpeech } from '@/api/textToSpeech'
 import {Input, Card, CardBody, CardHeader, CardFooter, Divider, Link, Image, Button, Slider, Pagination, PaginationItemType, usePagination, Chip, CircularProgress, Accordion, AccordionItem, Select, Selection, SelectItem, } from "@nextui-org/react";
@@ -11,6 +11,7 @@ import axios from 'axios';
 import { ReactMediaRecorder, useReactMediaRecorder } from 'react-media-recorder';
 import { SentenceInfo } from '../../public/data/sentence';
 import {audioPost} from "@/api/study/post";
+
 
 export default function LearnPage() {
 
@@ -32,6 +33,8 @@ export default function LearnPage() {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 
   const [AnalysisVisible, setAnalysisVisible] = useState(false);
+
+  const [aiReportData, setAiReportData] = useState(null);
 
   //단어 음성 듣기
   const handleTextToSpeech = async () => {
@@ -56,37 +59,18 @@ export default function LearnPage() {
   // 발음 분석 버튼 클릭 시 호출
   const handleAnalysis = async () => {
     if (auth.login) {
-        // if (voiceUrl) {
-        //   // FormData 생성
-        //   const formData = new FormData();
-        //   formData.append('audio_path', voiceUrl);
-    
-        //   try {
-        //     // 서버에 POST 요청 보내기
-        //     await audioPost(auth.access, auth.setAccess, formData, 1);
-        //     setAnalysisVisible((prevVisible) => !prevVisible);
-        //   } catch (error) {
-        //     console.error('Error sending audio data to the server:', error);
-        //     // 에러 처리
-        //   }
-        // } else {
-        //   alert("음성을 녹음해주세요.");
-        // }
-        const formData = new FormData();
-        formData.append('audio_path', recordedBlob as File);
-        try {
-          // 서버에 POST 요청 보내기
-          await audioPost(auth.access, auth.setAccess,  { audio_path: recordedBlob as File }, 1);
-          setAnalysisVisible((prevVisible) => !prevVisible);
-        } catch (error) {
-          console.error('Error sending audio data to the server:', error);
-          // 에러 처리
-        }
+      if (recording) {
+        alert("녹음 중입니다.");
+      } else if (recordedBlob) {
+        stopRecordingAndSave();
+      } else {
+        alert("음성을 녹음해주세요.");
+      }
     } else {
       alert("로그인이 필요합니다.");
     }
   };
-  
+
   // 페이지 변경 시 텍스트 업데이트
   const handlePageChange = (page: number) => {
     setPage(page);
@@ -136,14 +120,22 @@ export default function LearnPage() {
     }
   };
 
+
   // 음성 녹음 종료 및 저장 함수
-  const stopRecordingAndSave = () => {
+  const stopRecordingAndSave = async () => {
     stopRecording(); // 녹음 중지
     if (recordedBlob) {
       // 녹음된 Blob이 존재하면 WAV 파일로 저장
       const blob = new Blob([recordedBlob], { type: 'audio/wav' });
-      const url = URL.createObjectURL(blob);
-      setVoiceUrl(url);
+  
+      try {
+        // 서버에 POST 요청 보내기
+        await audioPost(auth.access, auth.setAccess, blob, 1);
+        setAnalysisVisible((prevVisible) => !prevVisible);
+      } catch (error) {
+        console.error('Error sending audio data to the server:', error);
+        // 에러 처리
+      }
     }
   };
 
@@ -186,7 +178,6 @@ const handleSearch = () => {
     setPage(firstMatchingPage);
   }
 };
-
   return (
     <div>
       <div className="flex items-center gap-2">
