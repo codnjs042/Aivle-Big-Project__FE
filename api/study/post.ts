@@ -2,7 +2,7 @@ import {backendConfig} from '../apiconfig';
 import {authFetch} from "@/api/authFetch";
 
 interface RequestDTO {
-  audio_path: string;
+  audio_path: File;
 }
 
 export async function audioPost(token: string, setToken: (token: string) => void, data: RequestDTO, id: number) {
@@ -12,9 +12,6 @@ export async function audioPost(token: string, setToken: (token: string) => void
     const response = await authFetch(`${backendConfig.serverUrl}/api/study/sentence/${id}/`, {
       method: 'POST',
       credentials: 'include',
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
       body: formData,
     }, token, setToken);
 }

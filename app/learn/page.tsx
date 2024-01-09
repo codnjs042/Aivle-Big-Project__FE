@@ -56,12 +56,32 @@ export default function LearnPage() {
   // 발음 분석 버튼 클릭 시 호출
   const handleAnalysis = async () => {
     if (auth.login) {
-      if (voiceUrl) {
-        await audioPost(auth.access, auth.setAccess, { audio_path: voiceUrl }, 1);
-        setAnalysisVisible((prevVisible) => !prevVisible);
-      } else {
-        alert("음성을 녹음해주세요.");
-      }
+        // if (voiceUrl) {
+        //   // FormData 생성
+        //   const formData = new FormData();
+        //   formData.append('audio_path', voiceUrl);
+    
+        //   try {
+        //     // 서버에 POST 요청 보내기
+        //     await audioPost(auth.access, auth.setAccess, formData, 1);
+        //     setAnalysisVisible((prevVisible) => !prevVisible);
+        //   } catch (error) {
+        //     console.error('Error sending audio data to the server:', error);
+        //     // 에러 처리
+        //   }
+        // } else {
+        //   alert("음성을 녹음해주세요.");
+        // }
+        const formData = new FormData();
+        formData.append('audio_path', recordedBlob as File);
+        try {
+          // 서버에 POST 요청 보내기
+          await audioPost(auth.access, auth.setAccess,  { audio_path: recordedBlob as File }, 1);
+          setAnalysisVisible((prevVisible) => !prevVisible);
+        } catch (error) {
+          console.error('Error sending audio data to the server:', error);
+          // 에러 처리
+        }
     } else {
       alert("로그인이 필요합니다.");
     }
