@@ -1,7 +1,7 @@
 import {backendConfig} from '../apiconfig';
 import {authFetch} from "@/api/authFetch";
 
-export async function audioPost(token: string, setToken: (token: string) => void, data: Blob, id: number) {
+export async function audioPost(token: string, setToken: (token: string) => void, data: File, id: number) {
   const formData = new FormData();
   formData.append('audio_path', data);
 
