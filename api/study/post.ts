@@ -5,9 +5,12 @@ export async function audioPost(token: string, setToken: (token: string) => void
   const formData = new FormData();
   formData.append('audio_path', data);
 
-    const response = await authFetch(`${backendConfig.serverUrl}/api/study/sentence/${id}/`, {
-      method: 'POST',
-      credentials: 'include',
-      body: formData,
-    }, token, setToken);
+  return await authFetch(`${backendConfig.serverUrl}/api/study/sentence/${id}/`, {
+    method: 'POST',
+    credentials: 'include',
+    // headers: {
+    //   'Content-Type': 'multipart/form-data',
+    // },
+    body: formData,
+  }, token, setToken);
 }

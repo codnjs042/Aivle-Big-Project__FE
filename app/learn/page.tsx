@@ -61,7 +61,8 @@ export default function LearnPage() {
       if (recording) {
         alert("녹음 중입니다.");
       } else if (recordedBlob) {
-        stopRecordingAndSave();
+        const response = await audioPost(auth.access, auth.setAccess, recordedBlob, 4);
+        console.log(response);
       } else {
         alert("음성을 녹음해주세요.");
       }
@@ -81,10 +82,12 @@ export default function LearnPage() {
     console.log("startRecording")
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      console.log("startRecording2")
       mediaStreamRef.current = stream;
+      console.log("startRecording3")
       const recorder = new MediaRecorder(stream);
       mediaRecorderRef.current = recorder;
-
+      console.log("startRecording4")
       const chunks: BlobPart[] | undefined = [];
 
       recorder.ondataavailable = (event) => {
@@ -92,14 +95,14 @@ export default function LearnPage() {
           chunks.push(event.data);
         }
       };
-
+      console.log("startRecording5")
       recorder.onstop = () => {
         const blob = new Blob(chunks, { type: 'audio/wav' });
         setRecordedBlob(blob);
         const url = URL.createObjectURL(blob);
         setVoiceUrl(url);
       };
-
+      console.log("startRecording6")
       recorder.start();
       setRecording(true);
     } catch (error) {
@@ -117,14 +120,6 @@ export default function LearnPage() {
       const blob = new Blob([recordedBlob], { type: 'audio/wav' });
       const file = new File([blob], "recordfile.wav", { type: 'audio/wav' });
       setRecordedFile(file);
-
-      try {
-        const response = await audioPost(auth.access, auth.setAccess, file, 1);
-        console.log(response);
-        setAnalysisVisible((prevVisible) => !prevVisible);
-      } catch (error) {
-        console.error('Error sending audio data to the server:', error);
-      }
     }
   };
 
