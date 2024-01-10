@@ -112,7 +112,7 @@ export default function Player(props: { answer: string; }) {
               {recording ? "녹음정지" : "녹음시작"}
             </Button>
             {(voiceUrl && !recording) ? <audio className="w-80" controls src={voiceUrl}/> :
-                <Spacer className="w-80"> </Spacer>}
+                <div className="w-80 text-2xl text-secondary-800"> {recording? "천천히 발음해보세요." : ""} </div>}
             <Button
                 onClick={handleAnalysis}
                 className="w-20 py-5"
