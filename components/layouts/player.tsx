@@ -80,20 +80,6 @@ export default function Player(props: { answer: string; }) {
     }
   };
 
-  const handleDownloadRecord = () => {
-    if (voiceUrl === null) return;
-    const anchor = document.createElement('a');
-    anchor.href = voiceUrl;
-    anchor.download = "record.webm";
-    anchor.click();
-  };
-
-  const handlePlayRecord = () => {
-    if (voiceUrl === null) return;
-    const voice = new Audio(voiceUrl);
-    voice.play();
-  };
-
   return (
       <div>
         <Card
