@@ -46,7 +46,6 @@ export default function LearnPage() {
       audioElement.play();
     } else {
       console.error('Audio URL is null');
-      // 또는 다른 처리를 수행하거나 에러를 표시할 수 있습니다.
     }
   };
 
@@ -57,7 +56,6 @@ export default function LearnPage() {
     boundaries: 5,
   });
 
-  // 발음 분석 버튼 클릭 시 호출
   const handleAnalysis = async () => {
     if (auth.login) {
       if (recording) {
@@ -72,17 +70,15 @@ export default function LearnPage() {
     }
   };
 
-  // 페이지 변경 시 텍스트 업데이트
   const handlePageChange = (page: number) => {
     setPage(page);
     updatePageText(page);
   };
 
-  // 페이지에 따라 문장리스트 호출
   const updatePageText = (page: number) => {  };
 
-  // 음성 녹음 시작 함수
   const startRecording = async () => {
+    console.log("startRecording")
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaStreamRef.current = stream;
@@ -100,10 +96,6 @@ export default function LearnPage() {
       recorder.onstop = () => {
         const blob = new Blob(chunks, { type: 'audio/wav' });
         setRecordedBlob(blob);
-
-        // const file = new File([blob], "filename.wav", { type: 'audio/wav' });
-        // setRecordedFile(file);
-
         const url = URL.createObjectURL(blob);
         setVoiceUrl(url);
       };
@@ -115,34 +107,23 @@ export default function LearnPage() {
     }
   };
 
-  // 음성 녹음 종료 함수
-  const stopRecording = () => {
+  const stopRecordingAndSave = async () => {
     if (mediaRecorderRef.current && recording) {
       mediaRecorderRef.current.stop();
       mediaStreamRef.current!.getTracks().forEach((track) => track.stop());
       setRecording(false);
     }
-  };
-
-
-  // 음성 녹음 종료 및 저장 함수
-  const stopRecordingAndSave = async () => {
-    stopRecording(); // 녹음 중지
     if (recordedBlob) {
-      // 녹음된 Blob이 존재하면 WAV 파일로 저장
       const blob = new Blob([recordedBlob], { type: 'audio/wav' });
-
       const file = new File([blob], "recordfile.wav", { type: 'audio/wav' });
       setRecordedFile(file);
 
       try {
-        // 서버에 POST 요청 보내기
         const response = await audioPost(auth.access, auth.setAccess, file, 1);
         console.log(response);
         setAnalysisVisible((prevVisible) => !prevVisible);
       } catch (error) {
         console.error('Error sending audio data to the server:', error);
-        // 에러 처리
       }
     }
   };
@@ -263,9 +244,7 @@ const handleSearch = () => {
                 </Button>
               </div>
 
-            {/* 페이지네이션 */}
               <div>
-              <p>Active page: {activePage}</p>
                 <ul className="flex gap-2 mt-10 items-center justify-center">
                   {range.map((page) => {
                     if (page === PaginationItemType.NEXT) {
