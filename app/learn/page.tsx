@@ -28,6 +28,7 @@ export default function LearnPage() {
   // 녹음 상태 및 녹음된 Blob을 저장할 상태
   const [recording, setRecording] = useState(false);
   const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
+  const [recordedFile, setRecordedFile] = useState<Blob | null>(null);
   // 미디어 스트림 및 녹음기 참조
   const mediaStreamRef = useRef<MediaStream | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -100,6 +101,9 @@ export default function LearnPage() {
         const blob = new Blob(chunks, { type: 'audio/wav' });
         setRecordedBlob(blob);
 
+        // const file = new File([blob], "filename.wav", { type: 'audio/wav' });
+        // setRecordedFile(file);
+
         const url = URL.createObjectURL(blob);
         setVoiceUrl(url);
       };
@@ -127,10 +131,13 @@ export default function LearnPage() {
     if (recordedBlob) {
       // 녹음된 Blob이 존재하면 WAV 파일로 저장
       const blob = new Blob([recordedBlob], { type: 'audio/wav' });
+
+      const file = new File([blob], "recordfile.wav", { type: 'audio/wav' });
+      setRecordedFile(file);
   
       try {
         // 서버에 POST 요청 보내기
-        await audioPost(auth.access, auth.setAccess, blob, 1);
+        await audioPost(auth.access, auth.setAccess, file, 1);
         setAnalysisVisible((prevVisible) => !prevVisible);
       } catch (error) {
         console.error('Error sending audio data to the server:', error);
