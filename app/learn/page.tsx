@@ -24,7 +24,7 @@ export default function LearnPage() {
   // 음성녹음용 오디오
   const [voice, setVoice] = useState<string | null>(null);
   const [voiceUrl, setVoiceUrl] = useState<string | null>(null);
-  const sizes = ['sm']; 
+  const sizes = ['sm'];
   // 녹음 상태 및 녹음된 Blob을 저장할 상태
   const [recording, setRecording] = useState(false);
   const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
@@ -34,7 +34,7 @@ export default function LearnPage() {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 
   const [AnalysisVisible, setAnalysisVisible] = useState(false);
-
+  const [completed, setCompleted] = useState(false);
   const [aiReportData, setAiReportData] = useState(null);
 
   //단어 음성 듣기
@@ -96,7 +96,7 @@ export default function LearnPage() {
           chunks.push(event.data);
         }
       };
-      
+
       recorder.onstop = () => {
         const blob = new Blob(chunks, { type: 'audio/wav' });
         setRecordedBlob(blob);
@@ -134,10 +134,11 @@ export default function LearnPage() {
 
       const file = new File([blob], "recordfile.wav", { type: 'audio/wav' });
       setRecordedFile(file);
-  
+
       try {
         // 서버에 POST 요청 보내기
-        await audioPost(auth.access, auth.setAccess, file, 1);
+        const response = await audioPost(auth.access, auth.setAccess, file, 1);
+        console.log(response);
         setAnalysisVisible((prevVisible) => !prevVisible);
       } catch (error) {
         console.error('Error sending audio data to the server:', error);
@@ -153,7 +154,7 @@ export default function LearnPage() {
     anchor.download = filename;
     anchor.click();
   };
-  
+
   // 음성 녹음 듣기 함수
   const playRecording = () => {
     if (voiceUrl !== null) {
@@ -203,7 +204,7 @@ const handleSearch = () => {
           onChange={handleSearchInputChange}
         />
         <Button
-          //isIconOnly 
+          //isIconOnly
           //variant="light"
           variant="faded"
           className="mb-3"
@@ -332,7 +333,7 @@ const handleSearch = () => {
             <Button
               isIconOnly
               className="w-20 item-center ml-5"
-              color="secondary" 
+              color="secondary"
               variant={recording ? undefined : "ghost"}
               onPress={recording ? stopRecordingAndSave : startRecording}
               >
@@ -341,13 +342,13 @@ const handleSearch = () => {
             <Button
               isIconOnly
               className="w-20 item-center ml-5"
-              color="secondary" 
+              color="secondary"
               variant="ghost"
               onPress={playRecording}
               >
               음성듣기
             </Button>
-            
+
             <Button
               isIconOnly
               className="w-20 item-center ml-5"
@@ -357,7 +358,7 @@ const handleSearch = () => {
             >
               다운로드
             </Button>
-            <Button 
+            <Button
                 onClick={handleAnalysis}
                 className="w-20 item-center ml-5"
                 color="secondary"
@@ -479,7 +480,7 @@ const handleSearch = () => {
             showAnchorIcon
             href="/mypage"
           >
-            더 자세한 AI 레포트 
+            더 자세한 AI 레포트
           </Link>
         </CardFooter>
       </Card>
