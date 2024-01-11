@@ -36,6 +36,7 @@ export default function Player(props: { answer: string; }) {
       if (recordedBlob) {
         const file = new File([recordedBlob], "h4.wav", {type: 'audio/wav'});
         const response = await audioPost(auth.access, auth.setAccess, file, 4);
+
       } else {
         alert("음성 녹음을 먼저 완료해주세요.");
       }
