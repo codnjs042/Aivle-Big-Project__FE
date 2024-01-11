@@ -206,7 +206,7 @@ export default function LearnPage() {
             </div>
           </CardBody>
         </Card>
-        <Player answer={"안녕하세요"}/>
+        <Player answer={"저는 영국에서 왔어요"}/>
       </div>
   );
 }

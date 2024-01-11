@@ -134,7 +134,7 @@ export default function Player(props: { answer: string; }) {
                       track: "stroke-white/10",
                       value: "text-3xl font-semibold text-white",
                     }}
-                    value={68}
+                    value={0}
                     strokeWidth={4}
                     showValueLabel={true}
                 />
@@ -161,7 +161,7 @@ export default function Player(props: { answer: string; }) {
                       track: "stroke-white/10",
                       value: "text-3xl font-semibold text-white",
                     }}
-                    value={88}
+                    value={75.8}
                     strokeWidth={4}
                     showValueLabel={true}
                 />
@@ -188,7 +188,7 @@ export default function Player(props: { answer: string; }) {
                       track: "stroke-white/10",
                       value: "text-3xl font-semibold text-white",
                     }}
-                    value={88}
+                    value={79.6}
                     strokeWidth={4}
                     showValueLabel={true}
                 />
@@ -206,6 +206,14 @@ export default function Player(props: { answer: string; }) {
               </CardFooter>
             </Card>
           </div>
+          <Divider/>
+          <CardBody>
+          <p>원래 발음: 저는 영국에서 왔어요</p>
+          </CardBody>
+          <CardBody>
+          <p>나의 발음: 저는 영<span style={{ color: 'red' }}>구게</span>서 <span style={{ color: 'red' }}>와써</span>요</p>
+          </CardBody>
+          <Divider/>
           <CardFooter>
             <Link
                 color="secondary"
