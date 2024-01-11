@@ -119,7 +119,7 @@ export default function LearnPage() {
                         height={200}
                         shadow="md"
                         src={SentenceInfo[activePage].image}
-                        width="250"
+                        width="200"
                     />
                   </div>
                   <div className="flex flex-col gap-2">

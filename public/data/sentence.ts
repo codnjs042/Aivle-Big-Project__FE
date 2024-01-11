@@ -71,9 +71,9 @@ export const SentenceInfo = [
     },
     {
         key: "10",
-        text1: "Nice to meet you",
-        text2: "bangapseupnida",
-        text3: "반갑습니다",
+        text1: "I'm from England",
+        text2: "jeoneun yeonggugeseo wasseoyo",
+        text3: "저는 영국에서 왔어요",
         image: "asset/images/sentence/nice.jpg",
     },
     {

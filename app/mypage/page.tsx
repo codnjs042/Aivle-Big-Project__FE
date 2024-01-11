@@ -149,7 +149,7 @@ export default function MyPage() {
                     track: "stroke-white/10",
                     value: "text-3xl font-semibold text-white",
                   }}
-                  value={88}
+                  value={72}
                   strokeWidth={4}
                   showValueLabel={true}
               />
