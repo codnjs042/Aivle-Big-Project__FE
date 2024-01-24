@@ -30,15 +30,17 @@ AivleSchool 4기 충남/충북 7반 21조 빅프로젝트
 <br>
 
 ## 사용 방법
+
 <br>
 
-### Node.js 설치
+### 1. Node.js 설치
 
-### 패키지 설치
+### 2. package 설치
     npm install
 
-### 개발 서버 실행
+### 3. dev 서버 실행
     npm run dev 
+
 <br>
 
 ## 구현 기능
