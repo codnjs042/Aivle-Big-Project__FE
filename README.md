@@ -1,4 +1,4 @@
-# Aivle 4기 21조 빅프로젝트 "바름" Frontend Part
+# Aivle 4기 21조 빅프로젝트 "바름" Frontend 파트
 
 <p>
   <br>
