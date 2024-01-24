@@ -52,9 +52,11 @@ AivleSchool 4기 충남/충북 7반 21조 빅프로젝트
 
 ## 라이센스
 
-Licensed under the [MIT license](https://github.com/nextui-org/next-app-template/blob/main/LICENSE).
+이 프로젝트는 Unlicense 라이선스에 따라 사용이 허가됩니다.
+<br>이는 여러분이 이 프로젝트를 어떤 목적으로든지 제약 없이 사용할 수 있음을 의미합니다.
+<br>자세한 내용은 [여기](http://unlicense.org)를 참조하세요.
 
 ## 사용 템플릿
 
-This is a template for creating applications using Next.js 13 (app directory) and NextUI (v2).
-[Template](https://github.com/nextui-org/next-app-template)
+이 프로그램은 [다음 템플릿](https://github.com/nextui-org/next-app-template)을 기반으로 개발되었습니다.
+원 템플릿은 MIT 라이선스에 따라 배포되었습니다. 해당 라이선스와 저작권 고지는 템플릿에 포함되어 있습니다.
