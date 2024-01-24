@@ -58,5 +58,5 @@ AivleSchool 4기 충남/충북 7반 21조 빅프로젝트
 
 ## 사용 템플릿
 
-이 프로그램은 [다음 템플릿](https://github.com/nextui-org/next-app-template)을 기반으로 개발되었습니다.
-원 템플릿은 MIT 라이선스에 따라 배포되었습니다. 해당 라이선스와 저작권 고지는 템플릿에 포함되어 있습니다.
+이 프로그램은 [next-app-template](https://github.com/nextui-org/next-app-template)을 기반으로 개발되었습니다.
+원 템플릿은 MIT 라이선스에 따라 배포되었습니다. 해당 라이선스와 저작권 고지는 링크에 포함되어 있습니다.
