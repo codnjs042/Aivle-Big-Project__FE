@@ -41,17 +41,28 @@ AivleSchool 4기 충남/충북 7반 21조 빅프로젝트
 ### 3. dev 서버 실행
     npm run dev 
 
-## 구현 기능
+### 프론트엔드 기능 공통
+- [X] Provider 상태관리
+- [X] Vercel Speed Insights
 
 ### 회원가입 및 로그인
-
-### 마이페이지
+- [X] 로그인 (JWT) 
+- [X] 회원가입 
+- [X] Google Recaptcha V2
 
 ### 공지 게시판 및 댓글
+- [X] 게시판 CRUD 
+- [X] 댓글 CRUD
 
 ### 음성녹음파일 업로드 및 AI 평가
-
+- [X] 음성파일 업로드 
+- [X] 음성파일 평가 AI 
+- [X] 평가결과 저장
+- [ ] AI 자동튜닝
+    
 ### 쇼츠 게시판 및 댓글
+- [X] 게시판 CRUD
+- [X] 댓글 CRUD 
 
 <br>
 
@@ -72,4 +83,5 @@ AivleSchool 4기 충남/충북 7반 21조 빅프로젝트
 ## 사용 템플릿
 
 이 프로그램은 [next-app-template](https://github.com/nextui-org/next-app-template)을 기반으로 개발되었습니다.
-<br>원 템플릿은 MIT 라이선스에 따라 배포되었습니다. 해당 라이선스와 저작권 고지는 링크에 포함되어 있습니다.
+<br>원 템플릿은 MIT 라이선스에 따라 배포되었습니다.
+<br>해당 라이선스와 저작권 고지는 링크에 포함되어 있습니다.
