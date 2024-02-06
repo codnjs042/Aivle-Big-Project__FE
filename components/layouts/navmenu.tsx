@@ -23,7 +23,7 @@ export default function NavMenu() {
               size="sm"
               variant="light"
             >
-              서비스 소개
+              바름
             </Button>
           </DropdownTrigger>
           <DropdownMenu variant="faded" aria-label="Static Actions">
@@ -42,8 +42,7 @@ export default function NavMenu() {
         </Dropdown>
 
         {/* 발음 교정 서비스 Dropdown */}
-        <Dropdown backdrop="blur">
-          <DropdownTrigger>
+        <NextLink href="/learn">
           <Button
               className={`h-6 pr-2 text-small ${isMenuSelected("/learn") ? "text-purple-500" : ""}`}
               endContent={<ChevronDownIcon className="text-default-500" />}
@@ -51,23 +50,9 @@ export default function NavMenu() {
               size="sm"
               variant="light"
             >
-              발음 교정 서비스
+              오늘의단어
             </Button>
-          </DropdownTrigger>
-          <DropdownMenu variant="faded" aria-label="Pronunciation Correction Actions">
-            <DropdownItem key="practice">
-              <NextLink href="/learn" className="flex">
-                발음 연습
-              </NextLink>
-            </DropdownItem>
-            <DropdownItem key="test">
-              <NextLink href="/learn" className="flex">
-                발음 평가
-              </NextLink>
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-
+            </NextLink>
         <Dropdown backdrop="blur">
           <DropdownTrigger>
           <Button
