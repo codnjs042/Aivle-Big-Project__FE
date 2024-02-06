@@ -12,10 +12,12 @@ import {
   CircularProgress,
   Divider,
   Link,
-  Spacer
+  Spacer,
+  Tooltip
 } from "@nextui-org/react";
 import {audioPost} from "@/api/study/post";
 import {Logo} from "@/components/icons";
+import NeedLogin from "@/components/layouts/needLogin";
 
 export default function Player(props: { answer: string; }) {
   const auth = useContext(AuthContext);
@@ -31,14 +33,14 @@ export default function Player(props: { answer: string; }) {
   const [AnalysisVisible, setAnalysisVisible] = useState(false);
 
   const chunksRef = useRef<BlobPart[]>([]);
+ 
   const handleAnalysis = async () => {
+    
     if (auth.login && !recording) {
       if (recordedBlob) {
         const file = new File([recordedBlob], "h4.wav", {type: 'audio/wav'});
         const response = await audioPost(auth.access, auth.setAccess, file, 4);
         setAnalysisVisible(true);
-      } else {
-        alert("음성 녹음을 먼저 완료해주세요.");
       }
     } else {
       alert("로그인이 필요한 서비스 입니다.");
@@ -100,6 +102,7 @@ export default function Player(props: { answer: string; }) {
             </Button>
             {(voiceUrl && !recording) ? <audio className="w-80" controls src={voiceUrl}/> :
                 <div className="w-80 text-2xl text-secondary-800"> {recording? "천천히 발음해보세요." : ""} </div>}
+            <Tooltip placement={!recording?"left":"right"} content={!recording?"녹음된 음성이 없습니다. 음성 녹음부터 진행해주세요.":"녹음 중에는 발음 분석을 실시할 수 없습니다."} isDisabled={!recording&&recordedBlob !== null}>
             <Button
                 onClick={handleAnalysis}
                 className="w-20 py-5"
@@ -109,6 +112,7 @@ export default function Player(props: { answer: string; }) {
             >
               발음 분석
             </Button>
+            </Tooltip>
           </div>
         </Card>
         <Card
