@@ -56,7 +56,7 @@ export default function ShortsvideoPage() {
     setMounted(true);
   }, []);
 
-  if (!auth.login) {
+  if (!auth.user) {
     return (
         <NeedLogin />
     );

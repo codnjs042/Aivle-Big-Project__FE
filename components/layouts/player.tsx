@@ -102,7 +102,7 @@ export default function Player(props: { answer: string; }) {
             </Button>
             {(voiceUrl && !recording) ? <audio className="w-80" controls src={voiceUrl}/> :
                 <div className="w-80 text-2xl text-secondary-800"> {recording? "천천히 발음해보세요." : ""} </div>}
-            <Tooltip placement={!recording?"left":"right"} content={!recording?"녹음된 음성이 없습니다. 음성 녹음부터 진행해주세요.":"녹음 중에는 발음 분석을 실시할 수 없습니다."} isDisabled={!recording&&recordedBlob !== null}>
+            {/* <Tooltip placement={!recording?"left":"right"} content={!recording?"녹음된 음성이 없습니다. 음성 녹음부터 진행해주세요.":"녹음 중에는 발음 분석을 실시할 수 없습니다."} isDisabled={!recording&&recordedBlob !== null}>
             <Button
                 onClick={handleAnalysis}
                 className="w-20 py-5"
@@ -226,7 +226,8 @@ export default function Player(props: { answer: string; }) {
             >
               더 자세한 AI 레포트
             </Link>
-          </CardFooter>
+          </CardFooter> */}
+          </div>
         </Card>
       </div>
   );

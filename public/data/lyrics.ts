@@ -22,7 +22,7 @@ const lyricsList = [
         title: "BTS",
         img: "/asset/images/idol/idol2.png",
         path: "/lyrics",
-        part1: ["내 피 땀 눈물 내 마지막 춤을 내 피 땀 눈물 내 차가운 숨을 다 가져가 가",
+        part1: ["내 피 땀 눈물 내 마지막 춤을 다 가져가 가 내 피 땀 눈물 내 차가운 숨을 다 가져가 가",
         "Take my blood, sweat, tears, and the last dance. Take my blood, sweat, tears, my cold breath.",
         "nae pi ttam nunmul nae majimak chumeul nae pi ttam nunmul nae chagaun sumeul da gajyeoga ga",
         "https://www.youtube.com/embed/32xlppvyWC8?si=a7R5FL3ZTlt47ii8&amp;clip=Ugkx7YRgC0vfhAWzB_BA8A1ha7PXTeZ4Sn6s&amp;clipt=EKCQBRjEswY"],

@@ -75,8 +75,9 @@ export default function PracticePage() {
           </div>
         </CardBody>
       </Card>
-
-      <Player answer={partData ? partData[partNumber] : undefined} />
+      <div className="ml-28">
+        <Player answer={partData ? partData[partNumber] : undefined} />
+      </div>
     </div>
   );
 };

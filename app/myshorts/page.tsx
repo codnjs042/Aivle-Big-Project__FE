@@ -111,11 +111,12 @@ const VideoRecorder = () => {
     }
   };
 
-  const handleUpload = async (e:any) => {
-    if (auth.login) {
-    } else {
-      e.preventDefault();
+  const handleUpload = async () => {
+    if (!auth.user) {
       alert("로그인이 필요합니다.");
+    }
+    else {
+      router.push("/shortsvideo");
     }
   };
 
@@ -155,7 +156,9 @@ const VideoRecorder = () => {
         ) : (
           <>
             {showReRecordButtons ? (
-              <div className="flex flex-row ml-20 gap-2 mt-5">
+              <>
+              <img src="/asset/images/shorts/myshorts.jpg" alt="촬영완료" />
+              <div className="flex gap-2 mt-5 ml-20">
                 <Button
                   onClick={startRecording}
                   color="secondary"
@@ -163,15 +166,13 @@ const VideoRecorder = () => {
                 >
                   재촬영
                 </Button>
-                <Link href="/shortsvideo">
-                  <Button
-                    onClick={handleUpload}
-                    color="secondary"
-                    variant="ghost"
-                  >
-                    업로드
-                  </Button>
-                </Link>
+                <Button
+                  onClick={handleUpload}
+                  color="secondary"
+                  variant="ghost"
+                >
+                  업로드
+                </Button>
                 <Button
                   onClick={handleDownload}
                   color="secondary"
@@ -188,12 +189,13 @@ const VideoRecorder = () => {
                   </Button>
                 </Link>
               </div>
+              </>
             ) : (
               <>
                 {/* Display the iframe for the part's video only on the initial screen */}
                 {!isRecording && !showReRecordButtons && (
                   partData && partData[3] && (
-                  <iframe
+                  <iframe 
                     width="560"
                     height="315"
                     src={partData[3]}
@@ -216,7 +218,6 @@ const VideoRecorder = () => {
       </div>
     );
   };
-  
 
   return (
     <div>
