@@ -6,7 +6,7 @@ interface RequestDTO {
 }
 export async function commentFix(token: string, setToken: (token: string) => void, id: number, data: RequestDTO) {
   return authFetch(`${backendConfig.serverUrl}/api/introduce/post/${id}/`, {
-    method: 'DELETE',
+    method: 'PATCH',
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',

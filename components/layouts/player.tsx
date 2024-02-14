@@ -1,7 +1,8 @@
 "use client"
 
-import React, {useContext, useRef, useState} from "react";
-import AuthContext from "@/context/AuthContext";
+import React, {useContext, useRef, useState, useEffect} from "react";
+import {useRouter, useSearchParams} from "next/navigation";
+import useSWR from "swr";
 import {
   Button,
   Card,
@@ -15,12 +16,24 @@ import {
   Spacer,
   Tooltip
 } from "@nextui-org/react";
-import {audioPost} from "@/api/study/post";
 import {Logo} from "@/components/icons";
+import AuthContext from "@/context/AuthContext";
 import NeedLogin from "@/components/layouts/needLogin";
+import {audioPost} from "@/api/study/post";
+import {postFetch} from "@/api/study/result";
+
+interface ResultType {
+  sentence: string;
+  PronunProfEval: number;
+  FluencyEval: string;
+  ComprehendEval: string;
+}
 
 export default function Player(props: { answer: string; }) {
+  const router = useRouter();
   const auth = useContext(AuthContext);
+  const query = useSearchParams().get('id');
+  const [id, setId] = useState(query ? parseInt(query, 10) : 6);
 
   const [voiceUrl, setVoiceUrl] = useState<string | null>(null);
 
@@ -32,20 +45,14 @@ export default function Player(props: { answer: string; }) {
 
   const [AnalysisVisible, setAnalysisVisible] = useState(false);
 
+  const [analysisResult, setAnalysisResult] = useState<any>(null);
+
+  const [stc, setStc] = useState<string>('');
+  const [pf, setPf] = useState<number>(0);
+  const [fl, setFl] = useState<number>(0);
+  const [ch, setCh] = useState<number>(0);
+
   const chunksRef = useRef<BlobPart[]>([]);
- 
-  const handleAnalysis = async () => {
-    
-    if (auth.login && !recording) {
-      if (recordedBlob) {
-        const file = new File([recordedBlob], "h4.wav", {type: 'audio/wav'});
-        const response = await audioPost(auth.access, auth.setAccess, file, 4);
-        setAnalysisVisible(true);
-      }
-    } else {
-      alert("로그인이 필요한 서비스 입니다.");
-    }
-  };
 
   const handleStartRecord = async () => {
     try {
@@ -83,6 +90,51 @@ export default function Player(props: { answer: string; }) {
     }
   };
 
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleUploadClick = () => {
+    if (auth.login) {
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+        fileInputRef.current.click();
+      }
+    }else{
+      alert("로그인이 필요한 서비스 입니다.");
+    }
+  };
+  
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+
+    const selectedFile = event.target.files?.[0];
+    if (selectedFile) {
+      const file = new File([selectedFile], selectedFile.name, {type: selectedFile.type});
+      try {
+        const res = await audioPost(auth.access, auth.setAccess, file, id);
+        setAnalysisResult(res);
+        setAnalysisVisible(true);
+      } catch (error) {
+        console.error("Error occurred while fetching analysis result:", error);
+      }
+    }
+
+    const fetchResult = async () => {
+      try {
+        const response = await postFetch(auth.access, auth.setAccess, id);
+        const data = await response.json();
+        setPf(data.data[0].PronunProfEval*20);
+        setFl(data.data[0].FluencyEval*20);
+        setCh(data.data[0].ComprehendEval*20);
+        setStc(data.ko_text)
+        console.log(data)
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    fetchResult();
+  };
+
+
   return (
       <div>
         <Card
@@ -102,9 +154,9 @@ export default function Player(props: { answer: string; }) {
             </Button>
             {(voiceUrl && !recording) ? <audio className="w-80" controls src={voiceUrl}/> :
                 <div className="w-80 text-2xl text-secondary-800"> {recording? "천천히 발음해보세요." : ""} </div>}
-            {/* <Tooltip placement={!recording?"left":"right"} content={!recording?"녹음된 음성이 없습니다. 음성 녹음부터 진행해주세요.":"녹음 중에는 발음 분석을 실시할 수 없습니다."} isDisabled={!recording&&recordedBlob !== null}>
+            <Tooltip placement={!recording?"left":"right"} content={!recording?"녹음된 음성이 없습니다. 음성 녹음부터 진행해주세요.":"녹음 중에는 발음 분석을 실시할 수 없습니다."} isDisabled={!recording&&recordedBlob !== null}>
             <Button
-                onClick={handleAnalysis}
+                onClick={handleUploadClick}
                 className="w-20 py-5"
                 color="success"
                 variant={(!recording && recordedBlob) ? "solid" : "bordered"}
@@ -113,8 +165,16 @@ export default function Player(props: { answer: string; }) {
               발음 분석
             </Button>
             </Tooltip>
+            <input
+          ref={fileInputRef}
+          type="file"
+          accept="audio/*"
+          style={{ display: "none" }}
+          onChange={handleFileChange}
+        />
           </div>
         </Card>
+        { AnalysisVisible && (
         <Card
             isBlurred
             className={`border-none bg-background/60 dark:bg-default-100/50 max-w-[1000px] mt-10 ${!AnalysisVisible ? 'hidden' : ''}`}
@@ -138,7 +198,7 @@ export default function Player(props: { answer: string; }) {
                       track: "stroke-white/10",
                       value: "text-3xl font-semibold text-white",
                     }}
-                    value={0}
+                    value={fl}
                     strokeWidth={4}
                     showValueLabel={true}
                 />
@@ -165,7 +225,7 @@ export default function Player(props: { answer: string; }) {
                       track: "stroke-white/10",
                       value: "text-3xl font-semibold text-white",
                     }}
-                    value={75.8}
+                    value={pf}
                     strokeWidth={4}
                     showValueLabel={true}
                 />
@@ -192,7 +252,7 @@ export default function Player(props: { answer: string; }) {
                       track: "stroke-white/10",
                       value: "text-3xl font-semibold text-white",
                     }}
-                    value={79.6}
+                    value={ch}
                     strokeWidth={4}
                     showValueLabel={true}
                 />
@@ -212,7 +272,7 @@ export default function Player(props: { answer: string; }) {
           </div>
           <Divider/>
           <CardBody>
-          <p>원래 발음: 저는 영국에서 왔어요</p>
+          <p>원래 발음: {stc}</p>
           </CardBody>
           <CardBody>
           <p>나의 발음: 저는 영<span style={{ color: 'red' }}>구게</span>서 <span style={{ color: 'red' }}>와써</span>요</p>
@@ -226,9 +286,9 @@ export default function Player(props: { answer: string; }) {
             >
               더 자세한 AI 레포트
             </Link>
-          </CardFooter> */}
-          </div>
+          </CardFooter>
         </Card>
+        )}
       </div>
   );
 }
