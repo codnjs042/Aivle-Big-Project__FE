@@ -29,11 +29,11 @@ interface ResultType {
   ComprehendEval: string;
 }
 
-export default function Player(props: { answer: string; }) {
+export default function Player(props: { answer: string, id: number; }) {
   const router = useRouter();
   const auth = useContext(AuthContext);
-  const query = useSearchParams().get('id');
-  const [id, setId] = useState(query ? parseInt(query, 10) : 6);
+
+  const {answer, id} = props;
 
   const [voiceUrl, setVoiceUrl] = useState<string | null>(null);
 
@@ -47,7 +47,6 @@ export default function Player(props: { answer: string; }) {
 
   const [analysisResult, setAnalysisResult] = useState<any>(null);
 
-  const [stc, setStc] = useState<string>('');
   const [pf, setPf] = useState<number>(0);
   const [fl, setFl] = useState<number>(0);
   const [ch, setCh] = useState<number>(0);
@@ -122,10 +121,10 @@ export default function Player(props: { answer: string; }) {
       try {
         const response = await postFetch(auth.access, auth.setAccess, id);
         const data = await response.json();
-        setPf(data.data[0].PronunProfEval*20);
-        setFl(data.data[0].FluencyEval*20);
-        setCh(data.data[0].ComprehendEval*20);
-        setStc(data.ko_text)
+        const last = data.data.length - 1;
+        setPf(data.data[last].PronunProfEval*20);
+        setFl(data.data[last].FluencyEval*20);
+        setCh(data.data[last].ComprehendEval*20);
         console.log(data)
       } catch (e) {
         console.error(e);
@@ -133,8 +132,7 @@ export default function Player(props: { answer: string; }) {
     };
     fetchResult();
   };
-
-
+  
   return (
       <div>
         <Card
@@ -150,17 +148,18 @@ export default function Player(props: { answer: string; }) {
                 variant={recording ? "shadow" : "solid"}
                 onClick={recording ? handleStopRecord : handleStartRecord}
             >
-              {recording ? "녹음정지" : "녹음시작"}
+              {recording ? "녹음종료" : "발음연습"}
             </Button>
+            
+
             {(voiceUrl && !recording) ? <audio className="w-80" controls src={voiceUrl}/> :
                 <div className="w-80 text-2xl text-secondary-800"> {recording? "천천히 발음해보세요." : ""} </div>}
-            <Tooltip placement={!recording?"left":"right"} content={!recording?"녹음된 음성이 없습니다. 음성 녹음부터 진행해주세요.":"녹음 중에는 발음 분석을 실시할 수 없습니다."} isDisabled={!recording&&recordedBlob !== null}>
+            <Tooltip placement={!recording?"left":"right"} content={!recording?"음성 녹음 파일을 업로드해주세요.":"녹음 중에는 발음 분석을 실시할 수 없습니다."} isDisabled={!recording&&recordedBlob !== null}>
             <Button
                 onClick={handleUploadClick}
                 className="w-20 py-5"
                 color="success"
                 variant={(!recording && recordedBlob) ? "solid" : "bordered"}
-                disabled={!(!recording && recordedBlob)}
             >
               발음 분석
             </Button>
@@ -270,14 +269,14 @@ export default function Player(props: { answer: string; }) {
               </CardFooter>
             </Card>
           </div>
-          <Divider/>
+{/*           <Divider/>
           <CardBody>
-          <p>원래 발음: {stc}</p>
+          <p>원래 발음: {answer}</p>
           </CardBody>
           <CardBody>
-          <p>나의 발음: 저는 영<span style={{ color: 'red' }}>구게</span>서 <span style={{ color: 'red' }}>와써</span>요</p>
+          <p>나의 발음: </p>
           </CardBody>
-          <Divider/>
+          <Divider/> */}
           <CardFooter>
             <Link
                 color="secondary"

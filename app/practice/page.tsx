@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useState, useRef } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import AuthContext from "@/context/AuthContext";
 import ReactPlayer from 'react-player';
 import {Card, CardBody,  CardHeader, CardFooter, Divider, Link, Image, Button, Slider, CircularProgress, Chip} from "@nextui-org/react";
@@ -18,6 +18,7 @@ export default function PracticePage() {
   const contentTitle = queryParams.get('content');
   const content = contentsList.find(item => item.title === contentTitle);
   const [liked, setLiked] = React.useState(false);
+  const [id, setId] = useState<number | null>(null);
   const [selectedGenre, setSelectedGenre] = useState<string>('');
   const [selectedPart, setSelectedPart] = useState(1);
 
@@ -28,6 +29,11 @@ export default function PracticePage() {
    const renderPart = (partNumber:any) => {
     type practice = /*unresolved*/ any
     const partData = (content as practice)[`part${partNumber}`];
+    
+    useEffect(() => {
+      setId(partData ? partData[4] : null);
+    }, [partData]);
+
 
   return (
     <div key={partNumber}>
@@ -76,7 +82,7 @@ export default function PracticePage() {
         </CardBody>
       </Card>
       <div className="ml-28">
-        <Player answer={partData ? partData[partNumber] : undefined} />
+        <Player answer={partData ? partData[partNumber] : undefined} id={id??0} />
       </div>
     </div>
   );

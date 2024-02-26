@@ -21,13 +21,13 @@ import Player from "@/components/layouts/player";
 
 export default function LearnPage() {
   const auth = useContext(AuthContext);
-
   const [liked, setLiked] = useState(false);
+
   // 음성듣기용 오디오
   const [audio, setAudio] = useState<string | null>(null);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
 
-  const handleTextToSpeech = async () => {
+  /* const handleTextToSpeech = async () => {
     const audioUrl = await textToSpeech(SentenceInfo[activePage - 1].text3);
     setAudio(audioUrl);
     if (audioUrl !== null) {
@@ -36,7 +36,13 @@ export default function LearnPage() {
     } else {
       console.error('Audio URL is null');
     }
-  };
+  }; */
+
+  const handleTextToSpeech = () => {
+    const synth = window.speechSynthesis;
+    const utterance = new SpeechSynthesisUtterance(SentenceInfo[activePage - 1].text3);
+    synth.speak(utterance);
+  }
 
   const { activePage, range, setPage, onNext, onPrevious } = usePagination({
     total: SentenceInfo.length,
@@ -57,15 +63,19 @@ export default function LearnPage() {
 
   const handleSearch = () => {
     const firstMatchingPage = SentenceInfo.findIndex((sentence) =>
-      Object.values(sentence).some((value) =>
-        value.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+      Object.values(sentence).some((value) => {
+        if (typeof value === 'string') {
+          return value.toLowerCase().includes(searchQuery.toLowerCase());
+        }
+        return false; // 문자열이 아닌 경우 false 반환
+      })
     );
-
+  
     if (firstMatchingPage !== -1) {
       setPage(firstMatchingPage + 1);
     }
   };
+  
 
   return (
     <div>
@@ -109,7 +119,7 @@ export default function LearnPage() {
             <div className="flex flex-col col-span-6 md:col-span-8">
               {/* 사진, 문장, 하트 */}
               <div className="flex justify-between items-center">
-                <div className="relative col-span-6 md:col-span-4">
+                <div className="relative col-span-6 md:col-span-4 mr-10">
                   <Image
                     alt="Album cover"
                     className="object-cover"
@@ -204,7 +214,7 @@ export default function LearnPage() {
           </div>
         </CardBody>
       </Card>
-      <Player answer={SentenceInfo[activePage - 1].text3} />
+      <Player answer={SentenceInfo[activePage - 1].text3} id={SentenceInfo[activePage - 1].id}/>
     </div>
   );
 }

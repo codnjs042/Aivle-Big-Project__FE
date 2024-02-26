@@ -5,11 +5,19 @@ import {useRouter, useSearchParams} from "next/navigation";
 import AuthContext from "@/context/AuthContext";
 import {Button, Textarea} from "@nextui-org/react";
 import Link from "next/link";
-import {EditIcon} from "@nextui-org/shared-icons";
-import {postFetch} from "@/api/notice/post";
 import NeedLogin from "@/components/layouts/needLogin";
+
+import {EditIcon} from "@nextui-org/shared-icons";
+import EnterIcon from "@/public/asset/svg/EnterIcon";
+
+import {postFetch} from "@/api/notice/post";
 import {postFix} from "@/api/notice/postFix";
 import {postDelete} from "@/api/notice/postDelete";
+
+import { newComment } from "@/api/notice/newComment";
+import { commentFix } from "@/api/notice/commentFix";
+import { commentDelete } from "@/api/notice/commentDelete";
+
 
 export default function PostPage() {
   const router = useRouter();
@@ -25,13 +33,15 @@ export default function PostPage() {
   const [writer, setWriter] = useState<string>('');
   const [updateDate, setUpdateDate] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
-  const [commentList, setCommentList] = useState<{ [key: number]: string }[]>([]);
   const [editMode, setEditMode] = useState<boolean>(false);
 
+  const [commentList, setCommentList] = useState<string[]>([]);
   const [comment, setComment] = useState<{ [key: number]: string }>({});
   const [commentSetting, setCommentSetting] = useState<{ [key: number]: boolean }>({});
 
   const [loading, setLoading] = useState<boolean>(false);
+
+  const today = new Date().toLocaleDateString();
 
   useEffect(() => {
     setLoading(true);
@@ -48,6 +58,7 @@ export default function PostPage() {
         setWriter(data.writer);
         setUpdateDate(data.formatted_updated_at);
         setCommentList(data.comments);
+        console
       } catch (e) {
         console.error(e);
       }
@@ -90,6 +101,25 @@ export default function PostPage() {
     }
     setLoading(false);
   };
+
+  const handleCommentSubmit = (id: number) => async () => {
+    setLoading(true);
+    if (!comment) {
+      setError(true);
+    } else {
+      setError(false);
+      try {
+        const response = await newComment(auth.access, auth.setAccess, JSON.stringify(comment), id);
+        if (response.ok) {
+          router.replace("/notice")
+        }
+      } catch (error) {
+        alert("댓글 작성에 문제가 생겼습니다.")
+      }
+    }
+    setLoading(false);
+  };
+
   const handleCommentFix = (id: number) => async () => {
     setLoading(true);
     setLoading(false);
@@ -148,11 +178,11 @@ export default function PostPage() {
             {updateDate}
           </div>
           <div className="primary flex w-3/4 justify-end text-sm">
-            {isAdmin ? <><span style={{marginRight: '1em'}}>👑</span>{writer}</> : `${writer}`}
+            {isAdmin ? <>관리자 :<span style={{marginLeft: '1em', marginRight: '1em'}}>👑</span>{writer}</> : `작성자: ${writer}`}
           </div>
           <Textarea
               className="w-3/4 placeholder-gray-300 rounded-md focus:outline-none focus:bg-white"
-              label={isAdmin ? <><span style={{marginRight: '1em'}}>📢</span>제목</> : '제목'}
+              label={isAdmin ? <><span style={{marginRight: '1em'}}>📢</span>공지</> : '제목'}
               labelPlacement="outside"
               maxRows={1}
               size="lg"
@@ -162,7 +192,7 @@ export default function PostPage() {
               disabled={!editMode}
           />
           <Textarea
-              className="w-3/4 placeholder-gray-300 rounded-md focus:outline-none focus:bg-white"
+              className="w-3/4 placeholder-gray-300 rounded-md focus:outline-none focus:bg-white mb-20"
               label="내용"
               labelPlacement="outside"
               minRows={10}
@@ -173,10 +203,23 @@ export default function PostPage() {
               isInvalid={editMode && error && !content}
               disabled={!editMode}
           />
+          {!isAdmin && (
+          <>
+          <Textarea
+              className="w-3/4 placeholder-gray-300 rounded-md focus:outline-none focus:bg-white"
+              label={`${auth.user?.nickname} (${today})`}
+              minRows={1}
+              maxRows={1}
+              size="lg"
+              placeholder="댓글을 작성해주세요"
+              isRequired={true}
+              isInvalid={error && !comment}
+              onValueChange={setComment}
+              endContent={<button onClick={() => handleCommentSubmit(id)}><EnterIcon /></button>}
+          />
           <div className="flex flex-col w-3/4">
             {[
-              {id: 1, author: 'hwcho123', text: 'This is a comment.', date: '2023-12-31'},
-              {id: 2, author: 'User2', text: 'This is another comment.', date: '2024-1-3'},
+              {id: 1, author: '바름', text: '문의주신 내용은 확인 후 담당자를 통해 순차적으로 답변해드립니다. 감사합니다.', date: '2024-01-11'},
             ].map((data) => (
                 <div key={data.id} className="flex flex-w justify-between items-center gap-5 py-2">
                   <Textarea
@@ -202,6 +245,7 @@ export default function PostPage() {
                                         [data.id]: !commentSetting[data.id]
                                       });
                                     }}
+                                    
                                 />
                             )
                             : null
@@ -223,6 +267,7 @@ export default function PostPage() {
                 </div>
             ))}
           </div>
+          </>)}
         </div>
       </>
   );

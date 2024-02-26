@@ -27,6 +27,7 @@ export default function PracticePage() {
   const artist = queryParams.get('artist');
   const lyrics = lyricsList.find(item => item.title === artist);
   const [liked, setLiked] = React.useState(false);
+  const [id, setId] = useState<number | null>(null);
   const DynamicReactPlayer = dynamic(() => import('react-player'), {ssr: false});
   const [selectedArtist, setSelectedArtist] = useState<string>('');
   const [selectedPart, setSelectedPart] = useState(1);
@@ -48,6 +49,10 @@ export default function PracticePage() {
   const renderPart = (partNumber: any) => {
     type Lyrics = /*unresolved*/ any
     const partData = (lyrics as Lyrics)[`part${partNumber}`];
+
+    useEffect(() => {
+      setId(partData ? partData[4] : null);
+    }, [partData]);
 
     return (
         <div key={partNumber}>
@@ -102,7 +107,7 @@ export default function PracticePage() {
             </CardBody>
           </Card>
           <div className="ml-28">
-            <Player answer={partData ? partData[partNumber] : undefined} />
+            <Player answer={partData ? partData[0] : undefined} id={id??0}/>
           </div>
         </div>
     );

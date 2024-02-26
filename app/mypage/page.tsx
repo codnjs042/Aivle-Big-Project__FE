@@ -10,10 +10,11 @@ import {genreList, getGenresFromValue} from "@/types/genre";
 export default function MyPage() {
   const router = useRouter();
   const auth = useContext(AuthContext);
+
   return (
       <div className="flex flex-col gap-10">
         <div className="text-3xl font-bold primary text-center py-5">
-          <p>마이 리포트</p>
+          <p>마이 페이지</p>
         </div>
         <div className="flex flex-row gap-10">
           <Card className="p-5">
@@ -55,7 +56,7 @@ export default function MyPage() {
                   selectedKeys={
                     getGenresFromValue(auth.user?.selectedGenres ?? 0).map(({name}) => name)
                   }
-                  isDisabled
+                  isDisabled 
               >
                 {genreList.map((item) => (
                     <SelectItem key={item.name} value={item.value}>
@@ -84,7 +85,7 @@ export default function MyPage() {
             </div>
           </div>
         </div>
-        <div className="flex flex-row gap-10">
+        {/* <div className="flex flex-row gap-10">
           <Card
               className="w-[200px] h-[200px] border-none bg-gradient-to-br from-violet-500 to-fuchsia-500">
             <CardBody className="justify-center items-center pb-0 ">
@@ -95,7 +96,7 @@ export default function MyPage() {
                     track: "stroke-white/10",
                     value: "text-3xl font-semibold text-white",
                   }}
-                  value={20}
+                  value={0}
                   strokeWidth={4}
                   showValueLabel={true}
               />
@@ -122,7 +123,7 @@ export default function MyPage() {
                     track: "stroke-white/10",
                     value: "text-3xl font-semibold text-white",
                   }}
-                  value={88}
+                  value={0}
                   strokeWidth={4}
                   showValueLabel={true}
               />
@@ -149,7 +150,7 @@ export default function MyPage() {
                     track: "stroke-white/10",
                     value: "text-3xl font-semibold text-white",
                   }}
-                  value={72}
+                  value={0}
                   strokeWidth={4}
                   showValueLabel={true}
               />
@@ -176,8 +177,7 @@ export default function MyPage() {
               죄송합니다
             </AccordionItem>
           </Accordion>
-
-        </div>
+        </div> */} 
       </div>
   );
 }

@@ -9,6 +9,7 @@ import RecordRTC from "recordrtc";
 import { useRouter, useSearchParams } from "next/navigation";
 import contentsList from '../../public/data/contents';
 import CulturePage from '../genre/page';
+import { videoPost } from "@/api/shortsvideo/videopost";
 
 const VideoRecorder = () => {
   const auth = useContext(AuthContext);
@@ -23,6 +24,9 @@ const VideoRecorder = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const mediaRecorder = useRef<MediaRecorder | null>(null);
   const videoChunks = useRef<Blob[]>([]);
+
+  const [isRecording, setIsRecording] = useState(false);
+  const [showReRecordButtons, setShowReRecordButtons] = useState(false);
 
   const getMediaPermission = useCallback(async () => {
     try {
@@ -63,19 +67,6 @@ const VideoRecorder = () => {
     }
   }, []);
 
-  const downloadVideo = () => {
-    const videoBlob = new Blob(videoChunks.current, { type: 'video/webm' });
-    const videoUrl = URL.createObjectURL(videoBlob);
-    const link = document.createElement('a');
-    link.download = `My video.webm`;
-    link.href = videoUrl;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-  const [isRecording, setIsRecording] = useState(false);
-  const [showReRecordButtons, setShowReRecordButtons] = useState(false);
-
   useEffect(() => {
     // 컴포넌트가 처음 마운트될 때 한 번만 호출
     getMediaPermission();
@@ -101,22 +92,26 @@ const VideoRecorder = () => {
     setIsRecording(false);
   };
 
-  const displayRecordedVideo = () => {
-    const videoBlob = new Blob(videoChunks.current, { type: 'video/webm' });
-    const videoUrl = URL.createObjectURL(videoBlob);
-
-    // 녹화된 비디오 표시
-    if (videoRef.current) {
-      videoRef.current.src = videoUrl;
-    }
-  };
-
   const handleUpload = async () => {
     if (!auth.user) {
       alert("로그인이 필요합니다.");
     }
     else {
-      router.push("/shortsvideo");
+      // 녹화된 비디오 데이터를 서버로 전송
+    try {
+      const videoBlob = new Blob(videoChunks.current, { type: 'video/webm' });
+      const file = new File([videoBlob], 'video.webm', { type: 'video/webm' });
+      const response = await videoPost(auth.access, auth.setAccess, file);
+      if (response.ok) {
+        alert("비디오 업로드가 완료되었습니다.");
+        router.push("/shortsvideo");
+      } else {
+        throw new Error("비디오 업로드에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("비디오 업로드 에러:", error);
+      alert("비디오 업로드에 실패했습니다.");
+    }
     }
   };
 
